@@ -36,14 +36,17 @@ compiler.bind("", "", tree, source, optimize=0)
 module = compiler.modules[""]
 types = module.node_value; type_ctxs = module.node_ctx_value
 
+def is_const(node):
+    return isinstance(node, ast.Constant)
+
+def is_primative(node):
+    return isinstance(node.klass, CType)
+
 def valid_pair(t, tc):
     dest, src = tc.klass, t.klass
     can_assign_basic = dest.can_assign_from(src)
-    dyn_and_dyn_ok = src is module.compiler.type_env.dynamic and not isinstance(dest, CType)
+    dyn_and_dyn_ok = src is module.compiler.type_env.dynamic and not is_primative(tc)
     return can_assign_basic or dyn_and_dyn_ok
-
-def is_const(node):
-    return isinstance(node, ast.Constant)
 
 # clean contexts. not sure this is completely chill
 for node in module.node_value.keys():
