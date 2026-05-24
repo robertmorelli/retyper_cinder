@@ -47,8 +47,8 @@ def node_repr(node):
         f"ctx={target_type_string:<40}"
     )
 
-out = ""
+out = []
 for key in module.node_value.keys():
-    out += node_repr(key)
+    out.append(node_repr(key))
 
-print(len(out))
+print("\n".join(out))
