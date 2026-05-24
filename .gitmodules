@@ -1,0 +1,3 @@
+[submodule "cinderx"]
+	path = cinderx
+	url = https://github.com/robertmorelli/cinderx.git
