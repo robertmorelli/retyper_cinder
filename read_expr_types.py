@@ -2,7 +2,7 @@ import ast
 import json
 import sys
 
-sys.path.insert(0, "cinderx/cinderx/PythonLib")
+sys.path.insert(0, "_cinderx/cinderx/PythonLib")
 
 from cinderx.compiler.static.compiler import Compiler
 from cinderx.compiler.static import StaticCodeGenerator
@@ -14,27 +14,13 @@ with open("data/benchmark_locations.json") as f:
 path = sources[sys.argv[1]][sys.argv[2]]
 with open(path) as f:
     source = f.read()
-#     source = '''
-# from __static__ import int64, cbool, cast
-
-# class baz:
-#     def __init__(self):
-#         self.foobar: cbool = False
-
-# def foo(y: int64):
-#     x: int64 = 0
-#     z: baz = baz()#cast(bar.baz, baz())
-
-# def bar():
-#     foo(1)
-#     '''
 
 tree = ast.parse(source)
 compiler = Compiler(StaticCodeGenerator)
 
 compiler.bind("", "", tree, source, optimize=0)
 module = compiler.modules[""]
-types = module.node_value; type_ctxs = module.node_ctx_value
+types = module.expr_types; type_ctxs = module.expr_ctx_types
 
 def is_const(node):
     return isinstance(node, ast.Constant)
@@ -49,7 +35,7 @@ def valid_pair(t, tc):
     return can_assign_basic or dyn_and_dyn_ok
 
 # clean contexts. not sure this is completely chill
-for node in module.node_value.keys():
+for node in module.expr_types.keys():
     if not valid_pair(types[node], type_ctxs[node]):
         type_ctxs[node] = types[node]
 
@@ -67,7 +53,17 @@ def node_repr(node):
     )
 
 out = []
-for key in module.node_value.keys():
+for key in module.expr_types.keys():
     out.append(node_repr(key))
 
 print("\n".join(out))
+
+def print_links(kind, table):
+    for decl, uses in table.items():
+        for use in uses:
+            print(f"\nfrom: {" ".join(ast.get_source_segment(source, decl).split())}")
+            print(f"{kind}: {" ".join(ast.get_source_segment(source, use).split())}")
+
+
+print_links("read", module.reads)
+print_links("write", module.writes)

@@ -53,5 +53,10 @@
     "advanced": "static-python-perf/Benchmark/richards/advanced/main.py",
     "shallow": "static-python-perf/Benchmark/richards/shallow/main.py",
     "untyped": "static-python-perf/Benchmark/richards/untyped/main.py"
+  },
+  "smoke": {
+    "1": "data/scratch.py",
+    "2": "data/scratch2.py",
+    "3": "data/scratch3.py"
   }
 }

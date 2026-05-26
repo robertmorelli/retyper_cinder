@@ -1,6 +1,9 @@
 [submodule "cinderx"]
-	path = cinderx
+	path = _cinderx
 	url = https://github.com/robertmorelli/cinderx.git
 [submodule "static-python-perf"]
 	path = static-python-perf
 	url = https://github.com/utahplt/static-python-perf.git
+[submodule "facebook-cinderx"]
+	path = cinderx
+	url = https://github.com/facebookincubator/cinderx.git
