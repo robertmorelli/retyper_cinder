@@ -25,7 +25,13 @@ symbols = StaticCodeGenerator._SymbolVisitor(0)
 symbols.visit(tree)
 binder = TypeBinder(symbols, "", compiler, "", optimize=0)
 module = compiler.modules[""]
-types = module.expr_types; type_ctxs = module.expr_ctx_types; components = module.components
+
+# for convenience
+types = module.expr_types
+type_ctxs = module.expr_ctx_types
+components = module.components
+reads = module.reads
+writes = module.writes
 
 def is_const(node):
     return isinstance(node, ast.Constant)
@@ -40,11 +46,6 @@ def valid_pair(t, tc, node):
     except Exception:
         return False
 
-# clean contexts. not sure this is completely chill
-for node in module.expr_types.keys():
-    if not valid_pair(types[node], type_ctxs[node], node):
-        type_ctxs[node] = types[node]
-
 def node_repr(node):
     type = types[node]
     type_ctx = type_ctxs[node]
@@ -58,21 +59,26 @@ def node_repr(node):
         f"ctx={type_ctx_string:<30}"
     )
 
-out = []
-for key in module.expr_types.keys():
-    out.append(node_repr(key))
+def link_repr(kind, decl, uses):
+    out = []
+    for use in uses:
+        for node in list(components.get(decl) or set()) + [decl]:
+            out.append(f"from: {" ".join(ast.get_source_segment(source, node).split())}")
+        out.append(f"{kind}: {" ".join(ast.get_source_segment(source, use).split())}")
+        out.append("")
+    return "\n".join(out)
 
-print("\n".join(out))
+# clean contexts. not sure this is completely chill
+for node in types.keys():
+    if not valid_pair(types[node], type_ctxs[node], node):
+        type_ctxs[node] = types[node]
 
-def print_links(kind, table):
-    for decl, uses in table.items():
-        for use in uses:
-            if decl not in components: continue
-            print()
-            for node in list(components.get(decl) or set()) + [decl]:
-                print(f"from: {" ".join(ast.get_source_segment(source, node).split())}")
-            print(f"{kind}: {" ".join(ast.get_source_segment(source, use).split())}")
+expr_types = [node_repr(key) for key in types.keys()]
+linked_reads = [link_repr("read", decl, uses) for decl, uses in reads.items()]
+linked_writes = [link_repr("write", decl, uses) for decl, uses in writes.items()]
 
-
-print_links("read", module.reads)
-print_links("write", module.writes)
+print("\n-- expr type/ctx --")
+print("\n".join(expr_types))
+print("\n-- uses --")
+print("\n".join(linked_reads))
+print("\n".join(linked_writes))
