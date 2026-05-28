@@ -7,6 +7,8 @@ sys.path.insert(0, "_cinderx/cinderx/PythonLib")
 from cinderx.compiler.static.compiler import Compiler
 from cinderx.compiler.static import StaticCodeGenerator
 from cinderx.compiler.static.types import CType
+from cinderx.compiler.symbols import SymbolVisitor
+from cinderx.compiler.static.type_binder import TypeBinder
 
 with open("data/benchmark_locations.json") as f:
     sources = json.load(f)
@@ -19,8 +21,11 @@ tree = ast.parse(source)
 compiler = Compiler(StaticCodeGenerator)
 
 compiler.bind("", "", tree, source, optimize=0)
+symbols = StaticCodeGenerator._SymbolVisitor(0)
+symbols.visit(tree)
+binder = TypeBinder(symbols, "", compiler, "", optimize=0)
 module = compiler.modules[""]
-types = module.expr_types; type_ctxs = module.expr_ctx_types
+types = module.expr_types; type_ctxs = module.expr_ctx_types; components = module.components
 
 def is_const(node):
     return isinstance(node, ast.Constant)
@@ -28,15 +33,16 @@ def is_const(node):
 def is_primative(node):
     return isinstance(node.klass, CType)
 
-def valid_pair(t, tc):
-    dest, src = tc.klass, t.klass
-    can_assign_basic = dest.can_assign_from(src)
-    dyn_and_dyn_ok = src is module.compiler.type_env.dynamic and not is_primative(tc)
-    return can_assign_basic or dyn_and_dyn_ok
+def valid_pair(t, tc, node):
+    try:
+        binder.check_can_assign_from(tc.klass, t.klass, node)
+        return True
+    except Exception:
+        return False
 
 # clean contexts. not sure this is completely chill
 for node in module.expr_types.keys():
-    if not valid_pair(types[node], type_ctxs[node]):
+    if not valid_pair(types[node], type_ctxs[node], node):
         type_ctxs[node] = types[node]
 
 def node_repr(node):
@@ -61,7 +67,10 @@ print("\n".join(out))
 def print_links(kind, table):
     for decl, uses in table.items():
         for use in uses:
-            print(f"\nfrom: {" ".join(ast.get_source_segment(source, decl).split())}")
+            if decl not in components: continue
+            print()
+            for node in list(components.get(decl) or set()) + [decl]:
+                print(f"from: {" ".join(ast.get_source_segment(source, node).split())}")
             print(f"{kind}: {" ".join(ast.get_source_segment(source, use).split())}")
 
 

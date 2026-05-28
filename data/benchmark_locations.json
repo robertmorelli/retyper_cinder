@@ -54,7 +54,7 @@
     "shallow": "static-python-perf/Benchmark/richards/shallow/main.py",
     "untyped": "static-python-perf/Benchmark/richards/untyped/main.py"
   },
-  "smoke": {
+  "scratch": {
     "1": "data/scratch.py",
     "2": "data/scratch2.py",
     "3": "data/scratch3.py"
