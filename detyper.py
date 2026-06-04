@@ -16,7 +16,7 @@ for root in roots:
     all_items_to_remove.add(root)
 
 update_type_context_pairs(dyn, types, type_ctxs, components, reads, writes, all_items_to_remove)
-detyped_ast, table = remove_annotations(source_ast, all_items_to_remove)
+detyped_ast = remove_annotations(source_ast, all_items_to_remove)
 patched_ast = add_patches(detyped_ast, types, type_ctxs, valid_pair)
 
 print(ast.unparse(patched_ast))
