@@ -20,8 +20,7 @@ class BoxWrapper:
     def __init__(self, node):
         self.node = node
     def wrap(self):
-        return ast.copy_location(
-            ast.Call(ast.Name("box", ast.Load()), [self.node], []), self.node)
+        return ast.copy_location(ast.Call(ast.Name("box", ast.Load()), [self.node], []), self.node)
 
 # node -> T(node)
 class ConstrWrapper:
@@ -30,8 +29,7 @@ class ConstrWrapper:
         self.node = node
     def wrap(self):
         name = self.T.klass.type_name.readable_name
-        return ast.copy_location(
-            ast.Call(_type_expr(name), [self.node], []), self.node)
+        return ast.copy_location(ast.Call(_type_expr(name), [self.node], []), self.node)
 
 # node -> cast(T,node)
 class CastWrapper:
@@ -40,8 +38,7 @@ class CastWrapper:
         self.node = node
     def wrap(self):
         name = self.T.klass.type_name.readable_name
-        return ast.copy_location(
-            ast.Call(ast.Name("cast", ast.Load()), [_type_expr(name), self.node], []), self.node)
+        return ast.copy_location(ast.Call(ast.Name("cast", ast.Load()), [_type_expr(name), self.node], []), self.node)
 
 # TODO: figure out if this produces enough casts
 def pick_patch(node, type, type_ctx, valid_pair):
