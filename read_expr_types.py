@@ -1,50 +1,11 @@
 import ast
-import json
 import sys
+from get_ast_data import get_ast_data, is_const
+from load_source import load_bench
 
-sys.path.insert(0, "_cinderx/cinderx/PythonLib")
+source = load_bench(sys.argv[1], sys.argv[2])
 
-from cinderx.compiler.static.compiler import Compiler
-from cinderx.compiler.static import StaticCodeGenerator
-from cinderx.compiler.static.types import CType
-from cinderx.compiler.symbols import SymbolVisitor
-from cinderx.compiler.static.type_binder import TypeBinder
-
-with open("data/benchmark_locations.json") as f:
-    sources = json.load(f)
-
-path = sources[sys.argv[1]][sys.argv[2]]
-with open(path) as f:
-    source = f.read()
-
-tree = ast.parse(source)
-compiler = Compiler(StaticCodeGenerator)
-
-compiler.bind("", "", tree, source, optimize=0)
-symbols = StaticCodeGenerator._SymbolVisitor(0)
-symbols.visit(tree)
-binder = TypeBinder(symbols, "", compiler, "", optimize=0)
-module = compiler.modules[""]
-
-# for convenience
-types = module.expr_types
-type_ctxs = module.expr_ctx_types
-components = module.components
-reads = module.reads
-writes = module.writes
-
-def is_const(node):
-    return isinstance(node, ast.Constant)
-
-def is_primative(node):
-    return isinstance(node.klass, CType)
-
-def valid_pair(t, tc, node):
-    try:
-        binder.check_can_assign_from(tc.klass, t.klass, node)
-        return True
-    except Exception:
-        return False
+roots, types, type_ctxs, components, reads, writes, valid_pair, source_ast = get_ast_data(source)
 
 def node_repr(node):
     type = types[node]
@@ -68,17 +29,13 @@ def link_repr(kind, decl, uses):
         out.append("")
     return "\n".join(out)
 
-# clean contexts. not sure this is completely chill
-for node in types.keys():
-    if not valid_pair(types[node], type_ctxs[node], node):
-        type_ctxs[node] = types[node]
-
 expr_types = [node_repr(key) for key in types.keys()]
-linked_reads = [link_repr("read", decl, uses) for decl, uses in reads.items()]
-linked_writes = [link_repr("write", decl, uses) for decl, uses in writes.items()]
+linked_reads = [link_repr("reads", decl, uses) for decl, uses in reads.items()]
+linked_writes = [link_repr("writes", decl, uses) for decl, uses in writes.items()]
 
-print("\n-- expr type/ctx --")
 print("\n".join(expr_types))
-print("\n-- uses --")
-print("\n".join(linked_reads))
-print("\n".join(linked_writes))
+# print("\n-- uses --")
+# print("\n".join(linked_reads))
+# print("\n".join(linked_writes))
+
+
