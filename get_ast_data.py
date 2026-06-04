@@ -13,7 +13,6 @@ from cinderx.compiler.static.type_binder import TypeBinder
 with open("data/benchmark_locations.json") as f:
     sources = json.load(f)
 
-
 def is_const(node):
     return isinstance(node, ast.Constant)
 
@@ -30,6 +29,8 @@ def get_ast_data(source):
     symbols.visit(tree)
     module = compiler.modules[""]
     binder = TypeBinder(symbols, "", compiler, "", optimize=0)
+    dyn = compiler.type_env.DYNAMIC
+
     def valid_pair(t, tc, node):
         try:
             binder.check_can_assign_from(tc.klass, t.klass, node)
@@ -44,12 +45,11 @@ def get_ast_data(source):
     reads = module.reads
     writes = module.writes
 
-
     # clean contexts. not sure this is completely chill
     for node in types.keys():
         if not valid_pair(types[node], type_ctxs[node], node):
-            type_ctxs[node] = types[node]
-
+            # type_ctxs[node] = types[node]
+            type_ctxs[node] = dyn
 
     roots = set()
     all_seen = set()
@@ -61,5 +61,4 @@ def get_ast_data(source):
         all_seen |= (components.get(root) or set()) | set([root])
         roots.add(root)
 
-    dyn = compiler.type_env.DYNAMIC
     return roots, types, type_ctxs, components, reads, writes, valid_pair, tree, dyn
