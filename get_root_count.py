@@ -1,14 +1,9 @@
 import ast
 import json
 import sys
-from get_ast_data import get_ast_data, is_const
+from get_ast_data import get_ast_data
+from load_source import load_bench
 
-with open("data/benchmark_locations.json") as f:
-    sources = json.load(f)
-
-path = sources[sys.argv[1]][sys.argv[2]]
-with open(path) as f:
-    source = f.read()
-
+source = load_bench(sys.argv[1], sys.argv[2])
 roots, *_ = get_ast_data(source)
 print(len(roots))
