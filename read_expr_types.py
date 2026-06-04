@@ -5,7 +5,7 @@ from load_source import load_bench
 
 source = load_bench(sys.argv[1], sys.argv[2])
 
-roots, types, type_ctxs, components, reads, writes, valid_pair, source_ast = get_ast_data(source)
+roots, types, type_ctxs, components, reads, writes, valid_pair, source_ast, dyn = get_ast_data(source)
 
 def node_repr(node):
     type = types[node]
