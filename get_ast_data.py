@@ -51,7 +51,7 @@ def get_ast_data(source):
             # type_ctxs[node] = types[node]
             type_ctxs[node] = dyn
 
-    roots = set()
+    roots = []
     all_seen = set()
 
     all_roots = sorted([*reads.keys(), *writes.keys(), *components.keys()], key=lambda e: str(e))
@@ -59,6 +59,6 @@ def get_ast_data(source):
     for root in all_roots:
         if root in all_seen: continue
         all_seen |= (components.get(root) or set()) | set([root])
-        roots.add(root)
+        roots.append(root)
 
     return roots, types, type_ctxs, components, reads, writes, valid_pair, tree, dyn

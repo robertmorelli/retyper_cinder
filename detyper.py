@@ -10,6 +10,8 @@ source = load_bench(sys.argv[1], sys.argv[2])
 
 roots, types, type_ctxs, components, reads, writes, valid_pair, source_ast, dyn = get_ast_data(source)
 
+# TODO: add partial detyping
+
 all_items_to_remove = set()
 for root in roots:
     all_items_to_remove |= components.get(root) or set()
