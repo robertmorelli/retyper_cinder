@@ -21,10 +21,11 @@ def is_primative(node):
     return isinstance(node.klass, CType)
 
 def get_ast_data(source):
-    tree = ast.parse(source)
+    proto_tree = ast.parse(source)
     compiler = Compiler(StaticCodeGenerator)
 
-    compiler.bind("", "", tree, source, optimize=0)
+    compiler.bind("", "", proto_tree, source, optimize=0)
+    tree = compiler.ast_cache.get(source)
     symbols = StaticCodeGenerator._SymbolVisitor(0)
     symbols.visit(tree)
     module = compiler.modules[""]
@@ -59,4 +60,6 @@ def get_ast_data(source):
         if root in all_seen: continue
         all_seen |= (components.get(root) or set()) | set([root])
         roots.add(root)
-    return roots, types, type_ctxs, components, reads, writes, valid_pair, tree
+
+    dyn = compiler.type_env.DYNAMIC
+    return roots, types, type_ctxs, components, reads, writes, valid_pair, tree, dyn
