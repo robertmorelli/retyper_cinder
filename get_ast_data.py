@@ -54,7 +54,7 @@ def get_ast_data(source):
     roots = []
     all_seen = set()
 
-    all_roots = sorted([*reads.keys(), *writes.keys(), *components.keys()], key=lambda e: str(e))
+    all_roots = sorted([*reads.keys(), *writes.keys(), *components.keys()], key=lambda e: (e.lineno, e.col_offset))
 
     for root in all_roots:
         if root in all_seen: continue
