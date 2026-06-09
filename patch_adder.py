@@ -15,5 +15,4 @@ class PatchAdder(ast.NodeTransformer):
 
 def add_patches(tree, types, type_ctxs, valid_pair):
     PatchAdder(types, type_ctxs, valid_pair).visit(tree)
-    ast.fix_missing_locations(tree)
     return tree

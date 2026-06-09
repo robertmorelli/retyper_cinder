@@ -20,5 +20,6 @@ for root in roots:
 update_type_context_pairs(dyn, types, type_ctxs, components, reads, writes, all_items_to_remove)
 detyped_ast = remove_annotations(source_ast, all_items_to_remove)
 patched_ast = add_patches(detyped_ast, types, type_ctxs, valid_pair)
+ast.fix_missing_locations(patched_ast)
 
 print(ast.unparse(patched_ast))
