@@ -34,8 +34,8 @@ linked_reads = [link_repr("reads", decl, uses) for decl, uses in reads.items()]
 linked_writes = [link_repr("writes", decl, uses) for decl, uses in writes.items()]
 
 print("\n".join(expr_types))
-# print("\n-- uses --")
-# print("\n".join(linked_reads))
-# print("\n".join(linked_writes))
+print("\n-- uses --")
+print("\n".join(linked_reads))
+print("\n".join(linked_writes))
 
 

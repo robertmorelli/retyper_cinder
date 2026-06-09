@@ -42,8 +42,8 @@ def get_ast_data(source):
     types = module.expr_types
     type_ctxs = module.expr_ctx_types
     components = module.components
-    reads = module.reads
-    writes = module.writes
+    reads = module.outflow
+    writes = module.inflow
 
     # clean contexts. not sure this is completely chill
     for node in types.keys():
