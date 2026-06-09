@@ -8,10 +8,11 @@ failures = []
 for bench, variants in sources.items():
     for variant in variants:
         r = subprocess.run(
-            ["python3", "read_expr_types.py", bench, variant],
+            ["python3", "detyper.py", bench, variant],
             capture_output=True,
             text=True,
         )
+        # TODO: pipe back into python3 to check runtime validity
         if r.returncode != 0:
             err = r.stderr.strip().splitlines()[-1] if r.stderr.strip() else ""
             failures.append(f"{bench}/{variant}  {err}")
