@@ -17,6 +17,7 @@ class AnnoRemover(ast.NodeTransformer):
 
     def visit_AnnAssign(self, node):
         if node not in self.targets: return node
+        if node.value is None: return None
         return ast.copy_location(ast.Assign(targets=[node.target], value=node.value), node)
 
 def remove_annotations(tree, node_set):
