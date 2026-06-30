@@ -27,8 +27,8 @@ class Box:
         return self.value
 
     @classmethod
-    def take(cls, box: "Box") -> "Box":
-        return box
+    def take(cls, my_box: "Box") -> "Box":
+        return my_box
 
     @staticmethod
     def add(left: int64, right: int64) -> int64:
@@ -37,11 +37,11 @@ class Box:
 
 def smoke(a: int64) -> int64:
     global GLOBAL_COUNT
-    box: Box = Box(a)
-    first: int64 = helper(box.value, cast(int64, GLOBAL_COUNT), int64(4))
-    second: int64 = box.bump(first)
+    my_box: Box = Box(a)
+    first: int64 = helper(my_box.value, cast(int64, GLOBAL_COUNT), int64(4))
+    second: int64 = my_box.bump(first)
     third: int64 = Box.add(first, kw_helper(left=first, right=second))
-    made: Box = Box.take(box)
+    made: Box = Box.take(my_box)
     GLOBAL_COUNT = GLOBAL_COUNT + 1
     alias: int64 = cast(int64, GLOBAL_COUNT)
     alias += made.value
