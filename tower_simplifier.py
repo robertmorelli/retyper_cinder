@@ -1,0 +1,38 @@
+import sys
+from ast import Call, Name, NodeTransformer
+from patch_picker import pick_patch
+
+sys.path.insert(0, "_cinderx/cinderx/PythonLib")
+from cinderx.compiler.static.types import CType
+
+def extract_coerced(node: Call, constructors):
+    if isinstance(node, Call):
+        first, second, *_ = node.args + [None, None]
+        if node.func in constructors:
+            if isinstance(constructors[node.func], CType):
+                return extract_coerced(first, constructors) or first
+        elif isinstance(node.func, Name):
+            if node.func.id == "box":
+                return extract_coerced(first, constructors) or first
+            elif node.func.id in ("cast", "_cast"):
+                return extract_coerced(second, constructors) or second
+    return None
+
+class TowerSimplifier(NodeTransformer):
+    def __init__(self, constructors, valid_pair, types, type_ctxs):
+        self.constructors = constructors
+        self.valid_pair = valid_pair
+        self.types = types
+        self.type_ctxs = type_ctxs
+
+    def visit_Call(self, node):
+        if inner := extract_coerced(node, self.constructors):
+            tc = self.type_ctxs.get(node)
+            t = self.types.get(inner)
+            node = pick_patch(inner, t, tc, self.valid_pair).wrap()
+        self.generic_visit(node)
+        return node
+
+def simplify_coercions(tree, constructors, valid_pair, types, type_ctxs):
+    TowerSimplifier(constructors, valid_pair, types, type_ctxs).visit(tree)
+    return tree
