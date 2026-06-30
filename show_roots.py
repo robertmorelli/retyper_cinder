@@ -1,4 +1,4 @@
-import ast
+from ast import get_source_segment
 import json
 import sys
 from get_ast_data import get_ast_data, is_const
@@ -12,5 +12,5 @@ with open(path) as f:
 
 roots, *_ = get_ast_data(source)
 
-print("\n".join([ast.get_source_segment(source, root) for root in roots]))
+print("\n".join([get_source_segment(source, root) for root in roots]))
 # print("\n".join([str(root) for root in roots]))
