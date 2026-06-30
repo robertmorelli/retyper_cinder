@@ -1,4 +1,4 @@
-import ast
+from ast import Constant, parse
 import json
 import sys
 
@@ -14,13 +14,13 @@ with open("data/benchmark_locations.json") as f:
     sources = json.load(f)
 
 def is_const(node):
-    return isinstance(node, ast.Constant)
+    return isinstance(node, Constant)
 
 def is_primative(node):
     return isinstance(node.klass, CType)
 
 def get_ast_data(source):
-    proto_tree = ast.parse(source)
+    proto_tree = parse(source)
     compiler = Compiler(StaticCodeGenerator)
 
     compiler.bind("", "", proto_tree, source, optimize=0)
@@ -42,8 +42,9 @@ def get_ast_data(source):
     types = module.expr_types
     type_ctxs = module.expr_ctx_types
     components = module.components
-    reads = module.outflow
-    writes = module.inflow
+    outflow = module.outflow
+    inflow = module.inflow
+    constructors = module.constructors
 
     # clean contexts. not sure this is completely chill
     for node in types.keys():
@@ -54,11 +55,11 @@ def get_ast_data(source):
     roots = []
     all_seen = set()
 
-    all_roots = sorted([*reads.keys(), *writes.keys(), *components.keys()], key=lambda e: (e.lineno, e.col_offset))
+    all_roots = sorted([*outflow.keys(), *inflow.keys(), *components.keys()], key=lambda e: (e.lineno, e.col_offset))
 
     for root in all_roots:
         if root in all_seen: continue
         all_seen |= (components.get(root) or set()) | set([root])
         roots.append(root)
 
-    return roots, types, type_ctxs, components, reads, writes, valid_pair, tree, dyn
+    return roots, types, type_ctxs, constructors, components, outflow, inflow, valid_pair, tree, dyn
