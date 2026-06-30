@@ -1,5 +1,3 @@
-import ast
-import json
 import sys
 from get_ast_data import get_ast_data
 from load_source import load_bench
