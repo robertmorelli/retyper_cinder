@@ -1,20 +1,16 @@
-import json
-import subprocess
+from json import load
+from load_source import load_bench
+from detyper import detype
 
 with open("data/benchmark_locations.json") as f:
-    sources = json.load(f)
+    sources = load(f)
 
 failures = []
 for bench, variants in sources.items():
     for variant in variants:
-        r = subprocess.run(
-            ["python3", "detyper.py", bench, variant],
-            capture_output=True,
-            text=True,
-        )
-        # TODO: pipe back into python3 to check runtime validity
-        if r.returncode != 0:
-            err = r.stderr.strip().splitlines()[-1] if r.stderr.strip() else ""
-            failures.append(f"{bench}/{variant}  {err}")
+        try:
+            detype(load_bench(bench, variant))
+        except Exception as e:
+            failures.append(f"{bench}/{variant}  {type(e).__name__}: {e}")
 
 print("\n".join(failures))
