@@ -1,12 +1,12 @@
 from ast import get_source_segment
-import json
-import sys
+from json import load
+from sys import argv
 from get_ast_data import get_ast_data, is_const
 
 with open("data/benchmark_locations.json") as f:
-    sources = json.load(f)
+    sources = load(f)
 
-path = sources[sys.argv[1]][sys.argv[2]]
+path = sources[argv[1]][argv[2]]
 with open(path) as f:
     source = f.read()
 
