@@ -1,7 +1,6 @@
-import sys
-from get_ast_data import get_ast_data
+from sys import argv
 from load_source import load_bench
+from root_count import count_roots
 
-source = load_bench(sys.argv[1], sys.argv[2])
-roots, *_ = get_ast_data(source)
-print(len(roots))
+source = load_bench(argv[1], argv[2])
+print(count_roots(source))
