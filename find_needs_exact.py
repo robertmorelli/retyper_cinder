@@ -22,13 +22,8 @@ class IteratorFinder(NodeTransformer):
     def __init__(self):
         self.needs_exact = set()
 
-    def visit_For(self, node):
-        self.needs_exact |= set((node.iter,))
-        self.generic_visit(node)
-        return node
-
-    def visit_comprehension(self, node):
-        self.needs_exact |= set((node.iter,))
+    def visit_ListComp(self, node):
+        self.needs_exact |= set((node.elt,))
         self.generic_visit(node)
         return node
 
