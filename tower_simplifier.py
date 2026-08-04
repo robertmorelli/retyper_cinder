@@ -19,21 +19,23 @@ def extract_coerced(node: Call, constructors):
     return None
 
 class TowerSimplifier(NodeTransformer):
-    def __init__(self, constructors, valid_pair, types, type_ctxs, needs_exact):
+    def __init__(self, constructors, valid_pair, types, type_ctxs, needs_exact, dyn):
         self.constructors = constructors
         self.valid_pair = valid_pair
         self.types = types
         self.type_ctxs = type_ctxs
         self.needs_exact = needs_exact
+        self.dyn = dyn
 
     def visit_Call(self, node):
         if inner := extract_coerced(node, self.constructors):
             tc = self.type_ctxs.get(node)
             t = self.types.get(inner)
-            node = pick_patch(inner, t, tc, self.valid_pair, self.needs_exact).wrap()
+            node = pick_patch(inner, t, tc, self.valid_pair, self.needs_exact,
+                              self.types, self.type_ctxs, self.dyn).wrap()
         self.generic_visit(node)
         return node
 
-def simplify_coercions(tree, constructors, valid_pair, types, type_ctxs, needs_exact):
-    TowerSimplifier(constructors, valid_pair, types, type_ctxs, needs_exact).visit(tree)
+def simplify_coercions(tree, constructors, valid_pair, types, type_ctxs, needs_exact, dyn):
+    TowerSimplifier(constructors, valid_pair, types, type_ctxs, needs_exact, dyn).visit(tree)
     return tree
