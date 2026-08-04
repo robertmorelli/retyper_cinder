@@ -1,80 +1,40 @@
+# Probing whether the chklist -> list degradation is actually unsound.
+#
+# `xs: CheckedList[int] = []` compiles the bare literal INTO a CheckedList.
+# Erase that annotation and the literal binds as a plain `list` instead. If a
+# consumer keeps its CheckedList annotation, the detyper bridges the boundary
+# with cast(CheckedList[int], ...), which is a real isinstance check at runtime
+# and a plain list should fail it.
 import __static__
-from __static__ import box, cbool, int64, CheckedList, cast, Array
-from typing import Any, cast as _cast
+from __static__ import CheckedList, cast
 
-# class Shape:
-#     def __init__(self):
-#         self.size: int64 = 5
-#         b: CheckedList[int64] = CheckedList[int64]()
-#         b.push(4)
-#         c: int64 = b[int64(0)]
+import cinderx.jit
+cinderx.jit.compile_after_n_calls(0)
 
 
-# class Circle(Shape):
-#     def __init__(self):
-#         super().__init__()
-#         self.size: int64 = 9
-
-# def foo() -> int64:
-#     return int64(1)
-
-# foo()
-
-# a: int = 9
-# b = a
-# a = 7
-
-#CheckedList[int64]
-# def bar(a):
-#     a.push(4)
-#     i: int64 = 0
-#     for i in cast(CheckedList[int64], a):
-#         b: int64 = i
-
-# def bar2(a: CheckedList[int64]):
-#     # for i in a:
-#     #     b: int64 = int64(i)
-#     #     print(box(b))
-#     c: CheckedList[int64] | None = a
-#     if cast(CheckedList[int64], c) is not None:
-#         i: int64 = c.pop()
-
-# if __name__ == "__main__":
-#     pass
-    # a = CheckedList[int64]()
-    # a.append(int64(2))
-    # bar2(a)
-
-    # c: CheckedList[int] | None = a
-    # i: int = (c is not None) and c.pop() or 0
-
-    # c = a
-    # i: int = (cast(CheckedList[int], c) is not None) and c.pop() or 0
+def produce() -> CheckedList[int]:
+    xs: CheckedList[int] = []
+    xs.append(1)
+    xs.append(2)
+    return xs
 
 
-    # c: CheckedList[int64] | None = a
-    # i: int64 = cbool(c is not None) and c.pop() or 0
-
-    # c = a
-    # i: int64 = cbool(cast(CheckedList[int64], c) is not None) and c.pop() or 0
-
-    
-
-    # c = a
-    # if c is not None:
-    #     i: int64 = int64(c.pop())
+def consume(ys: CheckedList[int]) -> int:
+    return ys[0] + len(ys)
 
 
-    # i: int = c.pop()
+def round_trip(zs) -> int:
+    ws: CheckedList[int] = cast(CheckedList[int], zs)
+    ws.append(3)
+    return len(ws)
 
-def a():
-    b: Any = _cast(Any, Array[int64](2))
-    c: Any = 2
-    d: Any = c
-    b[1] = 4
-    d = b[1]
-    return d
+
+def main() -> int:
+    a: CheckedList[int] = produce()
+    total: int = consume(a)
+    total = total + round_trip(a)
+    return total
 
 
 if __name__ == "__main__":
-    print(a())
+    print(main())
