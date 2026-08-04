@@ -1,5 +1,9 @@
+import __static__
 import cinderx
 from __static__ import CheckedList, box, cast, cbool, clen, int64, inline
+
+import cinderx.jit
+cinderx.jit.compile_after_n_calls(0)
 
 m: CheckedList[int64] = CheckedList[int64]()
 
