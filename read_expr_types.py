@@ -1,11 +1,11 @@
-import sys
-from ast import get_source_segment
+from sys import argv
+from ast import get_source_segment, parse
 from get_ast_data import get_ast_data, is_const
 from load_source import load_bench
 
-source = load_bench(sys.argv[1], sys.argv[2])
+source = load_bench(argv[1], argv[2])
 
-roots, types, type_ctxs, constructors, components, outflow, inflow, valid_pair, source_ast, dyn, _, _ = get_ast_data(source)
+roots, types, type_ctxs, constructors, components, outflow, inflow, valid_pair, source_ast, dyn, _, _, _, _ = get_ast_data(parse(source))
 
 def node_repr(node):
     type = types[node]
