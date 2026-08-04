@@ -1,0 +1,15 @@
+{
+  "call_method": "annotation",
+  "call_method_slots": "annotation",
+  "call_simple": "annotation",
+  "chaos": "function",
+  "deltablue": "function",
+  "fannkuch": "annotation",
+  "float": "annotation",
+  "held_karp": "function",
+  "nbody": "annotation",
+  "nqueens": "annotation",
+  "pystone": "function",
+  "richards": "function",
+  "scratch": "annotation"
+}

@@ -1,0 +1,67 @@
+{
+  "call_method": {
+    "advanced": 17,
+    "shallow": 17,
+    "untyped": 0
+  },
+  "call_method_slots": {
+    "advanced": 17,
+    "shallow": 17,
+    "untyped": 0
+  },
+  "call_simple": {
+    "advanced": 16,
+    "shallow": 16,
+    "untyped": 0
+  },
+  "chaos": {
+    "advanced": 44,
+    "shallow": 45,
+    "untyped": 0
+  },
+  "deltablue": {
+    "advanced": 154,
+    "shallow": 121,
+    "untyped": 0
+  },
+  "fannkuch": {
+    "advanced": 16,
+    "shallow": 14,
+    "untyped": 0
+  },
+  "float": {
+    "advanced": 21,
+    "shallow": 18,
+    "untyped": 0
+  },
+  "held_karp": {
+    "advanced": 116,
+    "shallow": 116,
+    "untyped": 0
+  },
+  "nbody": {
+    "advanced": 65,
+    "shallow": 33,
+    "untyped": 0
+  },
+  "nqueens": {
+    "advanced": 31,
+    "shallow": 14,
+    "untyped": 0
+  },
+  "pystone": {
+    "advanced": 73,
+    "shallow": 73,
+    "untyped": 0
+  },
+  "richards": {
+    "advanced": 116,
+    "shallow": 109,
+    "untyped": 0
+  },
+  "scratch": {
+    "1": 28,
+    "2": 10,
+    "3": 1
+  }
+}
