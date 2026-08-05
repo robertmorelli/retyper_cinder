@@ -32,8 +32,7 @@ class TypingImportAdder(NodeTransformer):
     def visit_Module(self, node):
         node.body.insert(_insert_point(node.body),
                          ImportFrom(module='typing',
-                                    names=[alias(name='Any'),
-                                           alias(name='cast', asname='_cast')], level=0))
+                                    names=[alias(name='Any')], level=0))
         return node
 
 def add_all_static(tree):

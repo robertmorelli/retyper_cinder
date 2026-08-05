@@ -3,6 +3,7 @@ from sys import path
 from parent_pointers import build_parents
 from component_reflow import reflow
 from fun_grouping import group_roots
+from binding_data import BoundData
 
 path.insert(0, "_cinderx/cinderx/PythonLib")
 
@@ -78,4 +79,20 @@ def get_ast_data(proto_tree):
 
     bench_roots = group_roots(roots, components, parents)
 
-    return roots, types, type_ctxs, constructors, components, outflow, inflow, valid_pair, tree, dyn, module.declared_types, reverse_outflow, anno_roots, bench_roots
+    return BoundData(
+        roots=roots,
+        types=types,
+        type_contexts=type_ctxs,
+        constructors=constructors,
+        components=components,
+        outflow=outflow,
+        inflow=inflow,
+        valid_pair=valid_pair,
+        tree=tree,
+        dynamic=dyn,
+        declared_types=module.declared_types,
+        reverse_outflow=reverse_outflow,
+        annotation_roots=anno_roots,
+        benchmark_roots=bench_roots,
+        resolved_from=module.resolved_from,
+    )

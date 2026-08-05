@@ -1,5 +1,5 @@
 from sys import path
-from ast import Call, Name, NodeTransformer
+from ast import Call, Name, NodeTransformer, unparse
 from patch_picker import pick_patch
 
 path.insert(0, "_cinderx/cinderx/PythonLib")
@@ -14,7 +14,7 @@ def extract_coerced(node: Call, constructors):
         elif isinstance(node.func, Name):
             if node.func.id == "box":
                 return extract_coerced(first, constructors) or first
-            elif node.func.id in ("cast", "_cast"):
+            elif node.func.id == "cast":
                 return extract_coerced(second, constructors) or second
     return None
 
@@ -27,7 +27,26 @@ class TowerSimplifier(NodeTransformer):
         self.needs_exact = needs_exact
         self.dyn = dyn
 
+    def _narrowing_cast(self, node):
+        """cast(T, x) where x is Optional[T]: the cast is what removes the None.
+
+        It looks like a redundant coercion because T and Optional[T] are close
+        enough to pass a validity check, but dropping it lets None reach a use
+        that assumes T.
+        """
+        if not (isinstance(node.func, Name) and node.func.id == "cast"
+                and len(node.args) == 2):
+            return False
+        t = self.types.get(node.args[1])
+        if t is None:
+            return False
+        target = unparse(node.args[0])
+        return t.klass.type_name.readable_name in (f"Optional[{target}]", f"{target} | None")
+
     def visit_Call(self, node):
+        if self._narrowing_cast(node):
+            self.generic_visit(node)
+            return node
         if inner := extract_coerced(node, self.constructors):
             tc = self.type_ctxs.get(node)
             t = self.types.get(inner)
