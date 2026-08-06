@@ -91,6 +91,8 @@ def get_ast_data(proto_tree):
         tree=tree,
         dynamic=dyn,
         declared_types=module.declared_types,
+        declaration_types=module.declaration_types,
+        iteration_types=module.iteration_types,
         reverse_outflow=reverse_outflow,
         annotation_roots=anno_roots,
         benchmark_roots=bench_roots,

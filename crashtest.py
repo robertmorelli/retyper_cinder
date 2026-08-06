@@ -1,12 +1,10 @@
-from list_benchmarks import get_bench_list
-from load_source import load_bench
-from detyper import detype
+"""Legacy smoke-test entry point; delegates to the one test runner."""
+from os import cpu_count
+from subprocess import call
+from sys import executable
 
-failures = []
-for bench, variant, path in get_bench_list():
-    try:
-        detype(load_bench(bench, variant))
-    except Exception as e:
-        failures.append(f"{bench}/{variant}  {type(e).__name__}: {e}")
-
-print("\n".join(failures))
+raise SystemExit(call([
+    executable, "test_graph.py", "compile", "--plan", "smoke",
+    "--granularity", "annotation", "--workers", str(cpu_count() or 1),
+    "--repetitions", "1",
+]))

@@ -11,7 +11,8 @@ from get_ast_data import get_ast_data
 from annotator import _annotatable
 
 def annotate_in_place(source):
-    *_, tree, dyn, declared, _, _ = get_ast_data(parse(source))
+    data = get_ast_data(parse(source))
+    tree, dyn, declared = data.tree, data.dynamic, data.declared_types
 
     edits = []  # (offset, text) insertions
     lines = source.splitlines(keepends=True)

@@ -125,9 +125,18 @@ def transfer(node, inputs, out_types, recorded, type_env, dyn, table):
         return dyn if t is None else t
 
     if ELEM in by_role:
-        src, _ = by_role[ELEM][0]
+        src, detail = by_role[ELEM][0]
+        index, recorded_item = (detail if isinstance(detail, tuple)
+                                else (detail, None))
         t = typ(src)
-        return dyn if t is None or t is dyn else element_type(t, node, dyn)
+        if t is None or t is dyn:
+            return dyn
+        item = element_type(t, node, dyn)
+        if index is not None:
+            args = getattr(getattr(item, "klass", None), "type_args", None)
+            if args and index < len(args):
+                return args[index].instance
+        return recorded_item or item
 
     if FIELD in by_role:
         src, _ = by_role[FIELD][0]

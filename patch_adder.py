@@ -1,7 +1,5 @@
-from ast import NodeTransformer, Call, Name, Load, Slice
-from ast import Assign, AnnAssign, AugAssign, For
+from ast import NodeTransformer, Load, Slice
 from patch_picker import pick_patch
-from graph_construction import COERCIONS
 
 # coercions that exist only to produce a primitive. In a slot that is no longer
 # primitive they do nothing but make the program invalid.
@@ -9,12 +7,13 @@ TO_PRIMITIVE = ("int64", "cbool", "clen", "double")
 from get_ast_data import get_ctx
 
 class PatchAdder(NodeTransformer):
-    def __init__(self, types, type_ctxs, dyn, valid_pair, needs_exact):
+    def __init__(self, types, type_ctxs, dyn, valid_pair, needs_exact, graph=None):
         self.types = types
         self.type_ctxs = type_ctxs
         self.dyn = dyn
         self.valid_pair = valid_pair
         self.needs_exact = needs_exact
+        self.graph = graph
 
     def redundant_coercion(self, node):
         """A coercion already in the source that no longer coerces anything.
@@ -25,11 +24,10 @@ class PatchAdder(NodeTransformer):
         settles such a call to its operand's own type, so equality of the two is
         the test, and the fix is to drop the wrapper rather than to give up.
         """
-        if not (isinstance(node, Call) and isinstance(node.func, Name)
-                and node.func.id in COERCIONS and node.args):
+        coercion = self.graph.coercion(node) if self.graph is not None else None
+        if coercion is None or coercion[0] != "box":
             return None
-        operand = node.args[1] if node.func.id == "cast" and len(node.args) > 1 \
-            else node.args[0]
+        _, operand = coercion
         t = self.types.get(node)
         if t is not None and t is self.types.get(operand):
             return operand                # coerces to what it already was
@@ -62,6 +60,6 @@ class PatchAdder(NodeTransformer):
                                 self.types, self.type_ctxs, self.dyn).wrap()
         return result
 
-def add_patches(tree, types, type_ctxs, dyn, valid_pair, needs_exact):
-    PatchAdder(types, type_ctxs, dyn, valid_pair, needs_exact).visit(tree)
+def add_patches(tree, types, type_ctxs, dyn, valid_pair, needs_exact, graph=None):
+    PatchAdder(types, type_ctxs, dyn, valid_pair, needs_exact, graph).visit(tree)
     return tree

@@ -21,6 +21,8 @@ class BoundData:
     tree: Any
     dynamic: Any
     declared_types: dict
+    declaration_types: dict
+    iteration_types: dict
     reverse_outflow: dict
     annotation_roots: list
     benchmark_roots: list

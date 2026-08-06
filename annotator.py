@@ -78,7 +78,9 @@ def _valid(source):
         return False
 
 def annotate_once(source):
-    roots, types, *_, tree, dyn, declared, _, _ = get_ast_data(parse(source))
+    data = get_ast_data(parse(source))
+    tree, types = data.tree, data.types
+    dyn, declared = data.dynamic, data.declared_types
     Annotator(tree, declared, types, dyn).visit(tree)
     out = unparse(tree)
     return out if _valid(out) else source     # never emit an invalid annotation pass

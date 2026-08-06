@@ -21,6 +21,7 @@ static_python_loader.install()
 
 module_path = argv[1]
 require_static = '--require-static' in argv
+compile_only = '--compile-only' in argv
 
 sys_path.insert(0, path.dirname(path.abspath(module_path)))
 module = import_module(path.splitext(path.basename(module_path))[0])
@@ -30,5 +31,5 @@ if require_static and not __static__.is_static_module(module):
     exit(2)
 
 main = getattr(module, 'main', None)
-if main is not None:
+if main is not None and not compile_only:
     main()

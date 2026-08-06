@@ -1,20 +1,10 @@
-from random import sample, randint
-from list_benchmarks import get_bench_list
-from load_source import load_bench
-from root_count import count_roots
-from run_bench import run
+"""Legacy high-power annotation entry point."""
+from os import cpu_count
+from subprocess import call
+from sys import executable
 
-failures = []
-for bench, variant, path in get_bench_list():
-    if variant == "untyped":
-        continue
-    source = load_bench(bench, variant)
-    n = count_roots(source)
-    if n == 0:
-        continue
-    for _ in range(500):
-        picks = sample(range(n), randint(1, n))
-        mask = sum(1 << i for i in picks)
-        run(bench, variant, source, mask, "", failures)
-
-print("\n".join(failures))
+raise SystemExit(call([
+    executable, "test_graph.py", "compile", "--plan", "high",
+    "--granularity", "annotation", "--workers", str(cpu_count() or 1),
+    "--repetitions", "1",
+]))

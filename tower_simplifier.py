@@ -28,12 +28,6 @@ class TowerSimplifier(NodeTransformer):
         self.dyn = dyn
 
     def _narrowing_cast(self, node):
-        """cast(T, x) where x is Optional[T]: the cast is what removes the None.
-
-        It looks like a redundant coercion because T and Optional[T] are close
-        enough to pass a validity check, but dropping it lets None reach a use
-        that assumes T.
-        """
         if not (isinstance(node.func, Name) and node.func.id == "cast"
                 and len(node.args) == 2):
             return False
@@ -41,7 +35,8 @@ class TowerSimplifier(NodeTransformer):
         if t is None:
             return False
         target = unparse(node.args[0])
-        return t.klass.type_name.readable_name in (f"Optional[{target}]", f"{target} | None")
+        return t.klass.type_name.readable_name in (
+            f"Optional[{target}]", f"{target} | None")
 
     def visit_Call(self, node):
         if self._narrowing_cast(node):

@@ -9,7 +9,7 @@ counts = {}
 for bench, variant, path in get_bench_list():
     counts.setdefault(bench, {})
     try:
-        anno_roots = get_ast_data(parse(load_bench(bench, variant)))[12]
+        anno_roots = get_ast_data(parse(load_bench(bench, variant))).annotation_roots
         n = len(anno_roots)
     except Exception:
         n = 0  # untyped sources don't bind under Static Python

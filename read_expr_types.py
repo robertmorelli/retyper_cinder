@@ -5,7 +5,11 @@ from load_source import load_bench
 
 source = load_bench(argv[1], argv[2])
 
-roots, types, type_ctxs, constructors, components, outflow, inflow, valid_pair, source_ast, dyn, _, _, _, _, _ = get_ast_data(parse(source))
+data = get_ast_data(parse(source))
+roots, types, type_ctxs = data.roots, data.types, data.type_contexts
+constructors, components = data.constructors, data.components
+outflow, inflow, valid_pair = data.outflow, data.inflow, data.valid_pair
+source_ast, dyn = data.tree, data.dynamic
 
 def node_repr(node):
     type = types[node]
