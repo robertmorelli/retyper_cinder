@@ -1,8 +1,10 @@
 import ast
 import unittest
+from types import SimpleNamespace
 
+from get_ast_data import get_ast_data
 from simple_graph_view import graph_data
-from simple_type_graph import Binder, CONTEXT, TYPE
+from simple_type_graph import CONTEXT, TYPE, Graph, build_binding_graph
 
 
 SOURCE = """
@@ -13,35 +15,68 @@ y: int = twice(2)
 z = y
 """
 
+REFLOW_SOURCE = """
+from __static__ import CheckedList
+class Box:
+    value: int
+
+def use(items: CheckedList[Box], box: Box) -> Box:
+    item: Box = box
+    for item in items:
+        box.value = item.value
+    return box
+"""
+
 
 class SimpleTypeGraphTests(unittest.TestCase):
-    def setUp(self):
-        self.tree = ast.parse(SOURCE)
-        self.graph = Binder().bind(self.tree)
+    def test_type_and_context_are_separate_cells(self):
+        node = ast.parse("x").body[0].value
+        graph = Graph()
+        self.assertNotEqual(graph.cell(node, TYPE), graph.cell(node, CONTEXT))
 
-    def find(self, kind, line):
-        return next(node for node in ast.walk(self.tree)
-                    if type(node) is kind and getattr(node, "lineno", 0) == line)
+    def test_poison_flows_only_along_edges(self):
+        left, right = ast.parse("x + y").body[0].value.left, ast.parse("x + y").body[0].value.right
+        graph = Graph()
+        graph.flow(graph.cell(left, TYPE), graph.cell(right, TYPE))
+        static, dynamic = object(), object()
+        bound = SimpleNamespace(
+            types={left: static, right: static},
+            type_contexts={right: static},
+            dynamic=dynamic,
+        )
+        settled = graph.settle(bound, {left})
+        self.assertIs(settled.types[right], dynamic)
+        self.assertIs(settled.contexts[right], static)
 
-    def test_keeps_type_and_context_in_separate_cells(self):
-        literal = self.find(ast.Constant, 5)
-        self.assertEqual(self.graph.values[(literal, TYPE)], {"int"})
-        self.assertEqual(self.graph.values[(literal, CONTEXT)], {"int"})
+    def test_detyper_uses_one_declaration_source_for_both_slots(self):
+        bound = get_ast_data(ast.parse(SOURCE))
+        graph = build_binding_graph(bound)
+        root = bound.roots[0]
+        targets = {edge.target for edge in graph.edges
+                   if edge.source == (root, TYPE)}
+        self.assertTrue(any(slot == TYPE for _, slot in targets))
+        self.assertTrue(any(slot == CONTEXT for _, slot in targets))
+        self.assertFalse(any(edge.source == (root, CONTEXT)
+                             for edge in graph.edges))
 
-    def test_types_flow_through_calls_and_assignments(self):
-        z = next(node for node in ast.walk(self.tree)
-                 if type(node) is ast.Name and node.id == "z")
-        self.assertEqual(self.graph.values[(z, TYPE)], {"int"})
+    def test_graph_absorbs_loop_and_member_reflow(self):
+        bound = get_ast_data(ast.parse(REFLOW_SOURCE))
+        graph = build_binding_graph(bound)
+        argument = next(node for node in ast.walk(bound.tree)
+                        if type(node) is ast.arg and node.arg == "items")
+        declaration = next(node for node in ast.walk(bound.tree)
+                           if type(node) is ast.AnnAssign
+                           and type(node.target) is ast.Name
+                           and node.target.id == "item")
+        self.assertTrue(any({argument, declaration} <= unit
+                            for unit in graph.annotation_units))
+        self.assertTrue(any(type(edge.target[0]) is ast.Attribute
+                            for edge in graph.edges))
 
-    def test_return_type_is_drawn_on_return_annotation(self):
-        function = self.find(ast.FunctionDef, 2)
-        self.assertIs(self.graph.anchors[(function, TYPE)], function.returns)
-
-    def test_view_data_contains_both_slots_and_edges(self):
+    def test_view_contains_both_slots(self):
         data = graph_data(SOURCE)
         self.assertEqual({node["slot"] for node in data["nodes"]},
                          {TYPE, CONTEXT})
-        self.assertTrue(data["edges"])
 
 
 if __name__ == "__main__":

@@ -33,10 +33,12 @@ class Wrapper:
 
 # node -> box(node)
 class BoxWrapper(Wrapper):
-    def __init__(self, node, t):
+    def __init__(self, node, t, exact=False):
         self.node = node
         self.T = boxed_instance(t)
-        self.next_root = copy_location(Call(Name("box", Load()), [node], []), node)
+        value = (copy_location(Call(_type_expr(readable_name(t)), [node], []), node)
+                 if exact else node)
+        self.next_root = copy_location(Call(Name("box", Load()), [value], []), node)
 
 # node -> T(node)
 class ConstrWrapper(Wrapper):
@@ -87,7 +89,7 @@ def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None):
         # says: cinder rejects `int64 cannot be assigned to dynamic` outright.
         # This is the case erasure creates -- the annotation that made the slot
         # primitive is gone, and the value still is one, so it has to box.
-        return BoxWrapper(node, type)
+        return BoxWrapper(node, type, node in needs_exact)
     if node not in needs_exact and valid_pair(type, type_ctx, node):
         return Wrapper(node)
     elif type == type_ctx:

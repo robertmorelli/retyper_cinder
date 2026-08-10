@@ -1,8 +1,5 @@
 from ast import Constant, parse, Attribute, Subscript, Name, Starred, List, Tuple, AnnAssign, arg, FunctionDef, AsyncFunctionDef
 from sys import path
-from parent_pointers import build_parents
-from component_reflow import reflow
-from fun_grouping import group_roots
 from binding_data import BoundData
 
 path.insert(0, "_cinderx/cinderx/PythonLib")
@@ -53,31 +50,23 @@ def get_ast_data(proto_tree):
     constructors = module.constructors
     reverse_outflow = module.reverse_outflow
 
-    parents = build_parents(tree)
-
-    components = reflow(tree, parents, components, reverse_outflow, inflow, outflow)
-
     # clean contexts. not sure this is completely chill
     for node in types.keys():
         if not valid_pair(types[node], type_ctxs[node], node):
             # type_ctxs[node] = types[node]
             type_ctxs[node] = dyn
 
-    roots = []
-    all_seen = set()
-
-    all_roots = sorted([*outflow.keys(), *inflow.keys(), *components.keys()], key=lambda e: (e.lineno, e.col_offset))
-
-    for root in all_roots:
-        if root in all_seen: continue
-        all_seen |= (components.get(root) or set()) | set([root])
-        roots.append(root)
-
-    anno_roots = [r for r in roots
-                  if (isinstance(r, (AnnAssign, arg)) and r.annotation is not None)
-                  or (isinstance(r, (FunctionDef, AsyncFunctionDef)) and r.returns is not None)]
-
-    bench_roots = group_roots(roots, components, parents)
+    roots = sorted(
+        {node for node in {*outflow, *inflow, *components} if node is not None},
+        key=lambda node: (node.lineno, node.col_offset),
+    )
+    anno_roots = [
+        root for root in roots
+        if (isinstance(root, (AnnAssign, arg)) and root.annotation is not None)
+        or (isinstance(root, (FunctionDef, AsyncFunctionDef))
+            and root.returns is not None)
+    ]
+    bench_roots = []
 
     return BoundData(
         roots=roots,

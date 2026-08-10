@@ -1,24 +1,21 @@
-from ast import (Call, Dict, List, Load, Name, NodeTransformer, Set,
+from ast import (Call, Dict, List, ListComp, Load, Name, NodeTransformer, Set,
                  Subscript, copy_location)
 
-CHECKED = {"CheckedList": List, "CheckedDict": Dict, "CheckedSet": Set}
+CHECKED = {"CheckedList": (List, ListComp), "CheckedDict": Dict, "CheckedSet": Set}
 
 
 def _checked_ctor(annotation, value):
-    """`xs: CheckedList[int] = []` -> `xs: Any = CheckedList[int]()`.
+    """Preserve the checked container an annotation built from a literal.
 
-    The annotation is what made the bare literal a checked container; erase it
-    and the literal is a plain list, which changes the object at runtime, not
-    just its static type. Naming the constructor keeps the object it built.
+    Without the explicit constructor, erasure turns the value into an ordinary
+    list, dict, or set and changes both its static type and runtime behavior.
     """
     if not isinstance(annotation, Subscript) or not isinstance(annotation.value, Name):
         return None
     literal = CHECKED.get(annotation.value.id)
     if literal is None or not isinstance(value, literal):
         return None
-    if getattr(value, "elts", None) or getattr(value, "keys", None):
-        return None                       # only a bare literal builds nothing
-    return copy_location(Call(func=annotation, args=[], keywords=[]), value)
+    return copy_location(Call(func=annotation, args=[value], keywords=[]), value)
 
 
 class AnnoRemover(NodeTransformer):

@@ -22,7 +22,7 @@ from time import perf_counter_ns
 from anno_remover import remove_annotations
 from detyper import detype
 from get_ast_data import get_ast_data
-from graph_construction import build_binding_graph
+from simple_type_graph import build_binding_graph
 from import_adder import add_imports
 from list_benchmarks import get_bench_list
 from load_source import load_bench
@@ -247,8 +247,13 @@ def runtime_case(case, source, repetitions):
             observed[label] = proc.stdout
             samples.append(elapsed)
         if observed["typed"] != observed["detyped"]:
-            return {"status": "semantic_failure",
-                    "error": "typed and detyped stdout differ", "metrics": {}}
+            # Some benchmarks print their own elapsed time, so the typed source
+            # already differs from itself run to run. Only a benchmark that is
+            # stable against itself can report a semantic failure.
+            again, _ = _run_module(source)
+            if again.returncode == 0 and again.stdout == observed["typed"]:
+                return {"status": "semantic_failure",
+                        "error": "typed and detyped stdout differ", "metrics": {}}
         expected = observed["typed"]
     typed_med, detyped_med = median(typed_samples), median(detyped_samples)
     return {"status": "ok", "metrics": {

@@ -39,6 +39,8 @@ class TowerSimplifier(NodeTransformer):
             f"Optional[{target}]", f"{target} | None")
 
     def visit_Call(self, node):
+        if node in self.needs_exact:
+            return node
         if self._narrowing_cast(node):
             self.generic_visit(node)
             return node

@@ -1,6 +1,6 @@
 from get_ast_data import get_ast_data
 from anno_remover import remove_annotations
-from graph_construction import build_binding_graph
+from simple_type_graph import build_binding_graph
 from patch_adder import add_patches
 from import_adder import add_imports
 from find_needs_exact import find_needs_exact

@@ -1,6 +1,6 @@
 from sys import path
 from ast import NodeTransformer
-from ast import FunctionDef, unparse
+from ast import FunctionDef, Return, unparse, walk
 
 path.insert(0, "_cinderx/cinderx/PythonLib")
 from cinderx.compiler.static.types import CType
@@ -9,6 +9,13 @@ class InlineCallArgFinder(NodeTransformer):
     def __init__(self, reverse_outflow):
         self.reverse_outflow = reverse_outflow
         self.needs_exact = set()
+
+    def visit_FunctionDef(self, node):
+        if "inline" in set(map(unparse, node.decorator_list)):
+            self.needs_exact |= {n.value for n in walk(node)
+                                 if isinstance(n, Return) and n.value is not None}
+        self.generic_visit(node)
+        return node
 
     def visit_Call(self, node):
         if source := self.reverse_outflow.get(node):
