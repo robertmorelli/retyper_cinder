@@ -81,6 +81,7 @@ class Graph(ast.NodeVisitor):
         self.slots = {}
         self._outgoing = None
         self.result_edges = set()
+        self.sibling_edges = set()
         self._sources = None
         if bound is not None:
             self.construct(bound)
@@ -304,13 +305,22 @@ class Graph(ast.NodeVisitor):
             for right in operands:
                 if left is not right:
                     self.link(left, right, CONTEXT)
+                    # recorded so decide_context can tell an operand's demand
+                    # from a declaration's: a declaration rescues a dynamic
+                    # value by coercing it, an operand cannot and the other
+                    # side has to box instead
+                    self.sibling_edges.add(
+                        (self.cell(left, TYPE), self.cell(right, CONTEXT)))
 
     def visit_BinOp(self, node):
         self.generic_visit(node)
         self.siblings([node.left, node.right])  # valid_links #13
-        # The left operand decides the result: `"" * 2` is a str and `[1] * 2`
-        # is a list, whatever the count on the right is.
-        self.result_link(node.left, node)  # valid_links #59
+        # Both operands feed the result. `"" * 2` stays a str because nothing
+        # was erased there and decide_type keeps the original type; but once
+        # either operand is dynamic the result is too, whichever side it was.
+        # Left-only left `1 << city` looking primitive after `city` died.
+        self.result_link(node.left, node)   # valid_links #59
+        self.result_link(node.right, node)  # valid_links #59
 
     def visit_Compare(self, node):
         self.generic_visit(node)
@@ -496,6 +506,46 @@ class Graph(ast.NodeVisitor):
                 table.setdefault(node, []).append(edge.source[0])
         return self._sources
 
+    def survives_erasure(self, node, bound):
+        """Does this annotation's target keep a type once the annotation goes?
+
+        Mirrors type_binder.py clause for clause. Narrowing lives in
+        type_state.local_types, which is per scope, so it only ever reaches a
+        read in the scope that assigned it.
+        """
+        if type(node) is not ast.AnnAssign or node.value is None:
+            # a parameter, a return, a bare `x: int64` -- nothing to infer from
+            return False
+        if type(node.target) is not ast.Name:
+            # visitAttribute resolves through the class slot via bind_attr,
+            # so an attribute never narrows from its initializer
+            return False
+        if self.owners.get(node) is None:
+            # a module level global read inside a function uses the
+            # declaration, never the narrowed local type
+            return False
+        if not self.narrows(bound.types.get(node.value), bound):
+            # maybe_set_local_type falls back to the declared type when the
+            # value is DYNAMIC, and the declaration is what erasure removed
+            return False
+        # can_be_narrowed is False on CType: a primitive cannot sit in a
+        # dynamic slot at all, so it has to box rather than recover
+        return (not self.machine(bound.types.get(node.value))
+                and not self.machine(bound.types.get(node.target)))
+
+    def narrows(self, value, bound):
+        """A value narrows the name it is assigned to unless it is dynamic.
+
+        `maybe_set_local_type` falls back to the declared type when the value
+        is DYNAMIC, and the declared type is what erasure just removed.
+        """
+        if value is None or value is bound.dynamic:
+            return False
+        try:
+            return value.klass.can_be_narrowed
+        except Exception:
+            return True
+
     def machine(self, value):
         """An unboxed type, which an erased slot genuinely cannot hold."""
         try:
@@ -543,6 +593,12 @@ class Graph(ast.NodeVisitor):
         """
         if any(feed in dead for feed in feeds):
             return bound.dynamic
+        if node in dead and self.machine(bound.type_contexts.get(node)) and all(
+                (self.cell(feed, TYPE), self.cell(node, CONTEXT))
+                in self.sibling_edges for feed in feeds):
+            # every demand here comes from a sibling operand, and a dynamic
+            # value cannot be coerced up to meet one -- the other side boxes
+            return bound.dynamic
         return bound.type_contexts.get(node)
 
     def settle(self, bound, erased=()):
@@ -556,20 +612,8 @@ class Graph(ast.NodeVisitor):
         # whatever `v` yields, because that is what cinderx infers once the
         # annotation is gone. Only an annotation with nothing to infer from --
         # a parameter, a return, a bare `x: int64` -- is dynamic outright.
-        # Recovery is only valid when the initializer actually reproduces the
-        # annotation's type. `out: Variable = self.output()` does. But
-        # `taskTab: List[Task] = [None] * N` infers as a plain list, so the
-        # slot really does lose its type and everything reached through it
-        # has to know. A machine type never recovers: a primitive cannot sit
-        # in a dynamic slot at all.
-        recoverable = {
-            node for node in erased
-            if type(node) is ast.AnnAssign and node.value is not None
-            and not self.machine(bound.types.get(node.value))
-            and not self.machine(bound.types.get(node.target))
-            and bound.types.get(node.value) is bound.types.get(node.target)
-            and bound.types.get(node.target) is not None
-        }
+        recoverable = {node for node in erased
+                       if self.survives_erasure(node, bound)}
         seeds = set(erased) - recoverable
         dead = set(seeds)
         pending = True
