@@ -79,6 +79,8 @@ class Graph(ast.NodeVisitor):
         self.classes = {}
         self.functions = {}
         self.slots = {}
+        self.owning_class = {}
+        self.types = {}
         self._outgoing = None
         self.result_edges = set()
         self.sibling_edges = set()
@@ -111,6 +113,7 @@ class Graph(ast.NodeVisitor):
 
     def construct(self, bound):
         self.resolved = bound.reverse_outflow
+        self.types = bound.types
         self.index(bound.tree)
         roots = {*bound.outflow, *bound.inflow, *bound.components} - {None}
         for root in roots:
@@ -153,6 +156,9 @@ class Graph(ast.NodeVisitor):
                 return
             if type(node) is ast.ClassDef:
                 self.classes.setdefault(node.name, []).append(node)
+                for statement in node.body:
+                    if type(statement) in BINDING_STATEMENTS:
+                        self.owning_class[statement] = node
                 for statement in node.body:
                     # A class body binds attributes, not names in the scope
                     # that encloses the class.
@@ -203,6 +209,40 @@ class Graph(ast.NodeVisitor):
             return self.called_name(func.value)
         return None
 
+    def receiver_class(self, func):
+        """The class a method call is made on, from the receiver's type.
+
+        Two unrelated classes can define the same method name -- held_karp has
+        `get`, `set` and `offset` in both HeldKarpDP and DistanceMatrix -- and
+        matching on the name alone gave the argument parameter edges from
+        both, so an erased annotation in one poisoned calls to the other.
+        """
+        if type(func) is not ast.Attribute:
+            return None
+        value = self.types.get(func.value)
+        try:
+            name = value.klass.type_name.qualname
+        except Exception:
+            return None
+        return name.rsplit(".", 1)[-1] if isinstance(name, str) else None
+
+    def related(self, klass, target):
+        """Is `target` the receiver's class, or a subclass of it?"""
+        if klass.name == target:
+            return True
+        seen, pending = set(), [klass]
+        while pending:
+            current = pending.pop()
+            for base in current.bases:
+                name = base.id if type(base) is ast.Name else None
+                if name == target:
+                    return True
+                for parent in self.classes.get(name, ()):
+                    if parent not in seen:
+                        seen.add(parent)
+                        pending.append(parent)
+        return False
+
     def callees(self, func):
         """Every definition a call could reach, paired with whether the first
         parameter is the instance.
@@ -220,8 +260,15 @@ class Graph(ast.NodeVisitor):
                     found.append((statement, True))
         if found:
             return found
-        return [(match, type(func) is ast.Attribute)
-                for match in self.functions.get(name, ())]
+        matches = self.functions.get(name, ())
+        receiver = self.receiver_class(func)
+        if receiver is not None and len(matches) > 1:
+            owned = [m for m in matches
+                     for k in (self.owning_class.get(m),) if k is not None
+                     and self.related(k, receiver)]
+            if owned:
+                matches = owned
+        return [(match, type(func) is ast.Attribute) for match in matches]
 
     def parameters(self, target, skip_self):
         params = self.parameters_of(target)
@@ -343,6 +390,11 @@ class Graph(ast.NodeVisitor):
     def visit_Call(self, node):
         self.generic_visit(node)
         self.link(node.func, node)  # valid_links #17
+        for argument in node.args:
+            # A call whose callee lost its type is a dynamic call, and a
+            # dynamic call takes objects: the arguments have to box whatever
+            # the surviving parameter annotations still ask for.
+            self.link(node.func, argument, CONTEXT)  # valid_links #66
         if self.called_name(node.func) in CINDER_CONVERSIONS:
             for argument in node.args:
                 self.link(argument, node)  # valid_links #20

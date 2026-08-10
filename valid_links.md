@@ -75,3 +75,4 @@ Numbered so the graph builder can cite them.
 63. edge from the type of both arms of `a if c else b` to the type of the whole expression, because the result is one of the arms
 64. edge from the type of `o.a` or `c[i]` to the type context of `v` in `o.a = v` and `c[i] = v`, because the slot has a declared type of its own and demands the value -- unlike `x = v`, where the plain name takes its type from the value instead
 65. edge from the type of `v` to the type of the declaration in `x: T = v`, because cinderx narrows a declaration to its initializer whether or not the annotation is present -- so erasing `T` does not make `x` dynamic, it makes `x` whatever `v` yields
+66. edge from the type of `f` to the type context of every argument in `f(a)`, because a callee that lost its type makes the whole call dynamic and a dynamic call takes objects, so the arguments must box whatever the surviving parameter annotations still ask for
