@@ -9,6 +9,8 @@ Each link below cites the item it implements in valid_links.md.
 """
 import ast
 from dataclasses import dataclass
+
+from get_ast_data import is_primative
 from types import SimpleNamespace
 
 TYPE = "type"
@@ -264,6 +266,11 @@ class Graph(ast.NodeVisitor):
         self.generic_visit(node)
         if node.value is not None:
             self.link(node, node.value, CONTEXT)  # valid_links #5
+            # cinderx narrows a declaration to its initializer whether or not
+            # the annotation is there, so the value is an ordinary source of
+            # the declaration's type rather than something the annotation
+            # overrides. valid_links #65
+            self.link(node.value, node)
 
     def visit_AugAssign(self, node):
         self.generic_visit(node)
@@ -489,6 +496,13 @@ class Graph(ast.NodeVisitor):
                 table.setdefault(node, []).append(edge.source[0])
         return self._sources
 
+    def machine(self, value):
+        """An unboxed type, which an erased slot genuinely cannot hold."""
+        try:
+            return value is not None and is_primative(value)
+        except Exception:
+            return False
+
     def decide_type(self, node, feeds, dead, bound):
         """What this expression yields, given everything feeding it."""
         if self.called_name(getattr(node, "func", None)) in FIXED_RESULT:
@@ -538,7 +552,26 @@ class Graph(ast.NodeVisitor):
         # operands -- so restricting this to edge targets meant its rule never
         # ran and it kept a cbool it no longer had.
         decided_nodes = list(bound.types)
-        dead = set(erased)
+        # An erased annotation is not automatically dynamic. `x: T = v` keeps
+        # whatever `v` yields, because that is what cinderx infers once the
+        # annotation is gone. Only an annotation with nothing to infer from --
+        # a parameter, a return, a bare `x: int64` -- is dynamic outright.
+        # Recovery is only valid when the initializer actually reproduces the
+        # annotation's type. `out: Variable = self.output()` does. But
+        # `taskTab: List[Task] = [None] * N` infers as a plain list, so the
+        # slot really does lose its type and everything reached through it
+        # has to know. A machine type never recovers: a primitive cannot sit
+        # in a dynamic slot at all.
+        recoverable = {
+            node for node in erased
+            if type(node) is ast.AnnAssign and node.value is not None
+            and not self.machine(bound.types.get(node.value))
+            and not self.machine(bound.types.get(node.target))
+            and bound.types.get(node.value) is bound.types.get(node.target)
+            and bound.types.get(node.target) is not None
+        }
+        seeds = set(erased) - recoverable
+        dead = set(seeds)
         pending = True
         while pending:
             pending = False
@@ -553,17 +586,19 @@ class Graph(ast.NodeVisitor):
         types = {node: (bound.dynamic if node in dead else value)
                  for node, value in bound.types.items()}
         for node in decided_nodes:
-            if node not in erased:
+            if node not in dead:
                 decided = self.decide_type(node, by_type.get(node, ()), dead,
                                            bound)
                 if decided is not None:
                     types[node] = decided
 
         contexts = dict(bound.type_contexts)
-        for node in erased:
+        # only the erased annotations themselves lose their demand; a node
+        # whose type went dynamic still has whatever its consumers ask of it
+        for node in seeds:
             contexts[node] = bound.dynamic
         for node, feeds in by_context.items():
-            if node in contexts and node not in erased:
+            if node in contexts and node not in seeds:
                 contexts[node] = self.decide_context(node, feeds, dead, bound)
         return SimpleNamespace(types=types, contexts=contexts)
 

@@ -74,3 +74,4 @@ Numbered so the graph builder can cite them.
 62. edge from the type of every arm of `a and b` to the type of the whole expression, because the result is one of the arms
 63. edge from the type of both arms of `a if c else b` to the type of the whole expression, because the result is one of the arms
 64. edge from the type of `o.a` or `c[i]` to the type context of `v` in `o.a = v` and `c[i] = v`, because the slot has a declared type of its own and demands the value -- unlike `x = v`, where the plain name takes its type from the value instead
+65. edge from the type of `v` to the type of the declaration in `x: T = v`, because cinderx narrows a declaration to its initializer whether or not the annotation is present -- so erasing `T` does not make `x` dynamic, it makes `x` whatever `v` yields
