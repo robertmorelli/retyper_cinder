@@ -127,7 +127,13 @@ class Graph(ast.NodeVisitor):
         self.resolved = bound.reverse_outflow
         self.types = bound.types
         self.index(bound.tree)
-        roots = {*bound.outflow, *bound.inflow, *bound.components} - {None}
+        # The annotations join the linked nodes as roots. A procedure is in no
+        # flow -- nothing returns a value from it, nothing resolves a call to
+        # it -- so its `-> None` was the one annotation no mask could reach.
+        # Having no dependents does not make an annotation unerasable, it makes
+        # it trivially gate-neutral, and it partitions into a group of its own.
+        roots = ({*bound.outflow, *bound.inflow, *bound.components,
+                  *bound.annotation_roots} - {None})
         for root in roots:
             self.groups.find(root)
             for neighbor in filter(None, bound.components.get(root, ())):

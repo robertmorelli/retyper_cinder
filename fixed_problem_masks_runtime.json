@@ -1,11 +1,11 @@
 {
   "deltablue/advanced": {
     "10737716259": {
-      "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 230)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpgrwt2lcs/bench_module.py', 36, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": false,
-      "status": "detype_failure"
+      "known": true,
+      "status": "runtime_failure"
     },
     "1118047616": {
       "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
@@ -13,6 +13,13 @@
       "kind": "fuzz",
       "known": true,
       "status": "detype_failure"
+    },
+    "11563296271": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9lci0wdf/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
     },
     "13941207807": {
       "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
@@ -22,11 +29,18 @@
       "status": "detype_failure"
     },
     "15135586542": {
-      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmppo7yehj_/bench_module.py', 40, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "runtime_failure"
+    },
+    "16384": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpt_mx_m2d/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "runtime_failure"
     },
     "17041395677": {
       "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 86)",
@@ -64,11 +78,11 @@
       "status": "detype_failure"
     },
     "2164528329": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpc9dwam8f/bench_module.py', 40, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": false,
-      "status": "detype_failure"
+      "known": true,
+      "status": "runtime_failure"
     },
     "23155703874": {
       "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
@@ -98,6 +112,13 @@
       "known": false,
       "status": "detype_failure"
     },
+    "268987657": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7a3e74yh/bench_module.py', 40, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
+    },
     "27224101220": {
       "error": "TypedSyntaxError: type mismatch: int received for positional arg 'mark', expected int64 (, line 342)",
       "granularity": "benchmark",
@@ -112,12 +133,19 @@
       "known": false,
       "status": "detype_failure"
     },
+    "32": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprj5xwwmj/bench_module.py', 40, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "runtime_failure"
+    },
     "32136197967": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 315)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp94cf96hb/bench_module.py', 32, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": false,
-      "status": "detype_failure"
+      "known": true,
+      "status": "runtime_failure"
     },
     "32201768959": {
       "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
@@ -218,14 +246,35 @@
       "status": "detype_failure"
     },
     "69635": {
-      "error": "TypedSyntaxError: can't compare int64 to dynamic (, line 41)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp147qxo0s/bench_module.py', 40, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": false,
-      "status": "detype_failure"
+      "known": true,
+      "status": "runtime_failure"
+    },
+    "75513858": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmke88lp4/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
     }
   },
   "held_karp/advanced": {
+    "25079775": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpddpvmx2n/bench_module.py', 166, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
+    },
+    "38446709": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxr3vx4v5/bench_module.py', 166, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
+    },
     "43381921": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 93)",
       "granularity": "benchmark",
@@ -240,12 +289,26 @@
       "known": false,
       "status": "detype_failure"
     },
+    "4460555": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpb2eqs8dd/bench_module.py', 166, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
+    },
     "55570421": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 93)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": false,
       "status": "detype_failure"
+    },
+    "58629885": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpbz3l_5m6/bench_module.py', 166, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
     },
     "66584061": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 93)",
@@ -254,12 +317,26 @@
       "known": false,
       "status": "detype_failure"
     },
+    "66928491": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpiuclr3oc/bench_module.py', 166, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
+    },
     "66973693": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 93)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": false,
       "status": "detype_failure"
+    },
+    "67092479": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpexmpfbxb/bench_module.py', 166, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "runtime_failure"
     },
     "67108861": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 93)",
@@ -569,14 +646,21 @@
       "status": "detype_failure"
     },
     "1626353": {
-      "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 172)",
+      "error": "RuntimeError: Unsupported box type: dynamic",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": false,
-      "status": "detype_failure"
+      "known": true,
+      "status": "runtime_failure"
     },
     "1827583": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpm7vkof4a/bench_module.py', 302, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "runtime_failure"
+    },
+    "1940927": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
@@ -617,6 +701,13 @@
       "known": false,
       "status": "detype_failure"
     },
+    "2096639": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "runtime_failure"
+    },
     "2096893": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8sfjoe51/bench_module.py', 302, 0)",
       "granularity": "benchmark",
@@ -639,11 +730,11 @@
       "status": "detype_failure"
     },
     "524333": {
-      "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 323)",
+      "error": "RuntimeError: Unsupported box type: dynamic",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": false,
-      "status": "detype_failure"
+      "known": true,
+      "status": "runtime_failure"
     },
     "584734": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7ktqs6x1/bench_module.py', 302, 0)",

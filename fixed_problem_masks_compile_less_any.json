@@ -1,0 +1,854 @@
+{
+  "call_method/advanced": {
+    "10": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7gfi271b/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "12": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1_925coe/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "15": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8e91eyse/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "18": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpy1i5x8f1/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmplfrbijfa/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "20": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxwwsz87j/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "23": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpigjjmdga/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "3": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmppsujfs6h/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpg3slf75a/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "36": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpx294ejjm/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "4": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7b5o815v/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "40": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpf95int9o/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "43": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp94cso5_s/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "45": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp0kmyv_1x/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "46": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5u1vr86l/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "5": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpeo2cbzfz/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "53": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpgu90ck2l/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "54": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp6267xiqm/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "55": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmptzh0gsul/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "59": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmps0dt8ebm/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "6": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpc3gglrfe/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "8": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpf6qo5ar6/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "9": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpn5de7_lf/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    }
+  },
+  "call_method_slots/advanced": {
+    "10": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpiybkw2ab/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "15": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpn3wcpdze/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpeyokd6r1/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "20": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpky22_obf/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "3": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqpki2ldl/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpgyuemguf/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "36": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdo8qtble/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "39": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp0uavrsdo/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "4": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdigioame/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "40": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2gt9y8yz/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "43": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpa6jrnsyx/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "45": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpt70psuw5/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "47": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpgb6fowpj/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "54": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9lk4mco0/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "59": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnxbnp2r0/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "8": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3qag3jvw/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "9": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjnr6csj1/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    }
+  },
+  "deltablue/advanced": {
+    "10737716259": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnl1jro0z/bench_module.py', 36, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "11563296271": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpw33vusok/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "15135586542": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpn5nxjqtq/bench_module.py', 40, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "16384": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpku1y1jmr/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2164528329": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpm__e935x/bench_module.py', 40, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "268987657": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8uvfjjnq/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprg4lr0fr/bench_module.py', 39, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32136197967": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpkazzkox4/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "69635": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdfehgg2r/bench_module.py', 39, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "75513858": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7hpj6g05/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    }
+  },
+  "held_karp/advanced": {
+    "1048576": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpui09j_a7/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "1583264": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp25r9j33j/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "25079775": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmputu0pnmj/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "26553801": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpi86cedxk/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "33422847": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpla64kb6p/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "37357511": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpumccvfrp/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "38446709": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpc64bjo57/bench_module.py', 165, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "43381921": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpk8dc219s/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "43568042": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmormgka8/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "43834389": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3vhpg7bu/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "4460555": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpbz_4xy3f/bench_module.py', 165, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "51881313": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8x_flnsn/bench_module.py', 139, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "5284384": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpcjxg6aev/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "5585394": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpgyzejelg/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "58629885": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpuswohcz3/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "60620775": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqvhhso_i/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66584061": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpkolft913/bench_module.py', 139, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66584575": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9g2mvwmi/bench_module.py', 139, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66780979": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpcbwqiywy/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66928491": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpk34ihual/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66940367": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpkuyofne8/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66973439": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7hygallr/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66973693": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqk5ro0k7/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66976188": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_0tur_y3/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66977791": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp0snueoea/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "67043327": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp6by6of_w/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "67092479": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpi41l7dj6/bench_module.py', 165, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "67108862": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: int64 cannot be assigned to dynamic', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_z0t8_78/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    }
+  },
+  "pystone/advanced": {
+    "1": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwktunyoq/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "11247": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpamdqaifo/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "16091": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpge_t3_im/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "16383": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprblfwpll/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "16409": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpfo9enq91/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "16453": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2mny8eal/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "17": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpbaqser_k/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2049": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmptyawfflu/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2083": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpijy7jfpb/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "20947": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp79ltkw07/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "21471": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp79edo4x6/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "24307": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1uul6t54/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2433": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp75ypgwax/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "24575": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpcjvayzkm/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "257": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxp51hi24/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "26827": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpc9tb_ik6/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "28671": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpv3wk5abq/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "29773": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpr8jijmgq/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "30719": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpw7t7ljli/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "31655": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqx4ktvmz/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "31743": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4wfwdovi/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32171": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpykm0n9f5/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32255": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwx3ehqpw/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32511": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp6ruqa0y2/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32639": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjb62h5va/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32647": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9p3fg74n/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32703": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp6dj9ozzq/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32735": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8np1mi95/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32751": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpaunwk81p/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32759": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpc16o926o/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32763": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9f6luarc/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32765": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp56nse_1g/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32767": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4y157qj6/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "3383": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmptbtq1ct_/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "4583": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprnhd3btf/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "6177": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp32u8a61f/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "6657": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpaty7x_yn/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "7601": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: bench_module.Record cannot be assigned to None', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpi3xw707j/bench_module.py', 97, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    }
+  },
+  "richards/advanced": {
+    "1626353": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "1940927": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2096639": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "524333": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    }
+  }
+}

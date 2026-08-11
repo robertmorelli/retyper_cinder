@@ -52,9 +52,15 @@ class ConstrWrapper(Wrapper):
         self.node, self.T = node, T
         self.next_root = copy_location(Call(_type_expr(readable_name(T)), [node], []), node)
 
+DONT_CAST = ('object', 'int')
 # node -> cast(T,node)
 class CastWrapper(Wrapper):
     def __init__(self, T, node):
+        if readable_name(T) in DONT_CAST:
+            # `object` is how cinderx spells DYNAMIC, so this cast asks for
+            # nothing: leave the value alone. T stays None, which keeps
+            # _record from filing a coercion that is not there.
+            return super().__init__(node)
         self.node, self.T = node, T
         self.next_root = copy_location(
             Call(Name("cast", Load()), [_type_expr(readable_name(T)), node], []), node)

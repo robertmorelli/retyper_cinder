@@ -1,0 +1,922 @@
+{
+  "call_method/advanced": {
+    "10": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpg17n871y/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "11": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpyki3zocu/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "12": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp46ef8yv3/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "13": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp94iszmeu/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "14": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4pzwhh5v/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "15": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdlj41iuc/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "18": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9di1jvtd/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "19": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmplr9do3e3/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "2": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmcm9tt4d/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "20": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsvxu6iw_/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "21": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjw3za84p/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "22": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpg6f1li_s/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "23": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpu9as932p/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "26": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpgpff5dfi/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "27": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpyvhki8wt/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "3": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp0pk1sz1e/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "34": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpbdyn35mg/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "35": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp0spjjne_/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "36": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpec89hbgp/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "37": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpbh7rbt3s/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "38": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwc_3r8cf/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "39": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpfbbyw22n/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "4": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmphv_pzifw/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "40": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpykqsvnc6/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "41": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7o81ztil/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "42": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpd03uwk5b/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "43": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpgsmzz5wf/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "44": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqpj4wqbs/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "45": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpydf03kp1/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "46": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8bx6vkyl/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "47": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpftitc_kl/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "5": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprlbmsa9t/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "50": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprzj2zdc3/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "51": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpg4eh3i8w/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "52": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnl_0a6ok/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "53": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpf2ob8gu9/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "54": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpc2m82qu9/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "55": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpiqunnjq6/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "58": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp89v6_l92/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "59": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmplb_t4no4/bench_module.py', 11, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "6": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpzcax7_fs/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "7": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqyjx2scp/bench_module.py', 33, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "8": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5ajlx9au/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "9": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3vaadfhs/bench_module.py', 55, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    }
+  },
+  "call_method_slots/advanced": {
+    "10": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5ncytx6z/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "11": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmps5r83y3u/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "12": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1shkub0e/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "13": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmps2kasx90/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "14": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2nxwky1h/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "15": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxa4q0skm/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "18": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmptri8xjfz/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "19": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpw8lcigax/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "2": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpy3ibscxc/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "20": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxe7dli49/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "21": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpzr8q0d5t/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "22": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpglpbjyvi/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "23": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp03t0ux_x/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "26": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpo8_73aii/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "27": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5kmlyeux/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "3": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp29czliar/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "34": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpk1arf5dd/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "35": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpep1h07ys/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "36": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9_7mc51i/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "37": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpvyaqet9w/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "38": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7olg64k7/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "39": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2sm4lhev/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "4": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4430gamj/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "40": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp69nsr0do/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "41": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpp1reu_57/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "42": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpzqh49g0s/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "43": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp40y4ssmd/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "44": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpp64vnhxv/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "45": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpfuqrjam5/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "46": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpl3gd3go6/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "47": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpokwbl2yw/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "5": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmptz0u5vvs/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "50": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsc7jkl4s/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "51": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpotcth3ry/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "52": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_xoh_1n7/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "53": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpry0yqdar/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "54": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpg4ox4tyk/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "55": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_jch_qke/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "58": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpg322086o/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "59": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmps5vuwmx6/bench_module.py', 23, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "6": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmc7na38r/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "7": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqu69__29/bench_module.py', 45, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "8": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsr1qzdwl/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "9": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: dynamic received for positional arg 'a', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpisxm_2pc/bench_module.py', 67, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    }
+  },
+  "deltablue/advanced": {
+    "10737716259": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmdvoa6hy/bench_module.py', 36, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "11563296271": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpthgab3mz/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "15135586542": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjm3aq65h/bench_module.py', 40, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "16384": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxe7nnu7t/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "2164528329": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpci6qjho3/bench_module.py', 40, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "268987657": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdbs327ly/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "32": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5lg4obje/bench_module.py', 39, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "32136197967": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprgza7oip/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "69635": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4_5e3mx5/bench_module.py', 39, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "75513858": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't compare int64 to dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwonorwfy/bench_module.py', 32, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    }
+  },
+  "held_karp/advanced": {
+    "1048576": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpf51fn_za/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "1583264": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpizmggjfb/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "25079775": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjmstklf6/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "26553801": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpry9myrbh/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "33422847": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2sxomynb/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "37357511": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpi7lbv1uf/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "38446709": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpe2c5eya6/bench_module.py', 165, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "43381921": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmphk0v9zxo/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "43568042": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmphu_u6bpn/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "43834389": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3bacnchw/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "4460555": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3u2a1gfg/bench_module.py', 165, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "51881313": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwqk7unb0/bench_module.py', 139, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "5284384": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwdl8zuiq/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "5585394": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_invp3of/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "58629885": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp484r301v/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "60620775": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7vhg9l8y/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66584061": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp71ft_ear/bench_module.py', 139, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66584575": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9faiuh0w/bench_module.py', 139, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66780979": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnly29qiw/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66928491": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpylp7l_87/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66940367": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpad645i24/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66973439": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmps7nqv_39/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66973693": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnryoh40n/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66976188": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsp2iakdn/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "66977791": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[0] received for positional arg 'row', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsmvt1poo/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "67043327": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: Literal[0] cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpw4923lv0/bench_module.py', 134, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "67092479": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: Literal[2] received for positional arg 'subset_size', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpx6y0k86s/bench_module.py', 165, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "67108862": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: int64 cannot be assigned to dynamic', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpkayh7a49/bench_module.py', 137, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    }
+  },
+  "richards/advanced": {
+    "1626353": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "1940927": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "2096639": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "524333": {
+      "error": "RuntimeError: Unsupported box type: dynamic",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    }
+  }
+}

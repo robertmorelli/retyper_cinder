@@ -1,4 +1,4 @@
-from ast import Constant, parse, Attribute, Subscript, Name, Starred, List, Tuple, AnnAssign, arg, FunctionDef, AsyncFunctionDef
+from ast import Constant, parse, Attribute, Subscript, Name, Starred, List, Tuple, AnnAssign, arg, FunctionDef, AsyncFunctionDef, walk
 from sys import path
 from binding_data import BoundData
 
@@ -60,6 +60,17 @@ def get_ast_data(proto_tree):
         {node for node in {*outflow, *inflow, *components} if node is not None},
         key=lambda node: (node.lineno, node.col_offset),
     )
+    # Only annotations some link mentions. A procedure -- nothing returns a
+    # value from it, nothing resolves a call to it -- reaches no link, so its
+    # `-> None` is the one annotation no mask can erase.
+    #
+    # Widening this to every annotation in the tree is not the fix, though it
+    # looks like one: six held_karp masks then fail with `Literal[2] received
+    # for positional arg`, because an unlinked node is exactly the node whose
+    # erasure the graph cannot propagate, so the coercion pass never hears that
+    # the value went dynamic and never repairs it. Reaching them means giving
+    # them real edges first -- linking a resolved call to its callee whatever
+    # the callee returns -- not declaring them roots without any.
     anno_roots = [
         root for root in roots
         if (isinstance(root, (AnnAssign, arg)) and root.annotation is not None)

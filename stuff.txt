@@ -1,0 +1,5 @@
+type Edge:
+| property(int index, Edge e) # look up a field in an object/struct
+| parameter(int index, Edge e) # look up a generic param so Optional[T] -> parameter(0, same()) -> T
+| same()
+

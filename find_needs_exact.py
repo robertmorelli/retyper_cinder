@@ -26,6 +26,17 @@ class InlineCallArgFinder(NodeTransformer):
         return node
 
 class IteratorFinder(NodeTransformer):
+    """A list comprehension's element has to be spelled exactly.
+
+    This looks removable and is not. In isolation the cast it forces changes
+    no outcome -- CheckedList checks every element as it is built -- and on
+    wrong data it turns a clean `bad value 'int' for chklist[C]` into a
+    segfault. Taking it out passes those probes and then fails six held_karp
+    masks with `Literal[2] received for positional arg`, because the exact
+    spelling is also what keeps `_choose` off the `valid_pair` branch. The
+    comprehension casts it produces are the price of that.
+    """
+
     def __init__(self):
         self.needs_exact = set()
 
@@ -33,6 +44,7 @@ class IteratorFinder(NodeTransformer):
         self.needs_exact |= set((node.elt,))
         self.generic_visit(node)
         return node
+
 
 def _is_int(t):
     """An int, exact or not.
@@ -47,17 +59,21 @@ def _is_int(t):
 def find_needs_exact(tree, reverse_outflow, types=None):
     """Positions whose value has to be spelled exactly, `box(T(x))` not `box(x)`.
 
-    Never for an int. Exactness there protects nothing we could find:
-    CheckedList[int] and CheckedDict[int, int] both take a bool -- an int
-    subclass -- without complaint, and every slot we tried accepts an inexact
-    int, including the CheckedList index that had us emitting `cast(int, ...)`.
-    A user-defined class is a different matter and keeps its exactness.
+    Never for an int: CheckedList[int] and CheckedDict[int, int] both take a
+    bool -- an int subclass -- without complaint, and every slot we tried
+    accepts an inexact int.
+
+    That is the only safe trim. Exactness looks equally meaningless where the
+    demand is an object, but `_choose` also reads this set to decide whether to
+    try `valid_pair` at all, so waving it through there drops coercions the
+    position still needs. Moving the question into `_choose` and skipping the
+    list comprehensions were both tried, and both cost real failures.
     """
     inline_finder = InlineCallArgFinder(reverse_outflow)
-    iter_finder = IteratorFinder()
+    # iter_finder = IteratorFinder()
     inline_finder.visit(tree)
-    iter_finder.visit(tree)
-    found = inline_finder.needs_exact | iter_finder.needs_exact
+    # iter_finder.visit(tree)
+    found = inline_finder.needs_exact # | iter_finder.needs_exact
     if types is None:
         return found
     return {node for node in found if not _is_int(types.get(node))}
