@@ -10,6 +10,7 @@ Each link below cites the item it implements in valid_links.md.
 import ast
 from dataclasses import dataclass
 
+from anno_remover import CHECKED, _checked_ctor
 from get_ast_data import is_primative
 from types import SimpleNamespace
 
@@ -36,6 +37,12 @@ FIXED_RESULT = {
     "int8", "int16", "int32", "int64",
     "uint8", "uint16", "uint32", "uint64",
 }
+
+# Container methods whose result comes out of the receiver, and whose
+# arguments go into it. The graph draws these itself instead of leaning on the
+# binder's precomputed table. valid_links #72
+CONTAINER_READS = {"pop", "get", "copy", "index", "count"}
+CONTAINER_WRITES = {"append", "add", "insert", "extend", "remove", "discard"}
 
 BINDING_STATEMENTS = (ast.FunctionDef, ast.AsyncFunctionDef)
 
@@ -365,13 +372,32 @@ class Graph(ast.NodeVisitor):
             # overrides. valid_links #65
             self.link(node.value, node)
 
+    def annotated_target(self, target):
+        """Does this target have a declaration that fixes its type?"""
+        # reverse_outflow has no entry for a Store-context name, so this uses
+        # the binding index the graph builds itself.
+        declaration = self.resolved.get(target)
+        if declaration is None and type(target) is ast.Name:
+            declaration = self.annotated(self.function, target.id)
+        if declaration is None:
+            return False
+        return (getattr(declaration, "annotation", None) is not None
+                or getattr(declaration, "returns", None) is not None)
+
     def visit_AugAssign(self, node):
         self.generic_visit(node)
         self.link(node.target, node.value, CONTEXT)  # valid_links #12
         # `x += v` is `x = x + v`: the implied result flows back into x, so the
         # value feeds the target's type the way #59 feeds a binop's result and
         # #4 feeds an assignment target. valid_links #67
-        self.result_link(node.value, node.target)
+        #
+        # Only when the target has no annotation of its own. `e: double = 0.0`
+        # stays a double whatever is assigned into it, and letting a dynamic
+        # value drag it down stopped the coercion the double slot still needs.
+        # If that annotation is erased the target goes dynamic through the
+        # ordinary declaration edge instead.
+        if not self.annotated_target(node.target):
+            self.result_link(node.value, node.target)
 
     def visit_NamedExpr(self, node):
         self.generic_visit(node)
@@ -401,17 +427,22 @@ class Graph(ast.NodeVisitor):
             return [part for part in (node.lower, node.upper, node.step) if part]
         return [node]
 
-    def siblings(self, operands):
+    def siblings(self, operands, tolerant=True):
+        """Operands constrain each other.
+
+        `tolerant` was tried as a way to exempt arithmetic from the clause in
+        decide_context, on the theory that a comparison can let both sides go
+        dynamic while `dynamic / 2.0` must coerce one. It clears nbody's three
+        and costs 81 across deltablue, held_karp and richards -- the clause is
+        load bearing for arithmetic operands too. Left in place, always true.
+        """
         for left in operands:
             for right in operands:
                 if left is not right:
                     self.link(left, right, CONTEXT)
-                    # recorded so decide_context can tell an operand's demand
-                    # from a declaration's: a declaration rescues a dynamic
-                    # value by coercing it, an operand cannot and the other
-                    # side has to box instead
-                    self.sibling_edges.add(
-                        (self.cell(left, TYPE), self.cell(right, CONTEXT)))
+                    if tolerant:
+                        self.sibling_edges.add(
+                            (self.cell(left, TYPE), self.cell(right, CONTEXT)))
 
     def visit_BinOp(self, node):
         self.generic_visit(node)
@@ -467,6 +498,16 @@ class Graph(ast.NodeVisitor):
             for argument in node.args:
                 self.link(argument, node)  # valid_links #20
             return
+        name = self.called_name(node.func)
+        if type(node.func) is ast.Attribute:
+            if name in CONTAINER_READS:
+                # what comes out of a container is only as typed as the
+                # container itself
+                self.result_link(node.func.value, node)  # valid_links #72
+            elif name in CONTAINER_WRITES:
+                # what goes in has to satisfy the container's element type
+                for argument in node.args:
+                    self.link(node.func.value, argument, CONTEXT)  # #72
         # An unresolved call is a builtin as far as we know, and builtins take
         # boxed objects, so the arguments carry no demand.
         for target, skip_self in self.callees(node.func):
@@ -650,6 +691,12 @@ class Graph(ast.NodeVisitor):
             # a module level global read inside a function uses the
             # declaration, never the narrowed local type
             return False
+        if _checked_ctor(node.annotation, node.value) is not None:
+            # anno_remover rewrites `todo: CheckedList[C] = [...]` into an
+            # explicit CheckedList[C]([...]) constructor, so the container
+            # keeps its type through erasure and everything read out of it
+            # stays typed. valid_links #71
+            return True
         if not self.narrows(bound.types.get(node.value), bound):
             # maybe_set_local_type falls back to the declared type when the
             # value is DYNAMIC, and the declaration is what erasure removed
@@ -684,13 +731,11 @@ class Graph(ast.NodeVisitor):
         if self.called_name(getattr(node, "func", None)) in FIXED_RESULT:
             # an intrinsic gives its own type whatever the argument became
             return bound.types.get(node)
-        if type(node) is ast.Constant and self.machine(bound.types.get(node)):
-            # `2.0` is only a double because something demanded one. Once every
-            # demand on it has died it is an ordinary float literal, and saying
-            # otherwise leaves `dynamic / double` at the divide. valid_links #70
-            demands = self.sources()[1].get(node, ())
-            if demands and all(feed in dead for feed in demands):
-                return bound.dynamic
+        # No rule for a primitive constant here. Marking `2.0` dynamic when
+        # its demands die changes nothing in the output -- the literal is
+        # still written `2.0` and cinderx types it a double on the rebind --
+        # while silencing the sibling demand that would have coerced the other
+        # operand. valid_links #70 struck out.
         if type(node) is ast.BoolOp:
             # the result is one of the arms, so it is their join: dynamic as
             # soon as any arm is
@@ -740,11 +785,15 @@ class Graph(ast.NodeVisitor):
             # cbool(). Scoped to conditions on purpose -- the unscoped version
             # of this rule cost 143. valid_links #35 and #36
             return bound.dynamic
-        if node in dead and self.machine(bound.type_contexts.get(node)) and all(
-                (self.cell(feed, TYPE), self.cell(node, CONTEXT))
-                in self.sibling_edges for feed in feeds):
+        if (node in dead and self.machine(bound.type_contexts.get(node))
+                and all((self.cell(feed, TYPE), self.cell(node, CONTEXT))
+                        in self.sibling_edges for feed in feeds)):
             # every demand here comes from a sibling operand, and a dynamic
-            # value cannot be coerced up to meet one -- the other side boxes
+            # value cannot be coerced up to meet one -- the other side boxes.
+            # Unless that sibling is a machine-typed literal: `2.0` is a
+            # double and cannot box, so
+            # dropping the demand leaves nobody able to bridge the two and
+            # `dynamic / 2.0` reaches cinderx unrepaired
             return bound.dynamic
         return bound.type_contexts.get(node)
 
@@ -759,8 +808,16 @@ class Graph(ast.NodeVisitor):
         # Array[int64] = create_array(...)` does not recover if create_array
         # lost its return annotation -- so the #65 edge has to be followed
         # rather than the decision made up front on the original types.
+        # A checked container rebuilt by anno_remover keeps its type whatever
+        # its literal contained, so it must not be dragged back down by the
+        # #65 edge from that literal. Everything else that recovers stays in
+        # the fixpoint, where a dead initializer can still kill it.
+        rebuilt = {node for node in erased
+                   if type(node) is ast.AnnAssign
+                   and _checked_ctor(node.annotation, node.value) is not None}
         decided_nodes = list(bound.types) + [
-            node for node in erased if self.survives_erasure(node, bound)]
+            node for node in erased
+            if node not in rebuilt and self.survives_erasure(node, bound)]
         # An erased annotation is not automatically dynamic. `x: T = v` keeps
         # whatever `v` yields, because that is what cinderx infers once the
         # annotation is gone. Only an annotation with nothing to infer from --

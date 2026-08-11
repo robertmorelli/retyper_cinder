@@ -81,9 +81,16 @@ def _narrows_optional(type, type_ctx):
 
 
 # TODO: figure out if this produces enough casts
-def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None):
+def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None, compared=False):
     if _narrows_optional(type, type_ctx):
         return CastWrapper(type_ctx, node)
+    if (dyn is not None and type_ctx is dyn and is_primative(type)
+            and is_const(node) and not compared):
+        # A machine-typed literal in a dynamic slot. `box(2.0)` is invalid --
+        # written bare the literal is already a float -- so the primitive has
+        # to be constructed first: `box(double(2.0))`. That is what the exact
+        # form of BoxWrapper emits.
+        return BoxWrapper(node, type, exact=True)
     if dyn is not None and type_ctx is dyn and is_primative(type) and not is_const(node):
         # a primitive does not fit a dynamic slot, whatever check_can_assign_from
         # says: cinder rejects `int64 cannot be assigned to dynamic` outright.
@@ -104,6 +111,8 @@ def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None):
     else:
         return CastWrapper(type_ctx, node)
 
-def pick_patch(node, type, type_ctx, valid_pair, needs_exact, types, ctxs, dyn):
-    return _record(_choose(node, type, type_ctx, valid_pair, needs_exact, dyn),
+def pick_patch(node, type, type_ctx, valid_pair, needs_exact, types, ctxs, dyn,
+               compared=False):
+    return _record(_choose(node, type, type_ctx, valid_pair, needs_exact, dyn,
+                           compared),
                    node, type, type_ctx, types, ctxs, dyn)

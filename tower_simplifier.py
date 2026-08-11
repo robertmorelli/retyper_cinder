@@ -1,5 +1,5 @@
 from sys import path
-from ast import Call, Name, NodeTransformer, unparse
+from ast import Call, Compare, Name, NodeTransformer, unparse, walk
 from patch_picker import pick_patch
 
 path.insert(0, "_cinderx/cinderx/PythonLib")
@@ -28,6 +28,14 @@ class TowerSimplifier(NodeTransformer):
         self.type_ctxs = type_ctxs
         self.needs_exact = needs_exact
         self.dyn = dyn
+
+    def index_comparisons(self, tree):
+        """Comparison operands must agree, so a literal there cannot box."""
+        self.compared = set()
+        for node in walk(tree):
+            if isinstance(node, Compare):
+                self.compared.add(node.left)
+                self.compared.update(node.comparators)
 
     def _narrowing_cast(self, node):
         if not (isinstance(node.func, Name) and node.func.id == "cast"
@@ -71,7 +79,8 @@ class TowerSimplifier(NodeTransformer):
             tc = self.type_ctxs.get(node)
             t = self.types.get(inner)
             node = pick_patch(inner, t, tc, self.valid_pair, self.needs_exact,
-                              self.types, self.type_ctxs, self.dyn).wrap()
+                              self.types, self.type_ctxs, self.dyn,
+                              node in self.compared).wrap()
             if self.graph is not None and self.types.get(node) is not None:
                 # the position now yields whatever the collapse left behind
                 self.graph.propagate(node, self.types.get(node), self.types,
@@ -81,6 +90,8 @@ class TowerSimplifier(NodeTransformer):
 
 def simplify_coercions(tree, constructors, valid_pair, types, type_ctxs,
                        needs_exact, dyn, graph=None):
-    TowerSimplifier(constructors, valid_pair, types, type_ctxs, needs_exact,
-                    dyn, graph).visit(tree)
+    simplifier = TowerSimplifier(constructors, valid_pair, types, type_ctxs,
+                                 needs_exact, dyn, graph)
+    simplifier.index_comparisons(tree)
+    simplifier.visit(tree)
     return tree
