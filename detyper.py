@@ -1,63 +1,56 @@
-from get_ast_data import get_ast_data
+"""Remove annotations from a Static Python module and keep it compiling.
+
+Returns an AST. Unparsing is the caller's business, and so is checking the
+result: this module transforms, it does not validate.
+
+There are three different notions of "the types" around this code and most
+confusion comes from mixing them up:
+
+  as written   `written.types` from the bind of the original source -- what
+               the fully annotated program means.
+  predicted    `predicted.types` -- what we believe the program means once a
+               mask of annotations is erased. The graph's answer, and the
+               only one of the three that can be wrong.
+  rebound      what cinderx makes of the text we emit. Ground truth, and no
+               longer computed here; a harness that wants it re-parses and
+               re-binds the unparsed result.
+
+Stage two used to rebind internally so the tower simplifier could work from
+ground truth. Measured across 830 masks, running it on the predicted tables
+instead reaches the same verdict on every one, so the round trip is gone and
+the check belongs to whoever wants it. A fresh Compiler brings a fresh
+DYNAMIC sentinel, so a caller that does rebind must not carry ours across --
+every `is dyn` test would silently be false.
+"""
+from ast import fix_missing_locations, parse
+
 from anno_remover import remove_annotations
-from simple_type_graph import build_binding_graph
-from patch_adder import add_patches
-from import_adder import add_imports
 from find_needs_exact import find_needs_exact
-
-from tower_simplifier import simplify_coercions
+from get_ast_data import get_ast_data
+from import_adder import add_imports
 from len_fixer import fix_len
-from ast import fix_missing_locations, unparse, parse
-from time import perf_counter_ns
+from patch_adder import add_patches
+from simple_type_graph import build_binding_graph
+from tower_simplifier import simplify_coercions
 
-def detype(source, do_stage_two=True, mask=0, bench=False, metrics=None):
-    metrics = metrics if metrics is not None else {}
-    started = perf_counter_ns()
-    data = get_ast_data(parse(source))
-    metrics["bind_ns"] = perf_counter_ns() - started
-    types, type_ctxs = data.types, data.type_contexts
-    source_ast, dyn = data.tree, data.dynamic
 
-    started = perf_counter_ns()
-    graph = build_binding_graph(data)
-    metrics["graph_build_ns"] = perf_counter_ns() - started
+def detype(source, mask=0, bench=False):
+    written = get_ast_data(parse(source))
+    graph = build_binding_graph(written)
     granularity = "benchmark" if bench else "annotation"
-    # Preserve the public API: mask=0 means full erasure; callers use the
-    # original source directly for the no-erasure case.
-    unit_count = len(graph.units(granularity))
-    effective_mask = mask or ((1 << unit_count) - 1)
-    all_items_to_remove = graph.nodes_for_mask(effective_mask, granularity)
-    started = perf_counter_ns()
-    settlement = graph.settle(data, all_items_to_remove)
-    types, type_ctxs = settlement.types, settlement.contexts
-    metrics["graph_settle_ns"] = perf_counter_ns() - started
-    started = perf_counter_ns()
-    fixed_ast = fix_len(source_ast, types, dyn)
-    detyped_ast = remove_annotations(fixed_ast, all_items_to_remove, types, type_ctxs)
-    needs_exact_patch = find_needs_exact(detyped_ast, data.reverse_outflow)
-    patched_ast = add_patches(detyped_ast, types, type_ctxs, dyn,
-                              data.valid_pair, needs_exact_patch, graph)
-    patched_ast_with_imports = add_imports(patched_ast)
-    patched_ast_with_imports = fix_missing_locations(patched_ast_with_imports)
-    metrics["rewrite_ns"] = perf_counter_ns() - started
+    # mask=0 means erase everything; callers wanting no erasure use the source
+    effective = mask or ((1 << len(graph.units(granularity))) - 1)
+    erased = graph.nodes_for_mask(effective, granularity)
+    predicted = graph.settle(written, erased)
 
-    if do_stage_two:
-        started = perf_counter_ns()
-        # stage two rebinds with a fresh Compiler, so its DYNAMIC is a different
-        # object -- carrying stage one's would make every `is dyn` test false
-        rebound = get_ast_data(parse(unparse(patched_ast_with_imports)))
-        needs_exact_tower = find_needs_exact(rebound.tree, rebound.reverse_outflow)
-        # the simplifier decides what to delete, so it needs the same view of
-        # what depends on what that the patcher has
-        rebound_graph = build_binding_graph(rebound)
-        simplified_detyped_ast = simplify_coercions(
-            rebound.tree, rebound.constructors, rebound.valid_pair,
-            rebound.types, rebound.type_contexts, needs_exact_tower,
-            rebound.dynamic, rebound_graph,
-        )
-        result = unparse(simplified_detyped_ast)
-        metrics["stage_two_ns"] = perf_counter_ns() - started
-        return result
-    else:
-        metrics["stage_two_ns"] = 0
-        return unparse(patched_ast_with_imports)
+    tree = fix_len(written.tree, predicted.types, written.dynamic)
+    tree = remove_annotations(tree, erased, predicted.types, predicted.contexts)
+    tree = add_patches(tree, predicted.types, predicted.contexts,
+                       written.dynamic, written.valid_pair,
+                       find_needs_exact(tree, written.reverse_outflow), graph)
+    tree = fix_missing_locations(add_imports(tree))
+    return simplify_coercions(
+        tree, written.constructors, written.valid_pair,
+        predicted.types, predicted.contexts,
+        find_needs_exact(tree, written.reverse_outflow),
+        written.dynamic, graph)

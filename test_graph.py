@@ -191,14 +191,12 @@ def _run_module(source, compile_only=False):
 
 def compile_case(case, source, repetitions):
     start = perf_counter_ns()
-    phases = {}
     try:
-        output = source if case.mask == 0 else detype(
-            source, mask=case.mask, bench=case.granularity == "benchmark",
-            metrics=phases)
+        output = source if case.mask == 0 else unparse(detype(
+            source, mask=case.mask, bench=case.granularity == "benchmark"))
     except Exception as exc:
         return {"status": "detype_failure", "error": _error(exc),
-                "metrics": phases}
+                "metrics": {}}
     transform_ns = perf_counter_ns() - start
     typed_samples, detyped_samples = [], []
     for i in range(repetitions):
@@ -211,11 +209,11 @@ def compile_case(case, source, repetitions):
             if proc.returncode:
                 return {"status": f"{label}_compile_failure",
                         "error": proc.stderr.strip().splitlines()[-1],
-                        "metrics": {"transform_ns": transform_ns, **phases}}
+                        "metrics": {"transform_ns": transform_ns}}
             samples.append(elapsed)
     typed_med, detyped_med = median(typed_samples), median(detyped_samples)
     return {"status": "ok", "metrics": {
-        "transform_ns": transform_ns, **phases,
+        "transform_ns": transform_ns,
         "typed_compile_ns_median": int(typed_med),
         "detyped_compile_ns_median": int(detyped_med),
         "compile_ratio": detyped_med / typed_med if typed_med else None,
@@ -225,8 +223,8 @@ def compile_case(case, source, repetitions):
 
 def runtime_case(case, source, repetitions):
     try:
-        output = source if case.mask == 0 else detype(
-            source, mask=case.mask, bench=case.granularity == "benchmark")
+        output = source if case.mask == 0 else unparse(detype(
+            source, mask=case.mask, bench=case.granularity == "benchmark"))
     except Exception as exc:
         return {"status": "detype_failure", "error": _error(exc), "metrics": {}}
     # Correctness and timing are paired in each worker. These are cold-process
