@@ -15,23 +15,24 @@ confusion comes from mixing them up:
                longer computed here; a harness that wants it re-parses and
                re-binds the unparsed result.
 
-Stage two used to rebind internally so the tower simplifier could work from
-ground truth. Measured across 830 masks, running it on the predicted tables
-instead reaches the same verdict on every one, so the round trip is gone and
-the check belongs to whoever wants it. A fresh Compiler brings a fresh
-DYNAMIC sentinel, so a caller that does rebind must not carry ours across --
-every `is dyn` test would silently be false.
+Two phases. `remove_annotations` decides what the program says, across the
+whole tree, because whether a value needs coercing depends on what every other
+annotation became. Then `coerce_tree` decides what it needs.
+
+A rebind used to sit between them so the coercion pass could work from ground
+truth. Measured across 830 masks, the predicted tables reach the same verdict
+on every one, so it is gone. A fresh Compiler brings a fresh DYNAMIC
+sentinel, so a caller that rebinds must not carry ours across -- every
+`is dyn` test would silently be false.
 """
 from ast import fix_missing_locations, parse
 
 from anno_remover import remove_annotations
+from coercer import coerce_tree
 from find_needs_exact import find_needs_exact
 from get_ast_data import get_ast_data
 from import_adder import add_imports
-from len_fixer import fix_len
-from patch_adder import add_patches
 from simple_type_graph import build_binding_graph
-from tower_simplifier import simplify_coercions
 
 
 def detype(source, mask=0, bench=False):
@@ -43,14 +44,12 @@ def detype(source, mask=0, bench=False):
     erased = graph.nodes_for_mask(effective, granularity)
     predicted = graph.settle(written, erased)
 
-    tree = fix_len(written.tree, predicted.types, written.dynamic)
-    tree = remove_annotations(tree, erased, predicted.types, predicted.contexts)
-    tree = add_patches(tree, predicted.types, predicted.contexts,
+    # erasure first, across the whole tree: whether a value needs coercing
+    # depends on what every other annotation became
+    tree = remove_annotations(written.tree, erased, predicted.types,
+                              predicted.contexts)
+    tree = coerce_tree(tree, predicted.types, predicted.contexts,
                        written.dynamic, written.valid_pair,
-                       find_needs_exact(tree, written.reverse_outflow), graph)
-    tree = fix_missing_locations(add_imports(tree))
-    return simplify_coercions(
-        tree, written.constructors, written.valid_pair,
-        predicted.types, predicted.contexts,
-        find_needs_exact(tree, written.reverse_outflow),
-        written.dynamic, graph)
+                       find_needs_exact(tree, written.reverse_outflow), graph,
+                       written.constructors)
+    return fix_missing_locations(add_imports(tree))
