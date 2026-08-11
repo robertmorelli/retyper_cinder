@@ -98,3 +98,53 @@ from inputs when it goes -- would make those answers expressible. Untested.
   first AST match cost two rounds of tracing the wrong subscript.
 - Benchmarks that print their own elapsed time make stdout comparison
   meaningless. held_karp differs from itself run to run.
+
+## Rules that were tried and measured wrong
+
+The graph cites these by number. Each was implemented, measured, and removed.
+
+**#60, a comparison's type follows its left operand.** False. `x is not None`
+is a boolean whatever `x` is. Claiming otherwise left the comparison looking
+typed, which held its sibling at cbool and produced `Union[dynamic, cbool]`.
+
+**#61, `not x` follows its operand.** Same reason, 3 extra failures. A sign
+change like `-x` does follow its operand and is still drawn; `not` shares the
+visitor and does not.
+
+**#70, a machine constant whose demands all died becomes dynamic.** Changes
+nothing in the output -- the literal is still written `2.0` and cinderx types
+it a double on the rebind -- while silencing the sibling demand that would
+have coerced the other operand.
+
+**Boxing a machine literal in a dynamic slot**, as `box(double(2.0))`. Clears
+nbody's three `dynamic / 2.0` failures and breaks richards and deltablue at
+import with `can't box non-primitive: Literal[True]`: the coercion target is a
+real cbool but the constant itself is a Literal, which cinderx will not box.
+Guarding on the target type's name does not help; the guard has to be on the
+constant's own type. Only the strict loader sees this, not stage two's rebind.
+
+**Context as an OR over live demands.** The honest reading -- a slot is typed
+while anything typed still asks for it -- and 38 extra failures. There is one
+context cell per node and a node can have several consumers wanting different
+things at once: `city` passed both to a parameter whose annotation was erased
+and to one that survived. The OR keeps the surviving demand, no coercion is
+inserted for the erased one, and a primitive reaches a dynamic slot. Taking
+the weakest demand instead over-boxes, which the stronger consumer can
+re-coerce. The real fix is a context per use, not per node.
+
+**Exempting sibling operands from the machine-demand clause**, in three
+forms: any literal sibling, machine-typed literal siblings, and arithmetic
+siblings. 83, 83 and 84 failures respectively, all with the same error
+profile, so all three were the same change. The clause is load bearing for
+arithmetic operands, not only comparisons.
+
+**Recovery decided before the fixpoint.** `survives_erasure` reading the
+initializer's original type says `indices: Array[int64] = create_array(...)`
+recovers, but it does not if `create_array` lost its return annotation.
+Recoverable declarations have to join the fixpoint so the #65 edge can take
+the recovery back. Worth 13 failures when fixed.
+
+**#20 narrowed to box and unbox.** Strictly right -- `int64(x)` is an int64
+whatever goes in -- and 11 extra failures, because marking `int64(x)` dynamic
+is currently the only thing stopping the patcher boxing a value the tables
+still call int64 when it is really an int. Fix the staleness first.

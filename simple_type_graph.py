@@ -93,8 +93,7 @@ class Graph(ast.NodeVisitor):
         self.operands = set()
         self.types = {}
         self._index = None
-        self.result_edges = set()
-        self.sibling_edges = set()
+        self.tagged = {"result": set(), "sibling": set()}
         if bound is not None:
             self.construct(bound)
 
@@ -105,19 +104,22 @@ class Graph(ast.NodeVisitor):
         if source is not None and target is not None:
             self.edges.add(Edge(source, target))
 
-    def link(self, source, target, slot=TYPE):
-        """Edge from one expression's type to another expression's cell."""
+    def link(self, source, target, slot=TYPE, kind=None):
+        """Edge from one expression's type to another expression's cell.
+
+        `kind` marks the two edges that mean more than reachability:
+        "result" -- the containing expression yields whatever this part
+        yields, so a type may be copied along it. An attribute or a subscript
+        is not like that. "sibling" -- the demand comes from an operand
+        rather than a declaration, which decide_context treats differently.
+        """
         self.flow(self.cell(source, TYPE), self.cell(target, slot))
+        if kind is not None:
+            self.tagged[kind].add((self.cell(source, TYPE),
+                                   self.cell(target, slot)))
 
     def result_link(self, source, node):
-        """A compound expression's type follows the part that decides it.
-
-        Recorded separately because these are the only edges along which a
-        type may be copied: the containing expression yields whatever this
-        part yields. An attribute or a subscript is not like that.
-        """
-        self.link(source, node)
-        self.result_edges.add((self.cell(source, TYPE), self.cell(node, TYPE)))
+        self.link(source, node, kind="result")
 
     # ------------------------------------------------------------------ setup
 
@@ -132,7 +134,8 @@ class Graph(ast.NodeVisitor):
                 self.groups.union(root, neighbor)  # valid_links #3
             for flows, slot in ((bound.outflow, TYPE), (bound.inflow, CONTEXT)):
                 for node in flows.get(root, ()):
-                    # valid_links #1 and #2
+                    # #1 where slot is TYPE, #2 where it is CONTEXT: the two
+                    # foundational links, drawn from cinderx's own analysis
                     self.flow(self.cell(root, TYPE), self.cell(node, slot))
 
         self.visit(bound.tree)
@@ -149,66 +152,80 @@ class Graph(ast.NodeVisitor):
         self.benchmark_units = self.group_functions()
 
     def index(self, tree):
-        """Collect every name binding, class, and function ahead of the walk.
+        """Collect names, classes and syntactic marks before the walk.
 
         Doing this first means a link never depends on where in the file the
         annotation happens to sit.
         """
-        def walk(node, scope):
-            self.owners.setdefault(node, scope)
-            if type(node) in BINDING_STATEMENTS:
-                self.functions.setdefault(node.name, []).append(node)
-                for parameter in self.parameters_of(node):
-                    self.bind(node, parameter.arg, parameter)
-                    self.owners.setdefault(parameter, node)
-                for child in node.body:
-                    walk(child, node)
-                return
-            if type(node) is ast.ClassDef:
-                self.classes.setdefault(node.name, []).append(node)
-                for statement in node.body:
-                    if type(statement) in BINDING_STATEMENTS:
-                        self.owning_class[statement] = node
-                        # `self.x: double = x` inside a method declares an
-                        # attribute exactly as a class body annotation does.
-                        # nbody writes them only that way, so indexing just the
-                        # class body left those attributes nothing to lose.
-                        for inner in ast.walk(statement):
-                            if (type(inner) is ast.AnnAssign
-                                    and type(inner.target) is ast.Attribute):
-                                self.slots.setdefault(
-                                    inner.target.attr, []).append((node, inner))
-                for statement in node.body:
-                    # A class body binds attributes, not names in the scope
-                    # that encloses the class.
-                    if (type(statement) is ast.AnnAssign
-                            and type(statement.target) is ast.Name):
-                        self.slots.setdefault(
-                            statement.target.id, []).append((node, statement))
-                        self.owners.setdefault(statement, scope)
-                    else:
-                        walk(statement, scope)
-                return
-            if type(node) is ast.AnnAssign and type(node.target) is ast.Name:
-                self.bind(scope, node.target.id, node)
-            elif type(node) is ast.Assign:
-                for target in node.targets:
-                    if type(target) is ast.Name:
-                        self.bind(scope, target.id, target)
-            elif type(node) in (ast.For, ast.AsyncFor):
-                if type(node.target) is ast.Name:
-                    self.bind(scope, node.target.id, node.target)
-            elif type(node) is ast.NamedExpr and type(node.target) is ast.Name:
-                self.bind(scope, node.target.id, node.target)
-            if type(node) in (ast.If, ast.While, ast.IfExp):
-                self.conditions.add(node.test)
-            if type(node) is ast.Compare:
-                self.operands.add(node.left)
-                self.operands.update(node.comparators)
-            for child in ast.iter_child_nodes(node):
-                walk(child, scope)
         for child in ast.iter_child_nodes(tree):
-            walk(child, None)
+            self.index_node(child, None)
+
+    def index_node(self, node, scope):
+        self.owners.setdefault(node, scope)
+        if type(node) in BINDING_STATEMENTS:
+            return self.index_function(node)
+        if type(node) is ast.ClassDef:
+            return self.index_class(node, scope)
+        self.index_binding(node, scope)
+        self.index_marks(node)
+        for child in ast.iter_child_nodes(node):
+            self.index_node(child, scope)
+
+    def index_function(self, node):
+        self.functions.setdefault(node.name, []).append(node)
+        for parameter in self.parameters_of(node):
+            self.bind(node, parameter.arg, parameter)
+            self.owners.setdefault(parameter, node)
+        for child in node.body:
+            self.index_node(child, node)
+
+    def index_class(self, node, scope):
+        """A class body binds attributes, not names in the enclosing scope.
+
+        An attribute can be declared either in the body or as
+        `self.x: double = x` inside a method -- nbody writes them only the
+        second way, so indexing just the body left those attributes with no
+        declaration to lose.
+        """
+        self.classes.setdefault(node.name, []).append(node)
+        for statement in node.body:
+            if type(statement) in BINDING_STATEMENTS:
+                self.owning_class[statement] = node
+                for inner in ast.walk(statement):
+                    if (type(inner) is ast.AnnAssign
+                            and type(inner.target) is ast.Attribute):
+                        self.slots.setdefault(
+                            inner.target.attr, []).append((node, inner))
+                self.index_node(statement, scope)
+            elif (type(statement) is ast.AnnAssign
+                    and type(statement.target) is ast.Name):
+                self.slots.setdefault(
+                    statement.target.id, []).append((node, statement))
+                self.owners.setdefault(statement, scope)
+            else:
+                self.index_node(statement, scope)
+
+    def index_binding(self, node, scope):
+        """Every place a name is given a value in this scope."""
+        if type(node) is ast.AnnAssign and type(node.target) is ast.Name:
+            self.bind(scope, node.target.id, node)
+        elif type(node) is ast.Assign:
+            for target in node.targets:
+                if type(target) is ast.Name:
+                    self.bind(scope, target.id, target)
+        elif type(node) in (ast.For, ast.AsyncFor):
+            if type(node.target) is ast.Name:
+                self.bind(scope, node.target.id, node.target)
+        elif type(node) is ast.NamedExpr and type(node.target) is ast.Name:
+            self.bind(scope, node.target.id, node.target)
+
+    def index_marks(self, node):
+        """Positions the later rules ask about: conditions and operands."""
+        if type(node) in (ast.If, ast.While, ast.IfExp):
+            self.conditions.add(node.test)
+        if type(node) is ast.Compare:
+            self.operands.add(node.left)
+            self.operands.update(node.comparators)
 
     def bind(self, scope, name, node):
         self.bindings.setdefault((scope, name), []).append(node)
@@ -431,10 +448,7 @@ class Graph(ast.NodeVisitor):
         for left in operands:
             for right in operands:
                 if left is not right:
-                    self.link(left, right, CONTEXT)
-                    if tolerant:
-                        self.sibling_edges.add(
-                            (self.cell(left, TYPE), self.cell(right, CONTEXT)))
+                    self.link(left, right, CONTEXT, kind="sibling")
 
     def visit_BinOp(self, node):
         self.siblings([node.left, node.right])  # valid_links #13
@@ -447,13 +461,13 @@ class Graph(ast.NodeVisitor):
 
     def visit_Compare(self, node):
         self.siblings([node.left, *node.comparators])  # valid_links #14
-        # No result link: a comparison is a boolean whatever its operands are,
-        # so its type does not follow them. See valid_links #60.
+        # no result link: a comparison is a boolean whatever its operands
+        # are, so its type never follows them. struck #60.
 
     def visit_UnaryOp(self, node):
         if type(node.op) is not ast.Not:
             # A sign change or a bitwise invert keeps its operand's type;
-            # `not x` is a boolean whatever x is, which is why valid_links #61
+            # `not x` is a boolean whatever x is, which is why struck #61
             # was struck out and this visitor went with it. valid_links #68
             self.result_link(node.operand, node)
 
@@ -645,7 +659,7 @@ class Graph(ast.NodeVisitor):
             where, slot = target
             if slot == CONTEXT:
                 contexts[where] = produced
-            elif (source, target) in self.result_edges:
+            elif (source, target) in self.tagged["result"]:
                 types[where] = produced
 
     def sources(self):
@@ -655,21 +669,16 @@ class Graph(ast.NodeVisitor):
     def survives_erasure(self, node, bound):
         """Does this annotation's target keep a type once the annotation goes?
 
-        Mirrors type_binder.py clause for clause. Narrowing lives in
-        type_state.local_types, which is per scope, so it only ever reaches a
-        read in the scope that assigned it.
+        Mirrors type_binder.py: narrowing lives in type_state.local_types,
+        which is per scope, so it only reaches a read in the scope that
+        assigned it.
         """
         if type(node) is not ast.AnnAssign or node.value is None:
-            # a parameter, a return, a bare `x: int64` -- nothing to infer from
-            return False
+            return False   # a parameter, a return, a bare `x: int64`
         if type(node.target) is not ast.Name:
-            # visitAttribute resolves through the class slot via bind_attr,
-            # so an attribute never narrows from its initializer
-            return False
+            return False   # visitAttribute goes through the class slot
         if self.owners.get(node) is None:
-            # a module level global read inside a function uses the
-            # declaration, never the narrowed local type
-            return False
+            return False   # a global read in a function uses the declaration
         if _checked_ctor(node.annotation, node.value) is not None:
             # anno_remover rewrites `todo: CheckedList[C] = [...]` into an
             # explicit CheckedList[C]([...]) constructor, so the container
@@ -677,11 +686,8 @@ class Graph(ast.NodeVisitor):
             # stays typed. valid_links #71
             return True
         if not self.narrows(bound.types.get(node.value), bound):
-            # maybe_set_local_type falls back to the declared type when the
-            # value is DYNAMIC, and the declaration is what erasure removed
-            return False
-        # can_be_narrowed is False on CType: a primitive cannot sit in a
-        # dynamic slot at all, so it has to box rather than recover
+            return False   # maybe_set_local_type: a DYNAMIC value never narrows
+        # can_be_narrowed is False on CType: a primitive must box, not recover
         return (not self.machine(bound.types.get(node.value))
                 and not self.machine(bound.types.get(node.target)))
 
@@ -736,12 +742,7 @@ class Graph(ast.NodeVisitor):
         """What this expression yields.
 
         An AND over its parts: typed only while everything it depends on is.
-
-        No rule for a machine constant here. Marking `2.0` dynamic when its
-        demands die changes nothing in the output -- the literal is still
-        written `2.0` and cinderx types it a double on the rebind -- while
-        silencing the sibling demand that would have coerced the other
-        operand. valid_links #70, struck out.
+        No rule for a machine constant here -- struck #70, see the notes.
         """
         if self.called_name(getattr(node, "func", None)) in FIXED_RESULT:
             # an intrinsic gives its own type whatever the argument became
@@ -753,15 +754,9 @@ class Graph(ast.NodeVisitor):
     def decide_context(self, node, feeds, dead, bound):
         """What is expected here. One dead feed is enough.
 
-        An OR would be the honest reading -- a slot is typed while anything
-        typed still asks for it -- but it cannot be expressed here. There is
-        one context cell per node and a node can have several consumers
-        wanting different things at once: `city` passed both to a parameter
-        whose annotation was erased and to one that survived. The OR keeps the
-        surviving demand, no coercion is inserted for the erased one, and a
-        primitive reaches a dynamic slot. Taking the weakest demand instead
-        over-boxes, which the stronger consumer can re-coerce. Measured at 38
-        fewer failures. The real fix is a context per use, not per node.
+        An OR over live demands is the honest reading and costs 38 failures;
+        see valid_bindings_notes.md, "Rules that were tried and measured
+        wrong".
         """
         if any(feed in dead for feed in feeds):
             return bound.dynamic
@@ -774,13 +769,11 @@ class Graph(ast.NodeVisitor):
             return bound.dynamic
         if (node in dead and self.machine(bound.type_contexts.get(node))
                 and all((self.cell(feed, TYPE), self.cell(node, CONTEXT))
-                        in self.sibling_edges for feed in feeds)):
-            # every demand here comes from a sibling operand, and a dynamic
-            # value cannot be coerced up to meet one -- the other side boxes.
-            # Unless that sibling is a machine-typed literal: `2.0` is a
-            # double and cannot box, so
-            # dropping the demand leaves nobody able to bridge the two and
-            # `dynamic / 2.0` reaches cinderx unrepaired
+                        in self.tagged["sibling"] for feed in feeds)):
+            # the demand comes from an operand, not a declaration: a
+            # dynamic value cannot be coerced up to meet one, so the other
+            # side boxes instead. Three attempts to exempt literal or
+            # arithmetic siblings each cost ~83; see the notes.
             return bound.dynamic
         return bound.type_contexts.get(node)
 
