@@ -90,6 +90,7 @@ class Graph(ast.NodeVisitor):
         self.slots = {}
         self.owning_class = {}
         self.conditions = set()
+        self.operands = set()
         self.types = {}
         self._index = None
         self.result_edges = set()
@@ -201,6 +202,9 @@ class Graph(ast.NodeVisitor):
                 self.bind(scope, node.target.id, node.target)
             if type(node) in (ast.If, ast.While, ast.IfExp):
                 self.conditions.add(node.test)
+            if type(node) is ast.Compare:
+                self.operands.add(node.left)
+                self.operands.update(node.comparators)
             for child in ast.iter_child_nodes(node):
                 walk(child, scope)
         for child in ast.iter_child_nodes(tree):
@@ -701,40 +705,48 @@ class Graph(ast.NodeVisitor):
         except Exception:
             return False
 
+    def must_agree(self, node):
+        """Is this a position where the two sides have to match?
+
+        A comparison's result is not coerced, so its operands must already
+        agree and neither can be moved. Arithmetic, an assignment and a call
+        argument all coerce the result, so one side may move to meet the
+        other. Both rewriters ask this before boxing a machine literal, and
+        `decide_context` uses the same distinction for sibling demands.
+        """
+        return node in self.operands
+
+    def type_parts(self, node, feeds):
+        """What an expression's type depends on.
+
+        A boolean operator yields one of its arms. A comparison has no
+        incoming type edge -- its type never follows an operand -- so its
+        operands are read directly; comparing two dynamics yields a dynamic,
+        not a bool, and claiming otherwise held its sibling at cbool and
+        produced Union[dynamic, cbool]. Everything else depends on whatever
+        feeds its type cell.
+        """
+        if type(node) is ast.BoolOp:
+            return node.values
+        if type(node) is ast.Compare:
+            return (node.left, *node.comparators)
+        return feeds
+
     def decide_type(self, node, feeds, dead, bound):
-        """What this expression yields, given everything feeding it."""
+        """What this expression yields.
+
+        An AND over its parts: typed only while everything it depends on is.
+
+        No rule for a machine constant here. Marking `2.0` dynamic when its
+        demands die changes nothing in the output -- the literal is still
+        written `2.0` and cinderx types it a double on the rebind -- while
+        silencing the sibling demand that would have coerced the other
+        operand. valid_links #70, struck out.
+        """
         if self.called_name(getattr(node, "func", None)) in FIXED_RESULT:
             # an intrinsic gives its own type whatever the argument became
             return bound.types.get(node)
-        # No rule for a primitive constant here. Marking `2.0` dynamic when
-        # its demands die changes nothing in the output -- the literal is
-        # still written `2.0` and cinderx types it a double on the rebind --
-        # while silencing the sibling demand that would have coerced the other
-        # operand. valid_links #70 struck out.
-        if type(node) is ast.BoolOp:
-            # the result is one of the arms, so it is their join: dynamic as
-            # soon as any arm is
-            if any(arm in dead for arm in node.values):
-                return bound.dynamic
-            return bound.types.get(node)
-        if type(node) is ast.Compare:
-            # A comparison has no incoming type edge -- its type never follows
-            # an operand -- so the AND is applied to the operands directly.
-            # Comparing two dynamics yields a dynamic, not a bool: claiming a
-            # bool here left the comparison looking typed, which held its
-            # sibling at cbool and produced Union[dynamic, cbool].
-            if any(operand in dead
-                   for operand in (node.left, *node.comparators)):
-                return bound.dynamic
-            return bound.types.get(node)
-        if any(feed in dead for feed in feeds):
-            return bound.dynamic
-        if (node in self.conditions and node in dead
-                and self.machine(bound.type_contexts.get(node))):
-            # A condition that lost its type cannot be asked for a machine
-            # boolean; the demand is what makes the patcher wrap it in
-            # cbool(). Scoped to conditions on purpose -- the unscoped version
-            # of this rule cost 143. valid_links #35 and #36
+        if any(part in dead for part in self.type_parts(node, feeds)):
             return bound.dynamic
         return bound.types.get(node)
 

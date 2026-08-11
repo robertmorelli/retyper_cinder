@@ -29,14 +29,6 @@ class TowerSimplifier(NodeTransformer):
         self.needs_exact = needs_exact
         self.dyn = dyn
 
-    def index_comparisons(self, tree):
-        """Comparison operands must agree, so a literal there cannot box."""
-        self.compared = set()
-        for node in walk(tree):
-            if isinstance(node, Compare):
-                self.compared.add(node.left)
-                self.compared.update(node.comparators)
-
     def _narrowing_cast(self, node):
         if not (isinstance(node.func, Name) and node.func.id == "cast"
                 and len(node.args) == 2):
@@ -78,7 +70,7 @@ class TowerSimplifier(NodeTransformer):
             t = self.types.get(inner)
             node = pick_patch(inner, t, tc, self.valid_pair, self.needs_exact,
                               self.types, self.type_ctxs, self.dyn,
-                              node in self.compared).wrap()
+                              self.graph.must_agree(node)).wrap()
             if self.types.get(node) is not None:
                 # the position now yields whatever the collapse left behind
                 self.graph.propagate(node, self.types.get(node), self.types,
@@ -90,6 +82,5 @@ def simplify_coercions(tree, constructors, valid_pair, types, type_ctxs,
                        needs_exact, dyn, graph):
     simplifier = TowerSimplifier(constructors, valid_pair, types, type_ctxs,
                                  needs_exact, dyn, graph)
-    simplifier.index_comparisons(tree)
     simplifier.visit(tree)
     return tree

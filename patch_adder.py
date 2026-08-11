@@ -1,4 +1,4 @@
-from ast import Compare, NodeTransformer, Load, Slice, walk
+from ast import NodeTransformer, Load, Slice
 from patch_picker import pick_patch
 
 # coercions that exist only to produce a primitive. In a slot that is no longer
@@ -52,19 +52,6 @@ class PatchAdder(NodeTransformer):
             self.graph.propagate(operand, produced, self.types, self.type_ctxs)
         return operand
 
-    def index_comparisons(self, tree):
-        """Operands of a comparison, which must agree with each other.
-
-        A machine literal can be boxed in arithmetic because the result gets
-        coerced to whatever the target wants. A comparison's result is not
-        coerced, so boxing one operand just breaks the pair.
-        """
-        self.compared = set()
-        for node in walk(tree):
-            if isinstance(node, Compare):
-                self.compared.add(node.left)
-                self.compared.update(node.comparators)
-
     def visit(self, node):
         # Children first: the result links point from an operand up to the
         # expression containing it, so a coercion below has to be decided and
@@ -88,7 +75,7 @@ class PatchAdder(NodeTransformer):
                 wrapper = pick_patch(target, t, tc, self.valid_pair,
                                      self.needs_exact, self.types,
                                      self.type_ctxs, self.dyn,
-                                     node in self.compared)
+                                     self.graph.must_agree(node))
                 result = wrapper.wrap()
                 if result is not target and wrapper.T is not None:
                     # The coercion changed what this position yields. The other
@@ -101,6 +88,5 @@ class PatchAdder(NodeTransformer):
 
 def add_patches(tree, types, type_ctxs, dyn, valid_pair, needs_exact, graph):
     adder = PatchAdder(types, type_ctxs, dyn, valid_pair, needs_exact, graph)
-    adder.index_comparisons(tree)
     adder.visit(tree)
     return tree
