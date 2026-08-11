@@ -47,10 +47,13 @@ def detype(source, do_stage_two=True, mask=0, bench=False, metrics=None):
         # object -- carrying stage one's would make every `is dyn` test false
         rebound = get_ast_data(parse(unparse(patched_ast_with_imports)))
         needs_exact_tower = find_needs_exact(rebound.tree, rebound.reverse_outflow)
+        # the simplifier decides what to delete, so it needs the same view of
+        # what depends on what that the patcher has
+        rebound_graph = build_binding_graph(rebound)
         simplified_detyped_ast = simplify_coercions(
             rebound.tree, rebound.constructors, rebound.valid_pair,
             rebound.types, rebound.type_contexts, needs_exact_tower,
-            rebound.dynamic,
+            rebound.dynamic, rebound_graph,
         )
         result = unparse(simplified_detyped_ast)
         metrics["stage_two_ns"] = perf_counter_ns() - started

@@ -19,7 +19,9 @@ def extract_coerced(node: Call, constructors):
     return None
 
 class TowerSimplifier(NodeTransformer):
-    def __init__(self, constructors, valid_pair, types, type_ctxs, needs_exact, dyn):
+    def __init__(self, constructors, valid_pair, types, type_ctxs, needs_exact,
+                 dyn, graph=None):
+        self.graph = graph
         self.constructors = constructors
         self.valid_pair = valid_pair
         self.types = types
@@ -38,6 +40,24 @@ class TowerSimplifier(NodeTransformer):
         return t.klass.type_name.readable_name in (
             f"Optional[{target}]", f"{target} | None")
 
+    def load_bearing(self, node, inner):
+        """Would collapsing this coercion cost anything downstream its type?
+
+        The pass only ever asked whether the operand fits the slot the
+        coercion sits in. `cast(WorkerTaskRec, r)` in an Any slot passes that
+        test -- both sides are dynamic -- but the cast is the only thing
+        giving the declaration a type, and every later read of it breaks.
+        """
+        if self.graph is None:
+            return False
+        produced, replacement = self.types.get(node), self.types.get(inner)
+        if produced is None or produced is replacement or produced is self.dyn:
+            return False
+        return any(self.types.get(where) is not self.dyn
+                   for where, slot in
+                   self.graph.outgoing().get(self.graph.cell(node, "type"), ())
+                   if slot == "type")
+
     def visit_Call(self, node):
         if node in self.needs_exact:
             return node
@@ -45,13 +65,22 @@ class TowerSimplifier(NodeTransformer):
             self.generic_visit(node)
             return node
         if inner := extract_coerced(node, self.constructors):
+            if self.load_bearing(node, inner):
+                self.generic_visit(node)
+                return node
             tc = self.type_ctxs.get(node)
             t = self.types.get(inner)
             node = pick_patch(inner, t, tc, self.valid_pair, self.needs_exact,
                               self.types, self.type_ctxs, self.dyn).wrap()
+            if self.graph is not None and self.types.get(node) is not None:
+                # the position now yields whatever the collapse left behind
+                self.graph.propagate(node, self.types.get(node), self.types,
+                                     self.type_ctxs)
         self.generic_visit(node)
         return node
 
-def simplify_coercions(tree, constructors, valid_pair, types, type_ctxs, needs_exact, dyn):
-    TowerSimplifier(constructors, valid_pair, types, type_ctxs, needs_exact, dyn).visit(tree)
+def simplify_coercions(tree, constructors, valid_pair, types, type_ctxs,
+                       needs_exact, dyn, graph=None):
+    TowerSimplifier(constructors, valid_pair, types, type_ctxs, needs_exact,
+                    dyn, graph).visit(tree)
     return tree

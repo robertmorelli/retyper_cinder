@@ -1,0 +1,272 @@
+{
+  "deltablue/advanced": {
+    "1118047616": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "13941207807": {
+      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "15135586542": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "19787303740": {
+      "error": "TypedSyntaxError: type mismatch: int received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "2097152": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "21322741888": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "23155703874": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "24606549744": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "24674954998": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "27224101220": {
+      "error": "TypedSyntaxError: type mismatch: int received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "32749125630": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34091301631": {
+      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34091302846": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34359574526": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34359737343": {
+      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34359738230": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34359738366": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    }
+  },
+  "nbody/advanced": {
+    "130": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "154": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "198": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "2": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "20": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "223": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "258": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "260": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "284": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "30": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "323": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "326": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "4": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "415": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "471": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "475": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "479": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "6": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "68": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "75": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "77": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    }
+  }
+}

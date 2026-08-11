@@ -80,6 +80,7 @@ class Graph(ast.NodeVisitor):
         self.functions = {}
         self.slots = {}
         self.owning_class = {}
+        self.conditions = set()
         self.types = {}
         self._outgoing = None
         self.result_edges = set()
@@ -159,13 +160,22 @@ class Graph(ast.NodeVisitor):
                 for statement in node.body:
                     if type(statement) in BINDING_STATEMENTS:
                         self.owning_class[statement] = node
+                        # `self.x: double = x` inside a method declares an
+                        # attribute exactly as a class body annotation does.
+                        # nbody writes them only that way, so indexing just the
+                        # class body left those attributes nothing to lose.
+                        for inner in ast.walk(statement):
+                            if (type(inner) is ast.AnnAssign
+                                    and type(inner.target) is ast.Attribute):
+                                self.slots.setdefault(
+                                    inner.target.attr, []).append((node, inner))
                 for statement in node.body:
                     # A class body binds attributes, not names in the scope
                     # that encloses the class.
                     if (type(statement) is ast.AnnAssign
                             and type(statement.target) is ast.Name):
                         self.slots.setdefault(
-                            statement.target.id, []).append(statement)
+                            statement.target.id, []).append((node, statement))
                         self.owners.setdefault(statement, scope)
                     else:
                         walk(statement, scope)
@@ -181,6 +191,8 @@ class Graph(ast.NodeVisitor):
                     self.bind(scope, node.target.id, node.target)
             elif type(node) is ast.NamedExpr and type(node.target) is ast.Name:
                 self.bind(scope, node.target.id, node.target)
+            if type(node) in (ast.If, ast.While, ast.IfExp):
+                self.conditions.add(node.test)
             for child in ast.iter_child_nodes(node):
                 walk(child, scope)
         for child in ast.iter_child_nodes(tree):
@@ -219,6 +231,10 @@ class Graph(ast.NodeVisitor):
         """
         if type(func) is not ast.Attribute:
             return None
+        if type(func.value) is ast.Name and func.value.id in self.classes:
+            # `Task.__init__(self, ...)` -- the receiver is the class itself,
+            # and the call passes `self` explicitly, so parameters line up 1:1
+            return func.value.id
         value = self.types.get(func.value)
         try:
             name = value.klass.type_name.qualname
@@ -254,10 +270,7 @@ class Graph(ast.NodeVisitor):
         name = self.called_name(func)
         found = []
         for klass in self.classes.get(name, ()):
-            for statement in klass.body:
-                if (type(statement) in BINDING_STATEMENTS
-                        and statement.name == "__init__"):
-                    found.append((statement, True))
+            found.extend((init, True) for init in self.initializers(klass))
         if found:
             return found
         matches = self.functions.get(name, ())
@@ -268,7 +281,33 @@ class Graph(ast.NodeVisitor):
                      and self.related(k, receiver)]
             if owned:
                 matches = owned
-        return [(match, type(func) is ast.Attribute) for match in matches]
+        explicit = (type(func) is ast.Attribute
+                    and type(func.value) is ast.Name
+                    and func.value.id in self.classes)
+        return [(match, type(func) is ast.Attribute and not explicit)
+                for match in matches]
+
+    def initializers(self, klass, seen=None):
+        """The __init__ a class uses, following bases when it defines none.
+
+        `class StayConstraint(UrnaryConstraint)` has no __init__ of its own, so
+        looking only at its body resolved the call to nothing and left every
+        argument with no parameter demand at all.
+        """
+        for statement in klass.body:
+            if (type(statement) in BINDING_STATEMENTS
+                    and statement.name == "__init__"):
+                return [statement]
+        seen = seen or set()
+        seen.add(klass.name)
+        found = []
+        for base in klass.bases:
+            name = base.id if type(base) is ast.Name else None
+            if name is None or name in seen:
+                continue
+            for parent in self.classes.get(name, ()):
+                found.extend(self.initializers(parent, seen))
+        return found
 
     def parameters(self, target, skip_self):
         params = self.parameters_of(target)
@@ -283,6 +322,12 @@ class Graph(ast.NodeVisitor):
         self.function = node
         self.generic_visit(node)
         self.function = outer
+        # A default value has to satisfy its parameter's annotation.
+        # valid_links #42
+        params = self.parameters_of(node)
+        defaults = node.args.defaults
+        for param, default in zip(params[len(params) - len(defaults):], defaults):
+            self.link(param, default, CONTEXT)
 
     visit_AsyncFunctionDef = visit_FunctionDef
 
@@ -323,6 +368,10 @@ class Graph(ast.NodeVisitor):
     def visit_AugAssign(self, node):
         self.generic_visit(node)
         self.link(node.target, node.value, CONTEXT)  # valid_links #12
+        # `x += v` is `x = x + v`: the implied result flows back into x, so the
+        # value feeds the target's type the way #59 feeds a binop's result and
+        # #4 feeds an assignment target. valid_links #67
+        self.result_link(node.value, node.target)
 
     def visit_NamedExpr(self, node):
         self.generic_visit(node)
@@ -332,8 +381,13 @@ class Graph(ast.NodeVisitor):
     def visit_Attribute(self, node):
         self.generic_visit(node)
         self.link(node.value, node)  # valid_links #7
-        for slot in self.slots.get(node.attr, ()):
-            self.link(slot, node)  # valid_links #8
+        # Keyed by attribute name, so narrow to the receiver's own class the
+        # same way callees does -- otherwise every `.x` in the file links to
+        # every `.x` access.
+        owner = self.receiver_class(node)
+        for klass, slot in self.slots.get(node.attr, ()):
+            if owner is None or self.related(klass, owner):
+                self.link(slot, node)  # valid_links #8
 
     def visit_Subscript(self, node):
         self.generic_visit(node)
@@ -375,6 +429,14 @@ class Graph(ast.NodeVisitor):
         # No result link: a comparison is a boolean whatever its operands are,
         # so its type does not follow them. See valid_links #60.
 
+    def visit_UnaryOp(self, node):
+        self.generic_visit(node)
+        if type(node.op) is not ast.Not:
+            # A sign change or a bitwise invert keeps its operand's type;
+            # `not x` is a boolean whatever x is, which is why valid_links #61
+            # was struck out and this visitor went with it. valid_links #68
+            self.result_link(node.operand, node)
+
     def visit_BoolOp(self, node):
         self.generic_visit(node)
         self.siblings(node.values)  # valid_links #15
@@ -386,6 +448,12 @@ class Graph(ast.NodeVisitor):
         self.siblings([node.body, node.orelse])  # valid_links #16
         for arm in (node.body, node.orelse):
             self.result_link(arm, node)  # valid_links #63
+
+    def visit_FormattedValue(self, node):
+        self.generic_visit(node)
+        # Formatting takes an object, so the interpolated value has to box
+        # whatever primitive it still holds. valid_links #57
+        self.flow(self.cell(node, TYPE), self.cell(node.value, CONTEXT))
 
     def visit_Call(self, node):
         self.generic_visit(node)
@@ -416,6 +484,12 @@ class Graph(ast.NodeVisitor):
 
     def visit_For(self, node):
         self.generic_visit(node)
+        if type(node.target) in (ast.Tuple, ast.List):
+            # `for b1, b2 in pairs` bound nothing at all before this: every
+            # element target was invisible to the graph. valid_links #69
+            for element in node.target.elts:
+                self.link(node.iter, element)
+            return
         if type(node.target) is not ast.Name:
             return
         self.link(node.iter, node.target)  # valid_links #23
@@ -610,6 +684,13 @@ class Graph(ast.NodeVisitor):
         if self.called_name(getattr(node, "func", None)) in FIXED_RESULT:
             # an intrinsic gives its own type whatever the argument became
             return bound.types.get(node)
+        if type(node) is ast.Constant and self.machine(bound.types.get(node)):
+            # `2.0` is only a double because something demanded one. Once every
+            # demand on it has died it is an ordinary float literal, and saying
+            # otherwise leaves `dynamic / double` at the divide. valid_links #70
+            demands = self.sources()[1].get(node, ())
+            if demands and all(feed in dead for feed in demands):
+                return bound.dynamic
         if type(node) is ast.BoolOp:
             # the result is one of the arms, so it is their join: dynamic as
             # soon as any arm is
@@ -628,6 +709,13 @@ class Graph(ast.NodeVisitor):
             return bound.types.get(node)
         if any(feed in dead for feed in feeds):
             return bound.dynamic
+        if (node in self.conditions and node in dead
+                and self.machine(bound.type_contexts.get(node))):
+            # A condition that lost its type cannot be asked for a machine
+            # boolean; the demand is what makes the patcher wrap it in
+            # cbool(). Scoped to conditions on purpose -- the unscoped version
+            # of this rule cost 143. valid_links #35 and #36
+            return bound.dynamic
         return bound.types.get(node)
 
     def decide_context(self, node, feeds, dead, bound):
@@ -645,6 +733,13 @@ class Graph(ast.NodeVisitor):
         """
         if any(feed in dead for feed in feeds):
             return bound.dynamic
+        if (node in self.conditions and node in dead
+                and self.machine(bound.type_contexts.get(node))):
+            # A condition that lost its type cannot be asked for a machine
+            # boolean; the demand is what makes the patcher wrap it in
+            # cbool(). Scoped to conditions on purpose -- the unscoped version
+            # of this rule cost 143. valid_links #35 and #36
+            return bound.dynamic
         if node in dead and self.machine(bound.type_contexts.get(node)) and all(
                 (self.cell(feed, TYPE), self.cell(node, CONTEXT))
                 in self.sibling_edges for feed in feeds):
@@ -659,7 +754,13 @@ class Graph(ast.NodeVisitor):
         # A comparison has no incoming type edge -- its type never follows its
         # operands -- so restricting this to edge targets meant its rule never
         # ran and it kept a cbool it no longer had.
-        decided_nodes = list(bound.types)
+        # Recoverable declarations join the fixpoint. Whether an initializer
+        # is still typed depends on what else this mask erased -- `indices:
+        # Array[int64] = create_array(...)` does not recover if create_array
+        # lost its return annotation -- so the #65 edge has to be followed
+        # rather than the decision made up front on the original types.
+        decided_nodes = list(bound.types) + [
+            node for node in erased if self.survives_erasure(node, bound)]
         # An erased annotation is not automatically dynamic. `x: T = v` keeps
         # whatever `v` yields, because that is what cinderx infers once the
         # annotation is gone. Only an annotation with nothing to infer from --

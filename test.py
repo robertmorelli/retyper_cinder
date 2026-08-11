@@ -27,7 +27,7 @@ MODES = ("compile", "runtime")
 GRANULARITY = "benchmark"
 VARIANT = "advanced"
 SKIP = {"scratch"}
-FUZZ = 10
+FUZZ = 50
 SEED = 8675309
 REPETITIONS = 1
 WORKERS = cpu_count() or 1
@@ -175,12 +175,15 @@ def track_problems(mode, cases, results):
     fixed_file = path.join(HERE, f"fixed_problem_masks_{mode}.json")
     known, fixed = read_json(problem_file), read_json(fixed_file)
 
-    # Only a mask that was actually retried can be called fixed; anything left
-    # untested this run stays a known problem.
+    # The files are a permanent record, so this merges rather than replaces.
+    # A mask that was not retried this run keeps its entry; only one that was
+    # retried and now passes moves to the fixed file.
     newly_fixed, regressions = [], []
     for key, masks in known.items():
         for mask, record in masks.items():
-            if mask in tested.get(key, ()) and mask not in problems.get(key, {}):
+            if mask not in tested.get(key, ()):
+                problems.setdefault(key, {}).setdefault(mask, record)
+            elif mask not in problems.get(key, {}):
                 fixed.setdefault(key, {})[mask] = record
                 newly_fixed.append(f"{key} mask={mask}")
     for key, masks in problems.items():
