@@ -17,16 +17,24 @@ from types import SimpleNamespace
 TYPE = "type"
 CONTEXT = "context"
 
-# Cinder conversions. Strictly, only `box` and `unbox` give a result derived
-# from the argument -- `int64(x)` is an int64 whatever goes in. But narrowing
-# this set to those two costs 11 more failures, because marking `int64(x)`
-# dynamic is currently the only thing stopping the patcher from boxing a
-# stale int64. See valid_links #20.
-CINDER_CONVERSIONS = {
-    "box", "unbox", "clen", "cbool", "double", "Array", "cast",
-    "int8", "int16", "int32", "int64",
-    "uint8", "uint16", "uint32", "uint64",
-}
+# What a known callable does to types, in one table instead of four sets.
+#   "argument"  the result follows its arguments   (valid_links #20)
+#   "own"       it yields its own type whatever goes in  (#20, #65)
+#   "receiver"  the result comes out of the receiver     (#72)
+#   "element"   the arguments go into the receiver       (#72)
+# Every cinder conversion is listed as "argument" even though only box and
+# unbox truly derive from the operand: marking `int64(x)` dynamic is the only
+# thing currently stopping the patcher boxing a stale int64, and narrowing it
+# costs 11 failures. See valid_links #20.
+SIGNATURES = dict.fromkeys(
+    ("box", "unbox", "clen", "cbool", "double", "Array", "cast",
+     "int8", "int16", "int32", "int64",
+     "uint8", "uint16", "uint32", "uint64"), "argument")
+SIGNATURES.update(dict.fromkeys(("pop", "get", "copy", "index", "count"),
+                                "receiver"))
+SIGNATURES.update(dict.fromkeys(("append", "add", "insert", "extend",
+                                 "remove", "discard"), "element"))
+CINDER_CONVERSIONS = {n for n, k in SIGNATURES.items() if k == "argument"}
 
 # What the cinder intrinsics yield, looked up rather than guessed from the
 # argument. These give their own type whatever goes in, so an erased argument
@@ -37,12 +45,6 @@ FIXED_RESULT = {
     "int8", "int16", "int32", "int64",
     "uint8", "uint16", "uint32", "uint64",
 }
-
-# Container methods whose result comes out of the receiver, and whose
-# arguments go into it. The graph draws these itself instead of leaning on the
-# binder's precomputed table. valid_links #72
-CONTAINER_READS = {"pop", "get", "copy", "index", "count"}
-CONTAINER_WRITES = {"append", "add", "insert", "extend", "remove", "discard"}
 
 BINDING_STATEMENTS = (ast.FunctionDef, ast.AsyncFunctionDef)
 
@@ -89,10 +91,9 @@ class Graph(ast.NodeVisitor):
         self.owning_class = {}
         self.conditions = set()
         self.types = {}
-        self._outgoing = None
+        self._index = None
         self.result_edges = set()
         self.sibling_edges = set()
-        self._sources = None
         if bound is not None:
             self.construct(bound)
 
@@ -232,89 +233,76 @@ class Graph(ast.NodeVisitor):
         """The class a method call is made on, from the receiver's type.
 
         Two unrelated classes can define the same method name -- held_karp has
-        `get`, `set` and `offset` in both HeldKarpDP and DistanceMatrix -- and
-        matching on the name alone gave the argument parameter edges from
-        both, so an erased annotation in one poisoned calls to the other.
+        `get`, `set` and `offset` in both HeldKarpDP and DistanceMatrix -- so
+        matching on the name alone gave the argument parameter edges from both.
+        A Name that is itself a class means an explicit `Task.__init__(self,..)`.
         """
         if type(func) is not ast.Attribute:
             return None
         if type(func.value) is ast.Name and func.value.id in self.classes:
-            # `Task.__init__(self, ...)` -- the receiver is the class itself,
-            # and the call passes `self` explicitly, so parameters line up 1:1
             return func.value.id
-        value = self.types.get(func.value)
+        name = self.klass_name(self.types.get(func.value))
+        return name.rsplit(".", 1)[-1] if name else None
+
+    def klass_name(self, value):
         try:
-            name = value.klass.type_name.qualname
+            return value.klass.type_name.qualname
         except Exception:
             return None
-        return name.rsplit(".", 1)[-1] if isinstance(name, str) else None
 
     def related(self, klass, target):
-        """Is `target` the receiver's class, or a subclass of it?"""
-        if klass.name == target:
-            return True
+        """Is `target` this class, or one it inherits from?"""
         seen, pending = set(), [klass]
         while pending:
             current = pending.pop()
+            if current.name == target:
+                return True
+            seen.add(current.name)
             for base in current.bases:
                 name = base.id if type(base) is ast.Name else None
-                if name == target:
-                    return True
-                for parent in self.classes.get(name, ()):
-                    if parent not in seen:
-                        seen.add(parent)
-                        pending.append(parent)
+                if name and name not in seen:
+                    pending.extend(self.classes.get(name, ()))
         return False
 
+    def initializers(self, klass, seen=None):
+        """The __init__ a class uses, following bases when it defines none."""
+        own = [st for st in klass.body if type(st) in BINDING_STATEMENTS
+               and st.name == "__init__"]
+        if own:
+            return own[:1]
+        seen = seen or set()
+        seen.add(klass.name)
+        return [init for base in klass.bases
+                if type(base) is ast.Name and base.id not in seen
+                for parent in self.classes.get(base.id, ())
+                for init in self.initializers(parent, seen)]
+
     def callees(self, func):
-        """Every definition a call could reach, paired with whether the first
+        """Every definition a call could reach, with whether the first
         parameter is the instance.
 
-        Overrides make a name ambiguous, and bailing on that dropped most
-        methods. Linking to all of them is the conservative reading, and the
-        override unions mean the real overrides share a unit anyway.
+        Overrides make a name ambiguous and bailing on that dropped most
+        methods, so all candidates are linked; the override unions mean the
+        real overrides share a unit anyway. A receiver narrows the set to its
+        own class and the classes it inherits from.
         """
         name = self.called_name(func)
-        found = []
-        for klass in self.classes.get(name, ()):
-            found.extend((init, True) for init in self.initializers(klass))
+        found = [(init, True) for klass in self.classes.get(name, ())
+                 for init in self.initializers(klass)]
         if found:
             return found
         matches = self.functions.get(name, ())
         receiver = self.receiver_class(func)
         if receiver is not None and len(matches) > 1:
             owned = [m for m in matches
-                     for k in (self.owning_class.get(m),) if k is not None
+                     if (k := self.owning_class.get(m)) is not None
                      and self.related(k, receiver)]
-            if owned:
-                matches = owned
+            matches = owned or matches
         explicit = (type(func) is ast.Attribute
                     and type(func.value) is ast.Name
                     and func.value.id in self.classes)
-        return [(match, type(func) is ast.Attribute and not explicit)
-                for match in matches]
-
-    def initializers(self, klass, seen=None):
-        """The __init__ a class uses, following bases when it defines none.
-
-        `class StayConstraint(UrnaryConstraint)` has no __init__ of its own, so
-        looking only at its body resolved the call to nothing and left every
-        argument with no parameter demand at all.
-        """
-        for statement in klass.body:
-            if (type(statement) in BINDING_STATEMENTS
-                    and statement.name == "__init__"):
-                return [statement]
-        seen = seen or set()
-        seen.add(klass.name)
-        found = []
-        for base in klass.bases:
-            name = base.id if type(base) is ast.Name else None
-            if name is None or name in seen:
-                continue
-            for parent in self.classes.get(name, ()):
-                found.extend(self.initializers(parent, seen))
-        return found
+        return [(m, type(func) is ast.Attribute and not explicit)
+                for m in matches]
 
     def parameters(self, target, skip_self):
         params = self.parameters_of(target)
@@ -322,7 +310,14 @@ class Graph(ast.NodeVisitor):
             params = params[1:]
         return params
 
-    # ---------------------------------------------------------------- visitors
+    # These descend before their own rule runs, which is what every one of
+    # them used to do with an explicit generic_visit on its first line.
+    DESCEND_FIRST = frozenset(['AnnAssign', 'Assign', 'Attribute', 'AugAssign', 'BinOp', 'BoolOp', 'Call', 'Compare', 'Dict', 'For', 'FormattedValue', 'IfExp', 'List', 'NamedExpr', 'Return', 'Subscript', 'UnaryOp'])
+
+    def visit(self, node):
+        if type(node).__name__ in self.DESCEND_FIRST:
+            self.generic_visit(node)
+        return super().visit(node)
 
     def visit_FunctionDef(self, node):
         outer = self.function
@@ -352,7 +347,6 @@ class Graph(ast.NodeVisitor):
                 return
 
     def visit_Assign(self, node):
-        self.generic_visit(node)
         for target in node.targets:
             if type(target) in (ast.Attribute, ast.Subscript):
                 # An attribute or an element has a declared type of its own, so
@@ -363,7 +357,6 @@ class Graph(ast.NodeVisitor):
                 self.link(node.value, target)
 
     def visit_AnnAssign(self, node):
-        self.generic_visit(node)
         if node.value is not None:
             self.link(node, node.value, CONTEXT)  # valid_links #5
             # cinderx narrows a declaration to its initializer whether or not
@@ -385,7 +378,6 @@ class Graph(ast.NodeVisitor):
                 or getattr(declaration, "returns", None) is not None)
 
     def visit_AugAssign(self, node):
-        self.generic_visit(node)
         self.link(node.target, node.value, CONTEXT)  # valid_links #12
         # `x += v` is `x = x + v`: the implied result flows back into x, so the
         # value feeds the target's type the way #59 feeds a binop's result and
@@ -400,23 +392,19 @@ class Graph(ast.NodeVisitor):
             self.result_link(node.value, node.target)
 
     def visit_NamedExpr(self, node):
-        self.generic_visit(node)
         self.link(node.value, node.target)  # valid_links #40
         self.link(node.value, node)  # valid_links #41
 
     def visit_Attribute(self, node):
-        self.generic_visit(node)
         self.link(node.value, node)  # valid_links #7
-        # Keyed by attribute name, so narrow to the receiver's own class the
-        # same way callees does -- otherwise every `.x` in the file links to
-        # every `.x` access.
+        # slots are keyed by name, so narrow to the receiver's own class the
+        # way callees does, or every `.x` links to every `.x` access
         owner = self.receiver_class(node)
         for klass, slot in self.slots.get(node.attr, ()):
             if owner is None or self.related(klass, owner):
                 self.link(slot, node)  # valid_links #8
 
     def visit_Subscript(self, node):
-        self.generic_visit(node)
         self.link(node.value, node)  # valid_links #9
         for part in self.slice_parts(node.slice):
             # valid_links #10 and #11
@@ -445,7 +433,6 @@ class Graph(ast.NodeVisitor):
                             (self.cell(left, TYPE), self.cell(right, CONTEXT)))
 
     def visit_BinOp(self, node):
-        self.generic_visit(node)
         self.siblings([node.left, node.right])  # valid_links #13
         # Both operands feed the result. `"" * 2` stays a str because nothing
         # was erased there and decide_type keeps the original type; but once
@@ -455,13 +442,11 @@ class Graph(ast.NodeVisitor):
         self.result_link(node.right, node)  # valid_links #59
 
     def visit_Compare(self, node):
-        self.generic_visit(node)
         self.siblings([node.left, *node.comparators])  # valid_links #14
         # No result link: a comparison is a boolean whatever its operands are,
         # so its type does not follow them. See valid_links #60.
 
     def visit_UnaryOp(self, node):
-        self.generic_visit(node)
         if type(node.op) is not ast.Not:
             # A sign change or a bitwise invert keeps its operand's type;
             # `not x` is a boolean whatever x is, which is why valid_links #61
@@ -469,25 +454,21 @@ class Graph(ast.NodeVisitor):
             self.result_link(node.operand, node)
 
     def visit_BoolOp(self, node):
-        self.generic_visit(node)
         self.siblings(node.values)  # valid_links #15
         for arm in node.values:
             self.result_link(arm, node)  # valid_links #62
 
     def visit_IfExp(self, node):
-        self.generic_visit(node)
         self.siblings([node.body, node.orelse])  # valid_links #16
         for arm in (node.body, node.orelse):
             self.result_link(arm, node)  # valid_links #63
 
     def visit_FormattedValue(self, node):
-        self.generic_visit(node)
         # Formatting takes an object, so the interpolated value has to box
         # whatever primitive it still holds. valid_links #57
         self.flow(self.cell(node, TYPE), self.cell(node.value, CONTEXT))
 
     def visit_Call(self, node):
-        self.generic_visit(node)
         self.link(node.func, node)  # valid_links #17
         for argument in node.args:
             # A call whose callee lost its type is a dynamic call, and a
@@ -500,12 +481,10 @@ class Graph(ast.NodeVisitor):
             return
         name = self.called_name(node.func)
         if type(node.func) is ast.Attribute:
-            if name in CONTAINER_READS:
-                # what comes out of a container is only as typed as the
-                # container itself
+            kind = SIGNATURES.get(name)
+            if kind == "receiver":
                 self.result_link(node.func.value, node)  # valid_links #72
-            elif name in CONTAINER_WRITES:
-                # what goes in has to satisfy the container's element type
+            elif kind == "element":
                 for argument in node.args:
                     self.link(node.func.value, argument, CONTEXT)  # #72
         # An unresolved call is a builtin as far as we know, and builtins take
@@ -519,12 +498,10 @@ class Graph(ast.NodeVisitor):
                 self.link(target, node)  # valid_links #22
 
     def visit_Return(self, node):
-        self.generic_visit(node)
         if node.value is not None and self.function is not None:
             self.link(self.function, node.value, CONTEXT)  # valid_links #21
 
     def visit_For(self, node):
-        self.generic_visit(node)
         if type(node.target) in (ast.Tuple, ast.List):
             # `for b1, b2 in pairs` bound nothing at all before this: every
             # element target was invisible to the graph. valid_links #69
@@ -559,7 +536,6 @@ class Graph(ast.NodeVisitor):
         self.visit_comprehension_expr(node, [node.key, node.value])
 
     def visit_List(self, node):
-        self.generic_visit(node)
         for item in node.elts:
             self.link(item, node)  # valid_links #27
 
@@ -567,7 +543,6 @@ class Graph(ast.NodeVisitor):
     visit_Tuple = visit_List
 
     def visit_Dict(self, node):
-        self.generic_visit(node)
         for item in [*node.keys, *node.values]:
             self.link(item, node)  # valid_links #27
 
@@ -634,18 +609,24 @@ class Graph(ast.NodeVisitor):
             for node in unit
         }
 
-    def rewrite(self, table, slot, dynamic, dead):
-        return {
-            node: dynamic if (node, slot) in dead else value
-            for node, value in table.items()
-        }
+    def index_edges(self):
+        """One pass over the edges, indexed both ways.
+
+        `outgoing` maps a cell to what it feeds; the other two map a node to
+        the expressions feeding each of its slots.
+        """
+        if self._index is None:
+            outgoing, by_type, by_context = {}, {}, {}
+            for edge in self.edges:
+                outgoing.setdefault(edge.source, []).append(edge.target)
+                node, slot = edge.target
+                table = by_context if slot == CONTEXT else by_type
+                table.setdefault(node, []).append(edge.source[0])
+            self._index = (outgoing, by_type, by_context)
+        return self._index
 
     def outgoing(self):
-        if self._outgoing is None:
-            self._outgoing = {}
-            for edge in self.edges:
-                self._outgoing.setdefault(edge.source, []).append(edge.target)
-        return self._outgoing
+        return self.index_edges()[0]
 
     def propagate(self, node, produced, types, contexts):
         """Carry a patched position's new type to whatever demanded it.
@@ -664,14 +645,8 @@ class Graph(ast.NodeVisitor):
                 types[where] = produced
 
     def sources(self):
-        """For each cell, every expression feeding it, split by slot."""
-        if self._sources is None:
-            self._sources = ({}, {})
-            for edge in self.edges:
-                node, slot = edge.target
-                table = self._sources[1] if slot == CONTEXT else self._sources[0]
-                table.setdefault(node, []).append(edge.source[0])
-        return self._sources
+        """Each node's feeds, split by slot."""
+        return self.index_edges()[1:]
 
     def survives_erasure(self, node, bound):
         """Does this annotation's target keep a type once the annotation goes?
@@ -797,34 +772,38 @@ class Graph(ast.NodeVisitor):
             return bound.dynamic
         return bound.type_contexts.get(node)
 
+    def classify(self, erased, bound):
+        """Split the erased annotations by what erasure leaves them with.
+
+        rebuilt   anno_remover puts the type back, whatever the mask did --
+                  a checked container built from a literal. Never dynamic.
+        recovers  cinderx re-infers it from its initializer, but only while
+                  that initializer still has a type, so it joins the fixpoint
+                  and the #65 edge can still kill it.
+        seeds     nothing to infer from: a parameter, a return, a bare
+                  `x: int64`. Dynamic outright.
+        """
+        rebuilt, recovers, seeds = set(), set(), set()
+        for node in erased:
+            if (type(node) is ast.AnnAssign
+                    and _checked_ctor(node.annotation, node.value) is not None):
+                rebuilt.add(node)
+            elif self.survives_erasure(node, bound):
+                recovers.add(node)
+            else:
+                seeds.add(node)
+        return rebuilt, recovers, seeds
+
     def settle(self, bound, erased=()):
         by_type, by_context = self.sources()
-        # Every typed node gets decided, not only the ones an edge points at.
-        # A comparison has no incoming type edge -- its type never follows its
-        # operands -- so restricting this to edge targets meant its rule never
-        # ran and it kept a cbool it no longer had.
-        # Recoverable declarations join the fixpoint. Whether an initializer
-        # is still typed depends on what else this mask erased -- `indices:
-        # Array[int64] = create_array(...)` does not recover if create_array
-        # lost its return annotation -- so the #65 edge has to be followed
-        # rather than the decision made up front on the original types.
-        # A checked container rebuilt by anno_remover keeps its type whatever
-        # its literal contained, so it must not be dragged back down by the
-        # #65 edge from that literal. Everything else that recovers stays in
-        # the fixpoint, where a dead initializer can still kill it.
-        rebuilt = {node for node in erased
-                   if type(node) is ast.AnnAssign
-                   and _checked_ctor(node.annotation, node.value) is not None}
-        decided_nodes = list(bound.types) + [
-            node for node in erased
-            if node not in rebuilt and self.survives_erasure(node, bound)]
-        # An erased annotation is not automatically dynamic. `x: T = v` keeps
-        # whatever `v` yields, because that is what cinderx infers once the
-        # annotation is gone. Only an annotation with nothing to infer from --
-        # a parameter, a return, a bare `x: int64` -- is dynamic outright.
-        recoverable = {node for node in erased
-                       if self.survives_erasure(node, bound)}
-        seeds = set(erased) - recoverable
+        _, recovers, seeds = self.classify(erased, bound)
+        # Every typed node is decided, not only the ones an edge points at: a
+        # comparison has no incoming type edge, so restricting this to edge
+        # targets meant its rule never ran and it kept a cbool it no longer
+        # had. Recoverable declarations join them so a dead initializer can
+        # still take the recovery back.
+        decided_nodes = list(bound.types) + list(recovers)
+
         dead = set(seeds)
         pending = True
         while pending:
@@ -832,8 +811,8 @@ class Graph(ast.NodeVisitor):
             for node in decided_nodes:
                 if node in dead:
                     continue
-                feeds = by_type.get(node, ())
-                if self.decide_type(node, feeds, dead, bound) is bound.dynamic:
+                if self.decide_type(node, by_type.get(node, ()), dead,
+                                    bound) is bound.dynamic:
                     dead.add(node)
                     pending = True
 
@@ -846,9 +825,9 @@ class Graph(ast.NodeVisitor):
                 if decided is not None:
                     types[node] = decided
 
+        # Only the erased annotations themselves lose their demand. A node
+        # whose type went dynamic still has whatever its consumers ask of it.
         contexts = dict(bound.type_contexts)
-        # only the erased annotations themselves lose their demand; a node
-        # whose type went dynamic still has whatever its consumers ask of it
         for node in seeds:
             contexts[node] = bound.dynamic
         for node, feeds in by_context.items():

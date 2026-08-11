@@ -20,7 +20,7 @@ def extract_coerced(node: Call, constructors):
 
 class TowerSimplifier(NodeTransformer):
     def __init__(self, constructors, valid_pair, types, type_ctxs, needs_exact,
-                 dyn, graph=None):
+                 dyn, graph):
         self.graph = graph
         self.constructors = constructors
         self.valid_pair = valid_pair
@@ -56,8 +56,6 @@ class TowerSimplifier(NodeTransformer):
         test -- both sides are dynamic -- but the cast is the only thing
         giving the declaration a type, and every later read of it breaks.
         """
-        if self.graph is None:
-            return False
         produced, replacement = self.types.get(node), self.types.get(inner)
         if produced is None or produced is replacement or produced is self.dyn:
             return False
@@ -81,7 +79,7 @@ class TowerSimplifier(NodeTransformer):
             node = pick_patch(inner, t, tc, self.valid_pair, self.needs_exact,
                               self.types, self.type_ctxs, self.dyn,
                               node in self.compared).wrap()
-            if self.graph is not None and self.types.get(node) is not None:
+            if self.types.get(node) is not None:
                 # the position now yields whatever the collapse left behind
                 self.graph.propagate(node, self.types.get(node), self.types,
                                      self.type_ctxs)
@@ -89,7 +87,7 @@ class TowerSimplifier(NodeTransformer):
         return node
 
 def simplify_coercions(tree, constructors, valid_pair, types, type_ctxs,
-                       needs_exact, dyn, graph=None):
+                       needs_exact, dyn, graph):
     simplifier = TowerSimplifier(constructors, valid_pair, types, type_ctxs,
                                  needs_exact, dyn, graph)
     simplifier.index_comparisons(tree)

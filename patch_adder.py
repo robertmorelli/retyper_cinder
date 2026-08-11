@@ -7,7 +7,7 @@ TO_PRIMITIVE = ("int64", "cbool", "clen", "double")
 from get_ast_data import get_ctx
 
 class PatchAdder(NodeTransformer):
-    def __init__(self, types, type_ctxs, dyn, valid_pair, needs_exact, graph=None):
+    def __init__(self, types, type_ctxs, dyn, valid_pair, needs_exact, graph):
         self.types = types
         self.type_ctxs = type_ctxs
         self.dyn = dyn
@@ -24,7 +24,7 @@ class PatchAdder(NodeTransformer):
         settles such a call to its operand's own type, so equality of the two is
         the test, and the fix is to drop the wrapper rather than to give up.
         """
-        coercion = self.graph.coercion(node) if self.graph is not None else None
+        coercion = self.graph.coercion(node)
         if coercion is None:
             return None
         name, operand = coercion
@@ -47,10 +47,9 @@ class PatchAdder(NodeTransformer):
         no longer there.
         """
         self.type_ctxs[operand] = self.type_ctxs.get(node, self.type_ctxs.get(operand))
-        if self.graph is not None:
-            produced = self.types.get(operand)
-            if produced is not None:
-                self.graph.propagate(operand, produced, self.types, self.type_ctxs)
+        produced = self.types.get(operand)
+        if produced is not None:
+            self.graph.propagate(operand, produced, self.types, self.type_ctxs)
         return operand
 
     def index_comparisons(self, tree):
@@ -91,8 +90,7 @@ class PatchAdder(NodeTransformer):
                                      self.type_ctxs, self.dyn,
                                      node in self.compared)
                 result = wrapper.wrap()
-                if result is not target and wrapper.T is not None \
-                        and self.graph is not None:
+                if result is not target and wrapper.T is not None:
                     # The coercion changed what this position yields. The other
                     # half of any pair that has to agree is one edge away, so
                     # let the graph carry the new type there before that side
@@ -101,7 +99,7 @@ class PatchAdder(NodeTransformer):
                                          self.type_ctxs)
         return result
 
-def add_patches(tree, types, type_ctxs, dyn, valid_pair, needs_exact, graph=None):
+def add_patches(tree, types, type_ctxs, dyn, valid_pair, needs_exact, graph):
     adder = PatchAdder(types, type_ctxs, dyn, valid_pair, needs_exact, graph)
     adder.index_comparisons(tree)
     adder.visit(tree)
