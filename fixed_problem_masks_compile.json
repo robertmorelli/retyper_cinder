@@ -1,7 +1,7 @@
 {
   "deltablue/advanced": {
-    "10737716259": {
-      "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 230)",
+    "1118047616": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
@@ -21,6 +21,20 @@
       "known": true,
       "status": "detype_failure"
     },
+    "2097152": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "21322741888": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "2164528329": {
       "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
       "granularity": "benchmark",
@@ -28,70 +42,14 @@
       "known": true,
       "status": "detype_failure"
     },
+    "23155703874": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "262144": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 315)",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "27908893981": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 315)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "32136197967": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 315)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "32201768959": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "32203866103": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "32747265911": {
-      "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 230)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "34217132027": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "34351349759": {
-      "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "34359721983": {
-      "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 86)",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "34359738239": {
       "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 315)",
       "granularity": "benchmark",
       "kind": "level",
@@ -158,8 +116,22 @@
       "known": true,
       "status": "detype_failure"
     },
+    "130": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "153": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "154": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
@@ -186,6 +158,27 @@
       "known": true,
       "status": "detype_failure"
     },
+    "198": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "2": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "20": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "216": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
       "granularity": "benchmark",
@@ -193,8 +186,43 @@
       "known": true,
       "status": "detype_failure"
     },
+    "223": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "258": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "260": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "284": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "297": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 97)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "30": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
@@ -214,6 +242,20 @@
       "known": true,
       "status": "detype_failure"
     },
+    "323": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "326": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "33": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 97)",
       "granularity": "benchmark",
@@ -228,8 +270,22 @@
       "known": true,
       "status": "detype_failure"
     },
+    "4": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
     "40": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 97)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "415": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
@@ -246,6 +302,27 @@
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 111)",
       "granularity": "benchmark",
       "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "471": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "475": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "479": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "level",
       "known": true,
       "status": "detype_failure"
     },
@@ -284,10 +361,38 @@
       "known": true,
       "status": "detype_failure"
     },
+    "6": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "64": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 111)",
       "granularity": "benchmark",
       "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "68": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "75": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "77": {
+      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
       "known": true,
       "status": "detype_failure"
     },
@@ -428,26 +533,12 @@
       "known": false,
       "status": "detype_failure"
     },
-    "1262286": {
-      "error": "TypedSyntaxError: type mismatch: int received for positional arg 'i', expected int64 (, line 231)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": false,
-      "status": "detype_failure"
-    },
     "1532956": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpimqy_lh5/bench_module.py', 302, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detyped_compile_failure"
-    },
-    "1570815": {
-      "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 172)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
     },
     "1626353": {
       "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 172)",
@@ -456,67 +547,11 @@
       "known": true,
       "status": "detype_failure"
     },
-    "1827583": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpno4azfwm/bench_module.py', 302, 0)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detyped_compile_failure"
-    },
     "2": {
       "error": "TypedSyntaxError: type mismatch: int received for positional arg 'i', expected int64 (, line 231)",
       "granularity": "benchmark",
       "kind": "level",
       "known": false,
-      "status": "detype_failure"
-    },
-    "2093039": {
-      "error": "TypedSyntaxError: type mismatch: dynamic cannot be assigned to int64 (, line 212)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "2093055": {
-      "error": "TypedSyntaxError: type mismatch: dynamic cannot be assigned to int64 (, line 212)",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "2094923": {
-      "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 172)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "2095103": {
-      "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 172)",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "2096893": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3_xoo8v0/bench_module.py', 302, 0)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detyped_compile_failure"
-    },
-    "2096895": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9u_0xr4b/bench_module.py', 302, 0)",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "detyped_compile_failure"
-    },
-    "510657": {
-      "error": "TypedSyntaxError: type mismatch: dynamic cannot be assigned to int64 (, line 212)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
       "status": "detype_failure"
     },
     "524333": {
@@ -540,13 +575,6 @@
       "known": true,
       "status": "detyped_compile_failure"
     },
-    "619059": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp070yb3us/bench_module.py', 302, 0)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detyped_compile_failure"
-    },
     "8192": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjc2skryg/bench_module.py', 302, 0)",
       "granularity": "benchmark",
@@ -560,13 +588,6 @@
       "kind": "fuzz",
       "known": false,
       "status": "detype_failure"
-    },
-    "8704": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to int64', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpaol11acm/bench_module.py', 302, 0)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detyped_compile_failure"
     }
   }
 }

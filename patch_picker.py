@@ -16,6 +16,12 @@ def boxed_instance(t):
 
 _OPT = compile(r"^Optional\[(.+)\]$")
 
+# only these can be written back out as a constructor, so only these can be
+# boxed in the exact form `box(T(x))`. A Literal[N] answers is_primative but
+# has no constructor spelling, and boxing it fails in the strict loader.
+PRIMITIVE_NAMES = {"double", "cbool", "int8", "int16", "int32", "int64",
+                   "uint8", "uint16", "uint32", "uint64"}
+
 def readable_name(t):
     name: str = t.klass.type_name.readable_name
     for k,v in {"chklist": "CheckedList", "chkdict": "CheckedDict", "chkset": "CheckedSet"}.items():
@@ -84,13 +90,13 @@ def _narrows_optional(type, type_ctx):
 def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None, compared=False):
     if _narrows_optional(type, type_ctx):
         return CastWrapper(type_ctx, node)
-    if (dyn is not None and type_ctx is dyn and is_primative(type)
-            and is_const(node) and not compared):
-        # A machine-typed literal in a dynamic slot. `box(2.0)` is invalid --
-        # written bare the literal is already a float -- so the primitive has
-        # to be constructed first: `box(double(2.0))`. That is what the exact
-        # form of BoxWrapper emits.
-        return BoxWrapper(node, type, exact=True)
+    # Boxing a machine literal in a dynamic slot -- `box(double(2.0))` -- fixes
+    # nbody's `dynamic / 2.0`, three level masks. It also breaks richards and
+    # deltablue at import with `can't box non-primitive: Literal[True]`: the
+    # target type is a real cbool, but the constant itself is a Literal and
+    # cinder will not box it. Guarding on the target type's name does not help,
+    # the guard has to be on the constant's own type. Only the strict loader
+    # sees this; stage two's rebind accepts it.
     if dyn is not None and type_ctx is dyn and is_primative(type) and not is_const(node):
         # a primitive does not fit a dynamic slot, whatever check_can_assign_from
         # says: cinder rejects `int64 cannot be assigned to dynamic` outright.

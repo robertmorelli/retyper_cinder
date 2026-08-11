@@ -1,272 +1,839 @@
 {
   "deltablue/advanced": {
-    "1118047616": {
-      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+    "10737716259": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpchdefe9m/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "11563296271": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpswcsnn4n/bench_module.py', 295, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "13941207807": {
-      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpvmche3wz/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
     },
     "15135586542": {
-      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8ehbm2aq/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "16384": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpaa62dmrd/bench_module.py', 295, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "17112498175": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxgayftsy/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "17179869183": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnlr88jb3/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "1741731258": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp122sxn0m/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "19787303740": {
-      "error": "TypedSyntaxError: type mismatch: int received for positional arg 'mark', expected int64 (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5zouahv7/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
-    },
-    "2097152": {
-      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "21322741888": {
-      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "23155703874": {
-      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
     },
     "24606549744": {
-      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprqpgdis5/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
     },
     "24674954998": {
-      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpm9wf28b2/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "25753026555": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpr61za1dy/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "25769803775": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprn4k9cck/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "268987657": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsd23td5e/bench_module.py', 295, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "27224101220": {
-      "error": "TypedSyntaxError: type mismatch: int received for positional arg 'mark', expected int64 (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxlmjl8nj/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "27908893981": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8r87k0fi/bench_module.py', 295, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "28639804086": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9n9dy8yt/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "29659756671": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmps34l1ix1/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "30064771071": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjp3gyc8f/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "30467387303": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprzbpz28f/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2ucrerb7/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32136197967": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpfe9anfct/bench_module.py', 295, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32201768959": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpblkn5ld1/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32203866103": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3ybite8o/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32212254719": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnkvdnz6_/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "32747265911": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2eoqyeiy/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "32749125630": {
-      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpljqfm65t/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "33285988095": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpzh_rhmtf/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "33285996543": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjkry8eij/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "33822867455": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7cfbrmkv/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34091270135": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpm8mtijz2/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "34091301631": {
-      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwm52os6j/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
     },
     "34091302846": {
-      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1g6w7k_b/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "34091302911": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp46o5bmqw/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34217132027": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpp6x4xmsc/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34225520639": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmos0vh88/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34292629503": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpk9lumy_o/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34324873215": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp416801ym/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34326183867": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8tvp7k_s/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34326183935": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpz4qnf_oq/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34342927871": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp23_6q3ww/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34342961151": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpj0j49z7p/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34351349759": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp6jkapke6/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34355544063": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp48wlny7p/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34357506047": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp50xuyycd/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34357640955": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8tw0f81s/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34357641215": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqq9vffrl/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34358689791": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpzgvlxuqq/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359214079": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpx41m760u/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359476223": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2dm84j1b/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359537663": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpueacgblw/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "34359574526": {
-      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpvx5o8bt7/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "34359603135": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmplt_ssxd4/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359607295": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnrg391o1/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359672567": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7xdig8qn/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359672831": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpkg4nd_p9/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359705599": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpc1m6oe7s/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359721983": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpyu09k4g6/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359730175": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpcda0b_z3/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359734271": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjcd4e6vl/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359736319": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpcmwlcwio/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "34359737343": {
-      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpc4e9t4vf/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "level",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "34359737855": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8290n1un/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359738111": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3tpi5t3p/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "34359738230": {
-      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7nclq3b6/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "34359738239": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3kptyokp/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359738303": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5nbwgdl4/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359738335": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmr_zkw0r/bench_module.py', 295, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359738351": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxdzot67f/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359738359": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpnir8epp8/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359738363": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpfy4uba31/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "34359738365": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_li5ggpy/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
     },
     "34359738366": {
-      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpcib343b3/bench_module.py', 119, 0)",
       "granularity": "benchmark",
       "kind": "level",
       "known": true,
-      "status": "detype_failure"
+      "status": "detyped_compile_failure"
+    },
+    "34359738367": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[False]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprypvuuav/bench_module.py', 119, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "75513858": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmk20ftlt/bench_module.py', 295, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
     }
   },
-  "nbody/advanced": {
-    "130": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+  "richards/advanced": {
+    "1048571": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsl1lynoj/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "154": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "198": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "2": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1048575": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7l7p44dk/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "level",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "20": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1115776": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5aj0z_xn/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "223": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1171451": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3mpj_5on/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "258": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1262286": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmxaikplb/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "260": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1570815": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp6doph1ua/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "284": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "30": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "323": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "326": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "4": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1572863": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpljjii5i9/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "level",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "415": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1827583": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwa1npmr_/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "471": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1834991": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpk341r1u7/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "475": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
-    },
-    "479": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1835007": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7csfj_hu/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "level",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "6": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1966078": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdq2bh_f5/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "68": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "1966079": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5xodugzk/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2023423": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3lutssl6/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "75": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "2031615": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpanv5l67y/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2064383": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdoi7t1tw/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2080767": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpfoaxvjsa/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2088955": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpk4cj2fze/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
     },
-    "77": {
-      "error": "TypedSyntaxError: cannot divide dynamic and double (, line 103)",
+    "2088959": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmph9xtrn6p/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2093039": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpxuwcn9od/bench_module.py', 91, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "detype_failure"
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2093055": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpk097d58c/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2094923": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmppertsf7e/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2095103": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpm63edoev/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2096127": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpcbieuur5/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2096893": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmph4j7q81f/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2096895": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4sw51isi/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097022": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpha3s6lxj/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097023": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpydhow1i0/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097079": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpw37ovndx/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097087": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1xskoa2c/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097119": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp2h_ycfno/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097135": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpd8_43riu/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097143": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1h1v3uwk/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097147": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpzl7h1pnl/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097149": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmptbd7tz4s/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097150": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpfnp40sjo/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "2097151": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5n_lk74y/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "35472": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5uyx2ylp/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "510657": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1i_2j2l5/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "512": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwr8o82fz/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "513": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_tww2f1w/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "619059": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpi9sp6ch6/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "66048": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpoj6rtild/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "8704": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqrfj2a3s/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "97200": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: Literal[True]\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjsrhgjp_/bench_module.py', 91, 0)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
     }
   }
 }
