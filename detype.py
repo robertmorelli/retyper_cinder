@@ -1,11 +1,13 @@
+"""python detype.py <benchmark> <variant> [mask] [--less-any]"""
+from ast import unparse
 from sys import argv
-from load_source import load_bench
+
 from detyper import detype
+from load_source import load_bench
 
-source = load_bench(argv[1], argv[2])
-do_stage_two = eval(argv[3]) if len(argv) > 3 else True
-if len(argv) >= 4:
-    print(detype(source, do_stage_two, mask=eval(argv[4])))
-else:
-    print(detype(source, do_stage_two))
+args = [a for a in argv[1:] if a != "--less-any"]
+less_any = "--less-any" in argv
+mask = eval(args[2]) if len(args) > 2 else 0
 
+print(unparse(detype(load_bench(args[0], args[1]), mask=mask, bench=True,
+                     less_any=less_any)))

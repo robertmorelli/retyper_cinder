@@ -61,7 +61,7 @@ class CastWrapper(Wrapper):
 
 # record the wrap in the type tables: the new node takes the context the
 # wrapped node was in, and the wrapped node now needs no further coercion
-def _record(w, node, t, tc, types, ctxs, dyn):
+def _record(w, node, t, tc, types, ctxs, dyn, constructors):
     if w.next_root is not node:
         types[w.next_root] = w.T
         ctxs[w.next_root] = tc
@@ -71,6 +71,19 @@ def _record(w, node, t, tc, types, ctxs, dyn):
         fT = dyn.klass.type_env.function.instance if isinstance(w, (BoxWrapper, CastWrapper)) else dyn
         for sub in walk(w.next_root.func):
             types[sub] = ctxs[sub] = fT
+        # a constructor this pass writes joins the ones the author wrote. The
+        # map is keyed by callee node, so a wrapper built here is invisible to
+        # anything reading it -- which left the tower collapser unable to see
+        # through a layer it had just built, rebuilding the tower it was asked
+        # to remove. Registering by node keeps the identity check honest;
+        # matching on the name instead would catch `clen`, which computes a
+        # length rather than coercing its operand.
+        if isinstance(w, ConstrWrapper):
+            constructors[w.next_root.func] = w.T.klass
+        elif isinstance(w, BoxWrapper):
+            boxed = w.next_root.args[0]
+            if boxed is not node:                 # the exact form, box(T(x))
+                constructors[boxed.func] = t.klass
     return w
 
 def _narrows_optional(type, type_ctx):
@@ -118,7 +131,7 @@ def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None, compared=Fa
         return CastWrapper(type_ctx, node)
 
 def pick_patch(node, type, type_ctx, valid_pair, needs_exact, types, ctxs, dyn,
-               compared=False):
+               constructors, compared=False):
     return _record(_choose(node, type, type_ctx, valid_pair, needs_exact, dyn,
                            compared),
-                   node, type, type_ctx, types, ctxs, dyn)
+                   node, type, type_ctx, types, ctxs, dyn, constructors)

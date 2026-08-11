@@ -7,6 +7,27 @@
       "known": false,
       "status": "detype_failure"
     },
+    "1118047616": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "13941207807": {
+      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "15135586542": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "17041395677": {
       "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 86)",
       "granularity": "benchmark",
@@ -21,6 +42,27 @@
       "known": false,
       "status": "detype_failure"
     },
+    "19787303740": {
+      "error": "TypedSyntaxError: type mismatch: int received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "2097152": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "21322741888": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "2164528329": {
       "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
       "granularity": "benchmark",
@@ -28,11 +70,39 @@
       "known": false,
       "status": "detype_failure"
     },
+    "23155703874": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "24606549744": {
+      "error": "TypedSyntaxError: can't compare int64 to int (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "24674954998": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "262144": {
       "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 315)",
       "granularity": "benchmark",
       "kind": "level",
       "known": false,
+      "status": "detype_failure"
+    },
+    "27224101220": {
+      "error": "TypedSyntaxError: type mismatch: int received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
       "status": "detype_failure"
     },
     "27908893981": {
@@ -70,6 +140,27 @@
       "known": false,
       "status": "detype_failure"
     },
+    "32749125630": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34091301631": {
+      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34091302846": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "34217132027": {
       "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 84)",
       "granularity": "benchmark",
@@ -84,6 +175,13 @@
       "known": false,
       "status": "detype_failure"
     },
+    "34359574526": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "34359721983": {
       "error": "TypedSyntaxError: type mismatch: int64 cannot be assigned to dynamic (, line 86)",
       "granularity": "benchmark",
@@ -91,11 +189,32 @@
       "known": false,
       "status": "detype_failure"
     },
+    "34359737343": {
+      "error": "TypedSyntaxError: type mismatch: dynamic received for positional arg 'mark', expected int64 (, line 342)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detype_failure"
+    },
+    "34359738230": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": true,
+      "status": "detype_failure"
+    },
     "34359738239": {
       "error": "TypedSyntaxError: Call argument cannot be a primitive (, line 315)",
       "granularity": "benchmark",
       "kind": "level",
       "known": false,
+      "status": "detype_failure"
+    },
+    "34359738366": {
+      "error": "TypedSyntaxError: invalid union type Union[dynamic, cbool]; unions cannot include primitive types (, line 342)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
       "status": "detype_failure"
     },
     "69635": {

@@ -14,18 +14,49 @@ Erasure is not part of this. `remove_annotations` must finish across the whole
 tree first, because whether a value needs coercing depends on what every other
 annotation became.
 """
-from ast import Call, Load, Name, NodeTransformer, Slice, unparse
+from ast import (Call, If, IfExp, Load, Name, NodeTransformer, Not, Slice,
+                 Subscript, UnaryOp, While, copy_location, unparse)
 
-from get_ast_data import get_ctx
-from patch_picker import pick_patch
+from get_ast_data import get_ctx, is_primative
+from patch_picker import PRIMITIVE_NAMES, pick_patch
 
 # coercions that exist only to produce a primitive. In a slot that is no longer
 # primitive they do nothing but make the program invalid.
 TO_PRIMITIVE = ("int64", "cbool", "clen", "double")
 
 
+def unwrapped_primitive(node):
+    """What a primitive constructor was converting, or None.
+
+    `clen` is not one of these. It is in TO_PRIMITIVE because it exists to
+    produce a primitive, but it computes a length rather than converting its
+    operand, and stepping over it would change what the program says.
+    """
+    if (isinstance(node, Call) and isinstance(node.func, Name)
+            and node.func.id in PRIMITIVE_NAMES and len(node.args) == 1):
+        return node.args[0]
+    return None
+
+
+def beneath_unary(node):
+    """What a chain of unary operators finally reads."""
+    while isinstance(node, UnaryOp):
+        node = node.operand
+    return node
+
+
 def extract_coerced(node, constructors):
-    """The value inside a coercion, however many layers deep."""
+    """The value inside a coercion, however many layers deep.
+
+    A unary operator on the way down is carried out along with the value rather
+    than stepped over. The layers beneath it still cancel, but the operator is
+    part of what the position yields, and handing back the bare operand would
+    invert every branch reading a `not` and flip the sign under every `-`.
+    """
+    if isinstance(node, UnaryOp):
+        inner = extract_coerced(node.operand, constructors)
+        return None if inner is None else copy_location(
+            UnaryOp(op=node.op, operand=inner), node)
     if not isinstance(node, Call):
         return None
     first, second, *_ = node.args + [None, None]
@@ -79,6 +110,77 @@ class Coercer(NodeTransformer):
             node.func.id = "len"
             self.types[node] = self.dyn
 
+    def bare_test(self, node):
+        """A branch demands nothing of its test, so a coercion there is noise.
+
+        `cbool(x)` compiles only where x is already a bool, a cbool or dynamic,
+        and cinderx branches on all three unwrapped, so the wrapper changes no
+        outcome. It does cost one: on a dynamic it demands exactly `bool` at
+        runtime, and a truthy non-bool the bare test would have accepted raises
+        instead. Nothing reads a test, so there is no type to record.
+
+        `if`, `while` and the test of a conditional expression, which discard
+        their test alike. Not `and` or `or`: those return an operand, so a
+        coercion in one is a value and may be carrying its type onward.
+
+        Any primitive constructor, not just the `cbool` erasure usually leaves.
+        A test reads for truth whatever it was handed, so `int64(k)` is as
+        pointless here as `cbool(k)` -- and worse, it raises on the non-int a
+        bare test would have taken.
+        """
+        inner = unwrapped_primitive(node.test)
+        if inner is not None:
+            node.test = inner
+
+    def bare_unary(self, node):
+        """A unary operator passes its operand's kind through, so a coercion
+        under one belongs to the position above it instead.
+
+        `not` reads its operand for truth alone; `-` and `~` hand back what
+        they were given. Either way the layer underneath is doing work the
+        enclosing position can decide for itself, and usually does not want.
+
+        Taking it out changes what the operator yields, so the tables hear
+        about it before the position above is judged: a negation is a truth
+        value, cbool over a primitive and bool over anything else, while the
+        arithmetic operators keep their operand's type outright. Miss that and
+        the box picked for the primitive that used to be here lands on a bool,
+        which cinderx will not box at all.
+        """
+        inner = unwrapped_primitive(node.operand)
+        if inner is None:
+            return
+        node.operand = inner
+        produced = self.types.get(inner)
+        if isinstance(node.op, Not):
+            env = self.dyn.klass.type_env
+            self.types[node] = (env.cbool.instance
+                                if produced is not None and is_primative(produced)
+                                else env.bool.instance)
+        elif produced is not None:
+            self.types[node] = produced
+
+    def bare_index(self, node):
+        """A subscript demands no primitive of its index.
+
+        `int64(i)` narrows the position rather than widening it: a list, a
+        CheckedList and an Array all take a dynamic index, while a str, a
+        CheckedDict and a dynamic container reject the primitive outright. The
+        wrapper is here because the index was an int64 when it was written and
+        the tables still record that demand. It also costs: int64 wraps an
+        index too large for 64 bits into some other valid one, where the bare
+        subscript would have raised.
+
+        An index written as a float wants a guard this does not have: `int64`
+        truncates it, and dropping the call hands the subscript a float it has
+        no use for. Nothing in the benchmarks indexes with one, so the guard is
+        left out until something needs it.
+        """
+        index = node.slice
+        if (isinstance(index, Call) and isinstance(index.func, Name)
+                and index.func.id == "int64" and len(index.args) == 1):
+            node.slice = index.args[0]
+
     def pointless(self, node):
         """A coercion in the source that no longer coerces anything.
 
@@ -131,16 +233,35 @@ class Coercer(NodeTransformer):
             f"Optional[{target}]", f"{target} | None")
 
     def collapse_tower(self, node):
-        """A tower this pass or the author built, whose layers cancel."""
+        """A tower this pass or the author built, whose layers cancel.
+
+        The type asked about is the innermost value's, which for a rebuilt
+        `not` is a small lie. `not` preserves the primitive-or-object kind of
+        its operand and nothing finer: `not <int64>` is a cbool, not an int64.
+        The kind is all `_choose` reads to decide between a box, a constructor
+        and nothing, so the wrapper it picks is right, and asking about the
+        value keeps a freshly built negation -- which has no entry of its own
+        -- out of a `types.get` that would return None and drop us into the
+        cast fallback.
+
+        Three ways the lie can bite, none of them seen in these benchmarks.
+        The position is filed under the operand's type, so the tables call a
+        bool an int. `valid_pair` is asked about the operand where the slot
+        sees the negation. A `must_agree` pair weighs one against the other.
+        All three come out the same against a dynamic slot, and a dynamic slot
+        is what erasure leaves, so this holds everywhere but the rare case of
+        a tower collapsing into a narrowly typed position.
+        """
         if node in self.needs_exact or self.narrowing_cast(node):
             return None
         inner = extract_coerced(node, self.constructors)
-        if inner is None or self.load_bearing(node, inner):
+        if inner is None or self.load_bearing(node, beneath_unary(inner)):
             return None
         collapsed = pick_patch(
-            inner, self.types.get(inner), self.type_ctxs.get(node),
-            self.valid_pair, self.needs_exact, self.types, self.type_ctxs,
-            self.dyn, self.graph.must_agree(node)).wrap()
+            inner, self.types.get(beneath_unary(inner)),
+            self.type_ctxs.get(node), self.valid_pair, self.needs_exact,
+            self.types, self.type_ctxs, self.dyn, self.constructors,
+            self.graph.must_agree(node)).wrap()
         if self.types.get(collapsed) is not None:
             self.graph.propagate(collapsed, self.types.get(collapsed),
                                  self.types, self.type_ctxs)
@@ -151,6 +272,12 @@ class Coercer(NodeTransformer):
     def visit(self, node):
         self.generic_visit(node)
         self.demote_clen(node)
+        if isinstance(node, (If, IfExp, While)):
+            self.bare_test(node)
+        if isinstance(node, UnaryOp):
+            self.bare_unary(node)
+        if isinstance(node, Subscript):
+            self.bare_index(node)
         if isinstance(node, Call):
             if (collapsed := self.collapse_tower(node)) is not None:
                 node = collapsed
@@ -170,7 +297,7 @@ class Coercer(NodeTransformer):
             return target
         wrapper = pick_patch(target, t, tc, self.valid_pair, self.needs_exact,
                              self.types, self.type_ctxs, self.dyn,
-                             self.graph.must_agree(node))
+                             self.constructors, self.graph.must_agree(node))
         result = wrapper.wrap()
         if result is not target and wrapper.T is not None:
             # the position yields something new, so the other half of any pair

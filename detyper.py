@@ -35,7 +35,7 @@ from import_adder import add_imports
 from simple_type_graph import build_binding_graph
 
 
-def detype(source, mask=0, bench=False):
+def detype(source, mask=0, bench=False, less_any=False):
     written = get_ast_data(parse(source))
     graph = build_binding_graph(written)
     granularity = "benchmark" if bench else "annotation"
@@ -47,9 +47,10 @@ def detype(source, mask=0, bench=False):
     # erasure first, across the whole tree: whether a value needs coercing
     # depends on what every other annotation became
     tree = remove_annotations(written.tree, erased, predicted.types,
-                              predicted.contexts)
+                              predicted.contexts, less_any)
     tree = coerce_tree(tree, predicted.types, predicted.contexts,
                        written.dynamic, written.valid_pair,
-                       find_needs_exact(tree, written.reverse_outflow), graph,
+                       find_needs_exact(tree, written.reverse_outflow,
+                                        predicted.types), graph,
                        written.constructors)
     return fix_missing_locations(add_imports(tree))

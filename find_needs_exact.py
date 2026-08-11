@@ -34,9 +34,30 @@ class IteratorFinder(NodeTransformer):
         self.generic_visit(node)
         return node
 
-def find_needs_exact(tree, reverse_outflow):
+def _is_int(t):
+    """An int, exact or not.
+
+    There are two `int` instances in play -- cinderx hands back a NumInstance
+    where the slot holds a NumExactInstance -- so this asks the name rather
+    than the identity.
+    """
+    return t is not None and t.klass.type_name.readable_name == "int"
+
+
+def find_needs_exact(tree, reverse_outflow, types=None):
+    """Positions whose value has to be spelled exactly, `box(T(x))` not `box(x)`.
+
+    Never for an int. Exactness there protects nothing we could find:
+    CheckedList[int] and CheckedDict[int, int] both take a bool -- an int
+    subclass -- without complaint, and every slot we tried accepts an inexact
+    int, including the CheckedList index that had us emitting `cast(int, ...)`.
+    A user-defined class is a different matter and keeps its exactness.
+    """
     inline_finder = InlineCallArgFinder(reverse_outflow)
     iter_finder = IteratorFinder()
     inline_finder.visit(tree)
     iter_finder.visit(tree)
-    return inline_finder.needs_exact | iter_finder.needs_exact
+    found = inline_finder.needs_exact | iter_finder.needs_exact
+    if types is None:
+        return found
+    return {node for node in found if not _is_int(types.get(node))}

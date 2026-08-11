@@ -9,20 +9,28 @@ now pass move to fixed_problem_masks_<mode>.json, so the pair is a running
 record of what broke and what got repaired. A mask that comes back after being
 fixed is a regression and fails the run.
 """
-from ast import parse
+from ast import parse, unparse
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from json import dump, dumps, load
 from os import cpu_count, path
 from random import Random
-from sys import stderr
+from sys import argv, stderr
 from time import perf_counter
 
+from dataclasses import asdict, dataclass
+from statistics import median
+from subprocess import run
+from sys import executable
+from tempfile import TemporaryDirectory
+from time import perf_counter_ns
+
+from detyper import detype
 from get_ast_data import get_ast_data
 from list_benchmarks import get_bench_list
 from load_source import load_bench
 from simple_type_graph import build_binding_graph
-from test_graph import Case, execute
 
+RUNNER = path.join(path.dirname(path.abspath(__file__)), "static_runner.py")
 MODES = ("compile", "runtime")
 GRANULARITY = "benchmark"
 VARIANT = "advanced"
@@ -30,9 +38,131 @@ SKIP = {"scratch"}
 FUZZ = 50
 SEED = 8675309
 REPETITIONS = 1
+# `python test.py --less-any` erases to a deleted annotation rather than to
+# `Any`. It is a different program, so it keeps its own record of what breaks.
+LESS_ANY = "--less-any" in argv
+SUFFIX = "_less_any" if LESS_ANY else ""
 WORKERS = cpu_count() or 1
 HERE = path.dirname(path.abspath(__file__))
 BAR = 28
+
+
+
+@dataclass(frozen=True, order=True)
+class Case:
+    benchmark: str
+    variant: str
+    granularity: str
+    mask: int
+    seed: int = 0
+
+
+def _error(exc):
+    text = str(exc).strip().splitlines()
+    return f"{type(exc).__name__}: {text[-1] if text else exc}"
+
+
+def _run_module(source, compile_only=False):
+    with TemporaryDirectory() as tmp:
+        module_path = path.join(tmp, "bench_module.py")
+        with open(module_path, "w") as f:
+            f.write(source)
+        cmd = [executable, RUNNER, module_path, "--require-static"]
+        if compile_only:
+            cmd.append("--compile-only")
+        start = perf_counter_ns()
+        proc = run(cmd, capture_output=True, text=True, timeout=120)
+        elapsed = perf_counter_ns() - start
+    return proc, elapsed
+
+
+def compile_case(case, source, repetitions):
+    start = perf_counter_ns()
+    try:
+        output = source if case.mask == 0 else unparse(detype(
+            source, mask=case.mask, bench=case.granularity == "benchmark",
+            less_any=LESS_ANY))
+    except Exception as exc:
+        return {"status": "detype_failure", "error": _error(exc),
+                "metrics": {}}
+    transform_ns = perf_counter_ns() - start
+    typed_samples, detyped_samples = [], []
+    for i in range(repetitions):
+        order = (("typed", source, typed_samples),
+                 ("detyped", output, detyped_samples))
+        if i % 2:
+            order = tuple(reversed(order))
+        for label, artifact, samples in order:
+            proc, elapsed = _run_module(artifact, compile_only=True)
+            if proc.returncode:
+                return {"status": f"{label}_compile_failure",
+                        "error": proc.stderr.strip().splitlines()[-1],
+                        "metrics": {"transform_ns": transform_ns}}
+            samples.append(elapsed)
+    typed_med, detyped_med = median(typed_samples), median(detyped_samples)
+    return {"status": "ok", "metrics": {
+        "transform_ns": transform_ns,
+        "typed_compile_ns_median": int(typed_med),
+        "detyped_compile_ns_median": int(detyped_med),
+        "compile_ratio": detyped_med / typed_med if typed_med else None,
+        "typed_compile_samples_ns": typed_samples,
+        "detyped_compile_samples_ns": detyped_samples}}
+
+
+def runtime_case(case, source, repetitions):
+    try:
+        output = source if case.mask == 0 else unparse(detype(
+            source, mask=case.mask, bench=case.granularity == "benchmark",
+            less_any=LESS_ANY))
+    except Exception as exc:
+        return {"status": "detype_failure", "error": _error(exc), "metrics": {}}
+    # Correctness and timing are paired in each worker. These are cold-process
+    # samples; steady-state benchmark-specific loops can use the same schema.
+    typed_samples, detyped_samples = [], []
+    expected = None
+    for i in range(repetitions):
+        order = (("typed", source, typed_samples),
+                 ("detyped", output, detyped_samples))
+        if i % 2:
+            order = tuple(reversed(order))
+        observed = {}
+        for label, artifact, samples in order:
+            proc, elapsed = _run_module(artifact)
+            if proc.returncode:
+                return {"status": "runtime_failure",
+                        "error": proc.stderr.strip().splitlines()[-1], "metrics": {}}
+            observed[label] = proc.stdout
+            samples.append(elapsed)
+        if observed["typed"] != observed["detyped"]:
+            # Some benchmarks print their own elapsed time, so the typed source
+            # already differs from itself run to run. Only a benchmark that is
+            # stable against itself can report a semantic failure.
+            again, _ = _run_module(source)
+            if again.returncode == 0 and again.stdout == observed["typed"]:
+                return {"status": "semantic_failure",
+                        "error": "typed and detyped stdout differ", "metrics": {}}
+        expected = observed["typed"]
+    typed_med, detyped_med = median(typed_samples), median(detyped_samples)
+    return {"status": "ok", "metrics": {
+        "typed_runtime_ns_median": int(typed_med),
+        "detyped_runtime_ns_median": int(detyped_med),
+        "runtime_ratio": detyped_med / typed_med if typed_med else None,
+        "typed_samples_ns": typed_samples,
+        "detyped_samples_ns": detyped_samples}}
+
+
+def execute(payload):
+    mode, case, repetitions = payload
+    started = perf_counter_ns()
+    try:
+        source = load_bench(case.benchmark, case.variant)
+        result = (compile_case if mode == "compile" else runtime_case)(
+            case, source, repetitions)
+    except Exception as exc:
+        result = {"status": "error", "error": _error(exc), "metrics": {}}
+    result.update(case=asdict(case), phase=mode,
+                  elapsed_ns=perf_counter_ns() - started)
+    return result
 
 
 def unit_count(bench, variant):
@@ -171,8 +301,8 @@ def track_problems(mode, cases, results):
         tested.setdefault(f"{case.benchmark}/{case.variant}", set()).add(
             str(case.mask))
 
-    problem_file = path.join(HERE, f"problem_masks_{mode}.json")
-    fixed_file = path.join(HERE, f"fixed_problem_masks_{mode}.json")
+    problem_file = path.join(HERE, f"problem_masks_{mode}{SUFFIX}.json")
+    fixed_file = path.join(HERE, f"fixed_problem_masks_{mode}{SUFFIX}.json")
     known, fixed = read_json(problem_file), read_json(fixed_file)
 
     # The files are a permanent record, so this merges rather than replaces.
@@ -226,7 +356,8 @@ def report(mode, results, problems, newly_fixed, regressions):
 def main():
     cases, kinds, shapes = plan_cases()
     print(f"plan: {len(cases)} cases x {len(MODES)} modes, "
-          f"{GRANULARITY} granularity, {WORKERS} workers", file=stderr)
+          f"{GRANULARITY} granularity, {WORKERS} workers"
+          f"{', less-any' if LESS_ANY else ''}", file=stderr)
     for key, units, levels, fuzzed in shapes:
         print(f"  {key:<28} units={units:<4} levels={levels:<4} fuzz={fuzzed}",
               file=stderr)
