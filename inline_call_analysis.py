@@ -23,13 +23,13 @@ class InlineCallArgFinder(NodeTransformer):
 
     def __init__(self, reverse_outflow):
         self.reverse_outflow = reverse_outflow
-        self.needs_exact = set()
+        self.inline_args = set()
 
     def visit_Call(self, node):
         if source := self.reverse_outflow.get(node):
             if isinstance(source, FunctionDef):
                 if "inline" in set(map(unparse, source.decorator_list)):
-                    self.needs_exact |= set(node.args)
+                    self.inline_args |= set(node.args)
         self.generic_visit(node)
         return node
 
@@ -49,10 +49,10 @@ class IteratorFinder(NodeTransformer):
     """
 
     def __init__(self):
-        self.needs_exact = set()
+        self.inline_args = set()
 
     def visit_ListComp(self, node):
-        self.needs_exact |= set((node.elt,))
+        self.inline_args |= set((node.elt,))
         self.generic_visit(node)
         return node
 
@@ -67,27 +67,28 @@ def _is_int(t):
     return t is not None and t.klass.type_name.readable_name == "int"
 
 
-def find_needs_exact(tree, reverse_outflow, types=None):
-    """Positions whose value has to be spelled exactly, `box(T(x))` not `box(x)`.
+def find_inline_args(tree, reverse_outflow, types=None):
+    """The arguments of every call to an `@inline` function.
 
-    Never for an int: CheckedList[int] and CheckedDict[int, int] both take a
+    cinderx substitutes the body at the call site with the types the arguments
+    actually have, so two arguments that no longer agree -- one still typed,
+    one erased -- meet inside it as `int64 < dynamic`. The mediator brings the
+    typed one down with a cast to `object`; this is the set that lets it,
+    by keeping `_choose` off the `valid_pair` branch that would pass the
+    argument through untouched. Six deltablue masks turn on it.
+
+    Never for an int. CheckedList[int] and CheckedDict[int, int] both take a
     bool -- an int subclass -- without complaint, and every slot we tried
-    accepts an inexact int.
+    accepts an inexact int, so an int argument is left alone.
 
-    What is left is the arguments of a call to an `@inline` function, and
-    nothing else. This set does two jobs -- it spells a box exactly, and it
-    keeps `_choose` off the `valid_pair` branch -- and the second is the one
-    that matters here: it is what lets an argument reach the cast to `object`
-    that makes two disagreeing arguments agree. Six deltablue masks.
-
-    The other two members were dropped and measured. A returned expression is
-    read once, by whatever the call feeds, and that consumer picks its own
-    coercion, so exactness there only bought a cast to dynamic. List
-    comprehension elements went the same way; see IteratorFinder.
+    This set used to hold two other things, both dropped and measured. A
+    returned expression is read once, by whatever the call feeds, and that
+    consumer picks its own coercion. List comprehension elements went the same
+    way; see IteratorFinder.
     """
     inline_finder = InlineCallArgFinder(reverse_outflow)
     inline_finder.visit(tree)
-    found = inline_finder.needs_exact
+    found = inline_finder.inline_args
     if types is None:
         return found
     return {node for node in found if not _is_int(types.get(node))}

@@ -5,7 +5,7 @@ compiler already found the rest: binding through a CollectingErrorSink returns
 all nine of fannkuch's errors for the same ~15ms.
 
 The graph cannot stand in for that bind, though `graph_oracle.py` was written
-to try. Its mismatch set answers "would the coercer put a wrapper here", which
+to try. Its mismatch set answers "would the type mediator put a wrapper here", which
 is not "is anything wrong here": on fannkuch the mediator's own ten wrappers
 produce a program that compiles and runs, and the graph still reports 35 of its
 39 mismatches outstanding. `settle` keeps `bound.type_contexts` for any node no
@@ -42,13 +42,13 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(ROOT), str(HERE)]
 
 from detyper import detype
-from find_needs_exact import find_needs_exact
-from get_ast_data import get_ast_data
+from inline_call_analysis import find_inline_args
+from cinderx_binding import get_ast_data
 from patch_picker import Wrapper, _choose
-from simple_type_graph import build_binding_graph
+from typedness_graph import build_binding_graph
 from brute_force_prune import check, mark_generated_wrappers, removable_operand
 from graph_oracle import ReachIndex, check_reference
-from simple_type_graph import CONTEXT, TYPE
+from typedness_graph import CONTEXT, TYPE
 
 sys.path.insert(0, str(ROOT / "_cinderx/cinderx/PythonLib"))
 from cinderx.compiler.errors import CollectingErrorSink
@@ -134,7 +134,7 @@ def build_graph_actions(graph, bound, predicted, mismatches, candidate_nodes,
     Keeping the vocabulary identical is what makes the two searches
     comparable: any difference in the answer is the search, not the moves.
     """
-    needs_exact = find_needs_exact(bound.tree, bound.reverse_outflow)
+    inline_args = find_inline_args(bound.tree, bound.reverse_outflow)
     component_types = unique_identity([
         value for node in mismatches
         for value in (predicted.types.get(node), predicted.contexts.get(node))
@@ -153,7 +153,7 @@ def build_graph_actions(graph, bound, predicted, mismatches, candidate_nodes,
         for target in targets:
             try:
                 wrapper = _choose(graph_node, produced, target,
-                                  bound.valid_pair, needs_exact, bound.dynamic,
+                                  bound.valid_pair, inline_args, bound.dynamic,
                                   graph.must_agree(graph_node))
             except Exception:
                 continue

@@ -18,10 +18,10 @@ from typing import Iterable
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from find_needs_exact import find_needs_exact
-from get_ast_data import get_ast_data, is_primative
+from inline_call_analysis import find_inline_args
+from cinderx_binding import get_ast_data, is_primative
 from patch_picker import Wrapper, _choose
-from simple_type_graph import CONTEXT, TYPE, Graph, build_binding_graph
+from typedness_graph import CONTEXT, TYPE, Graph, build_binding_graph
 
 
 @dataclass(frozen=True)
@@ -79,7 +79,7 @@ def wrapper_depth(wrapper: Wrapper, original: ast.AST) -> int:
 
 
 def find_mismatches(graph: Graph, bound, predicted) -> dict[ast.AST, Mismatch]:
-    needs_exact = find_needs_exact(bound.tree, bound.reverse_outflow)
+    inline_args = find_inline_args(bound.tree, bound.reverse_outflow)
     found: dict[ast.AST, Mismatch] = {}
     for node in predicted.types.keys() & predicted.contexts.keys():
         if not wrappable(node):
@@ -94,7 +94,7 @@ def find_mismatches(graph: Graph, bound, predicted) -> dict[ast.AST, Mismatch]:
                 produced,
                 demanded,
                 bound.valid_pair,
-                needs_exact,
+                inline_args,
                 bound.dynamic,
                 graph.must_agree(node),
             )

@@ -30,10 +30,10 @@ from shutil import rmtree
 from sys import stderr
 
 from detyper import detype
-from get_ast_data import get_ast_data
+from cinderx_binding import get_ast_data
 from list_benchmarks import get_bench_list
 from load_source import load_bench
-from simple_type_graph import build_binding_graph
+from typedness_graph import build_binding_graph
 from test import _run_module, _error
 
 GRANULARITY = "benchmark"

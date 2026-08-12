@@ -1,6 +1,6 @@
 from re import compile
 from ast import NodeTransformer, AnnAssign, Assign, Name, Store, Load, Global, Nonlocal, FunctionDef, AsyncFunctionDef, unparse, parse, walk, iter_child_nodes
-from get_ast_data import get_ast_data
+from cinderx_binding import get_ast_data
 
 _MAP = {"chklist": "CheckedList", "chkdict": "CheckedDict", "chkset": "CheckedSet"}
 _OPT = compile(r"Optional\[(.+)\]$")

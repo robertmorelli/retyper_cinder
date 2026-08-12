@@ -27,12 +27,12 @@ sentinel, so a caller that rebinds must not carry ours across -- every
 """
 from ast import fix_missing_locations, parse
 
-from anno_remover import remove_annotations
-from coercer import coerce_tree
-from find_needs_exact import find_needs_exact
-from get_ast_data import get_ast_data
+from annotation_remover import remove_annotations
+from cinderx_binding import get_ast_data
 from import_adder import add_imports
-from simple_type_graph import build_binding_graph
+from inline_call_analysis import find_inline_args
+from type_mediator import coerce_tree
+from typedness_graph import build_binding_graph
 
 
 def detype(source, mask=0, bench=False, less_any=False):
@@ -50,7 +50,7 @@ def detype(source, mask=0, bench=False, less_any=False):
                               predicted.contexts, less_any)
     tree = coerce_tree(tree, predicted.types, predicted.contexts,
                        written.dynamic, written.valid_pair,
-                       find_needs_exact(tree, written.reverse_outflow,
+                       find_inline_args(tree, written.reverse_outflow,
                                         predicted.types), graph,
                        written.constructors)
     return fix_missing_locations(add_imports(tree))

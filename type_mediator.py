@@ -17,7 +17,7 @@ annotation became.
 from ast import (Call, If, IfExp, Load, Name, NodeTransformer, Not, Slice,
                  Subscript, UnaryOp, While, copy_location, unparse)
 
-from get_ast_data import get_ctx, is_primative
+from cinderx_binding import get_ctx, is_primative
 from patch_picker import (PRIMITIVE_NAMES, choose_patch, pick_patch,
                           record_patch)
 
@@ -95,13 +95,13 @@ def extract_coerced(node, constructors):
 
 
 class Coercer(NodeTransformer):
-    def __init__(self, types, type_ctxs, dyn, valid_pair, needs_exact, graph,
+    def __init__(self, types, type_ctxs, dyn, valid_pair, inline_args, graph,
                  constructors):
         self.types = types
         self.type_ctxs = type_ctxs
         self.dyn = dyn
         self.valid_pair = valid_pair
-        self.needs_exact = needs_exact
+        self.inline_args = inline_args
         self.graph = graph
         self.constructors = constructors
 
@@ -295,7 +295,7 @@ class Coercer(NodeTransformer):
         is what erasure leaves, so this holds everywhere but the rare case of
         a tower collapsing into a narrowly typed position.
         """
-        if node in self.needs_exact or self.narrowing_cast(node):
+        if node in self.inline_args or self.narrowing_cast(node):
             return None
         inner = extract_coerced(node, self.constructors)
         if inner is None:
@@ -303,7 +303,7 @@ class Coercer(NodeTransformer):
         value = beneath_unary(inner)
         candidate = choose_patch(
             inner, self.types.get(value), self.type_ctxs.get(node),
-            self.valid_pair, self.needs_exact, self.dyn,
+            self.valid_pair, self.inline_args, self.dyn,
             self.graph.must_agree(node))
         # What replaces the tower is this rebuild, not the bare value inside
         # it. Where the rebuild hands back the same type the tower did --
@@ -351,7 +351,7 @@ class Coercer(NodeTransformer):
         tc = self.type_ctxs.get(node)
         if not (t and tc):
             return target
-        wrapper = pick_patch(target, t, tc, self.valid_pair, self.needs_exact,
+        wrapper = pick_patch(target, t, tc, self.valid_pair, self.inline_args,
                              self.types, self.type_ctxs, self.dyn,
                              self.constructors, self.graph.must_agree(node))
         result = wrapper.wrap()
@@ -362,8 +362,8 @@ class Coercer(NodeTransformer):
         return result
 
 
-def coerce_tree(tree, types, type_ctxs, dyn, valid_pair, needs_exact, graph,
+def coerce_tree(tree, types, type_ctxs, dyn, valid_pair, inline_args, graph,
                 constructors):
-    Coercer(types, type_ctxs, dyn, valid_pair, needs_exact, graph,
+    Coercer(types, type_ctxs, dyn, valid_pair, inline_args, graph,
             constructors).visit(tree)
     return tree

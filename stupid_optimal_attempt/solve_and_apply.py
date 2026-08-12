@@ -1,6 +1,6 @@
 """Brute-force the approximate patch instances and apply the chosen wrappers.
 
-This is an experiment, not a replacement for coercer.py. It solves the
+This is an experiment, not a replacement for type_mediator.py. It solves the
 minimum-set-cover reduction from print_instances.py, realizes each selected
 position as one concrete coercion, removes the selected annotations, and can
 ask the Static Python loader whether the result compiles or runs.
@@ -19,12 +19,12 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from anno_remover import remove_annotations
-from find_needs_exact import find_needs_exact
-from get_ast_data import get_ast_data
+from annotation_remover import remove_annotations
+from inline_call_analysis import find_inline_args
+from cinderx_binding import get_ast_data
 from import_adder import add_imports
 from patch_picker import Wrapper, _choose
-from simple_type_graph import build_binding_graph
+from typedness_graph import build_binding_graph
 from print_instances import (
     Mismatch,
     candidate_sets,
@@ -54,14 +54,14 @@ def minimum_cover(instance, mismatch_candidates):
     raise RuntimeError("uncoverable mismatch instance")
 
 
-def choice_for_target(node, produced, target, graph, bound, needs_exact):
+def choice_for_target(node, produced, target, graph, bound, inline_args):
     try:
         choice = _choose(
             node,
             produced,
             target,
             bound.valid_pair,
-            needs_exact,
+            inline_args,
             bound.dynamic,
             graph.must_agree(node),
         )
@@ -76,7 +76,7 @@ def realize_patch(
     graph,
     bound,
     predicted,
-    needs_exact,
+    inline_args,
 ):
     """Choose one concrete wrapper for an abstract selected patch position.
 
@@ -104,7 +104,7 @@ def realize_patch(
     best = None
     for target in unique_targets:
         choice = choice_for_target(
-            node, produced, target, graph, bound, needs_exact)
+            node, produced, target, graph, bound, inline_args)
         if choice is None or choice.T is None:
             continue
         types = dict(predicted.types)
@@ -118,7 +118,7 @@ def realize_patch(
                 contexts.get(mismatch.node),
                 graph,
                 bound,
-                needs_exact,
+                inline_args,
             )
             if trial is None:
                 repaired += 1
@@ -153,14 +153,14 @@ def solve(source: str, mask: int, granularity: str):
         minimum_cover(instance, mismatch_candidates) for instance in instances
     )) if instances else set()
 
-    needs_exact = find_needs_exact(bound.tree, bound.reverse_outflow)
+    inline_args = find_inline_args(bound.tree, bound.reverse_outflow)
     wrappers = {}
     unrealized = []
     for node in sorted(selected, key=node_key):
         covered = [mismatches[m] for m, candidates in mismatch_candidates.items()
                    if node in candidates]
         wrapper = realize_patch(
-            node, covered, graph, bound, predicted, needs_exact)
+            node, covered, graph, bound, predicted, inline_args)
         if wrapper is None:
             unrealized.append(node)
         else:

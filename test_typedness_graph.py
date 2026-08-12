@@ -2,9 +2,9 @@ import ast
 import unittest
 from types import SimpleNamespace
 
-from get_ast_data import get_ast_data
+from cinderx_binding import get_ast_data
 from simple_graph_view import graph_data
-from simple_type_graph import CONTEXT, TYPE, Graph, build_binding_graph
+from typedness_graph import CONTEXT, TYPE, Graph, build_binding_graph
 
 
 SOURCE = """

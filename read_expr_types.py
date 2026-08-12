@@ -1,6 +1,6 @@
 from sys import argv
 from ast import get_source_segment, parse
-from get_ast_data import get_ast_data, is_const
+from cinderx_binding import get_ast_data, is_const
 from load_source import load_bench
 
 source = load_bench(argv[1], argv[2])

@@ -41,8 +41,8 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(ROOT), str(HERE)]
 
 from detyper import detype
-from get_ast_data import get_ast_data
-from simple_type_graph import build_binding_graph
+from cinderx_binding import get_ast_data
+from typedness_graph import build_binding_graph
 from brute_force_prune import check, mark_generated_wrappers, removable_operand
 from global_search import (
     baseline_positions, baseline_tree, materialize_tree, span,
@@ -52,7 +52,7 @@ from print_instances import find_mismatches, node_key, parse_mask, wrappable
 from promising_search import (
     ReachIndex, all_errors, build_graph_actions, error_positions,
 )
-from simple_type_graph import TYPE
+from typedness_graph import TYPE
 
 
 def forward_cone(graph, node):

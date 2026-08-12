@@ -1,8 +1,8 @@
 from ast import get_source_segment, parse
 from sys import argv
-from get_ast_data import get_ast_data
+from cinderx_binding import get_ast_data
 from load_source import load_bench
-from simple_type_graph import build_binding_graph
+from typedness_graph import build_binding_graph
 
 source = load_bench(argv[1], argv[2])
 

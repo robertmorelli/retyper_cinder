@@ -22,7 +22,7 @@ Four pieces, in dependency order:
 `lower_bound`     Mismatches whose candidate sets are pairwise disjoint need
                   one wrapper each. Read off the same index.
 
-Nothing here edits simple_type_graph.py; every rule is called through the
+Nothing here edits typedness_graph.py; every rule is called through the
 Graph's own methods so the two cannot drift apart silently.
 """
 from __future__ import annotations
@@ -36,7 +36,7 @@ ROOT = Path(__file__).resolve().parent.parent
 HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(ROOT), str(HERE)]
 
-from simple_type_graph import CONTEXT, TYPE
+from typedness_graph import CONTEXT, TYPE
 from print_instances import wrappable
 
 
@@ -109,7 +109,7 @@ def check_reference(graph, bound, erased):
 def full_propagate(graph, seeds, types, contexts, max_visits=200_000):
     """Chase a patched position's new type down the whole result chain.
 
-    Graph.propagate stops after one hop, which is all the coercer needs: it
+    Graph.propagate stops after one hop, which is all the type mediator needs: it
     walks the tree itself and will reach the next position on its own. A search
     that asks "what does this one wrapper change" has no such walk, so the
     consequences have to be chased here.

@@ -1,6 +1,6 @@
 from re import compile
 from ast import Name, Load, Attribute, Call, copy_location, walk
-from get_ast_data import is_primative, is_const
+from cinderx_binding import is_primative, is_const
 
 def _type_expr(name):
     parts = name.split(".")
@@ -106,7 +106,7 @@ def _narrows_optional(type, type_ctx):
 
 
 # TODO: figure out if this produces enough casts
-def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None, compared=False):
+def _choose(node, type, type_ctx, valid_pair, inline_args, dyn=None, compared=False):
     if _narrows_optional(type, type_ctx):
         return CastWrapper(type_ctx, node)
     # Boxing a machine literal in a dynamic slot -- `box(double(2.0))` -- fixes
@@ -121,8 +121,8 @@ def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None, compared=Fa
         # says: cinder rejects `int64 cannot be assigned to dynamic` outright.
         # This is the case erasure creates -- the annotation that made the slot
         # primitive is gone, and the value still is one, so it has to box.
-        return BoxWrapper(node, type, node in needs_exact)
-    if node not in needs_exact and valid_pair(type, type_ctx, node):
+        return BoxWrapper(node, type, node in inline_args)
+    if node not in inline_args and valid_pair(type, type_ctx, node):
         return Wrapper(node)
     elif type == type_ctx:
         return Wrapper(node)
@@ -135,19 +135,19 @@ def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None, compared=Fa
         return ConstrWrapper(type_ctx, node)
     else:
         # A cast to `object` -- to dynamic -- reaches this branch only where
-        # needs_exact kept it off `valid_pair` above, which is the argument of
+        # inline_args kept it off `valid_pair` above, which is the argument of
         # an @inline call and nothing else. That cast is load-bearing: it is
         # what makes two arguments agree once cinderx substitutes the body.
         return CastWrapper(type_ctx, node)
 
-def choose_patch(node, type, type_ctx, valid_pair, needs_exact, dyn=None,
+def choose_patch(node, type, type_ctx, valid_pair, inline_args, dyn=None,
                  compared=False):
     """Which wrapper this position wants, without writing it down.
 
     The tower collapser has to know what a rebuild would produce before it can
     decide whether to rebuild at all, and `_record` commits to the tables.
     """
-    return _choose(node, type, type_ctx, valid_pair, needs_exact, dyn, compared)
+    return _choose(node, type, type_ctx, valid_pair, inline_args, dyn, compared)
 
 
 def record_patch(w, node, type, type_ctx, types, ctxs, dyn, constructors):
@@ -155,9 +155,9 @@ def record_patch(w, node, type, type_ctx, types, ctxs, dyn, constructors):
     return _record(w, node, type, type_ctx, types, ctxs, dyn, constructors)
 
 
-def pick_patch(node, type, type_ctx, valid_pair, needs_exact, types, ctxs, dyn,
+def pick_patch(node, type, type_ctx, valid_pair, inline_args, types, ctxs, dyn,
                constructors, compared=False):
     return record_patch(
-        choose_patch(node, type, type_ctx, valid_pair, needs_exact, dyn,
+        choose_patch(node, type, type_ctx, valid_pair, inline_args, dyn,
                      compared),
         node, type, type_ctx, types, ctxs, dyn, constructors)

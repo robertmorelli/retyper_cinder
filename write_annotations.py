@@ -7,7 +7,7 @@ location, leaving the rest of the file byte-for-byte unchanged.
 """
 from ast import Assign, Name, walk, parse
 from list_benchmarks import get_bench_list
-from get_ast_data import get_ast_data
+from cinderx_binding import get_ast_data
 from annotator import _annotatable
 
 def annotate_in_place(source):

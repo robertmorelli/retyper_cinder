@@ -15,7 +15,7 @@ The mechanism is in `settle`: `contexts` starts as a copy of
 updated. Every other node keeps the demand the *annotated* program made on it,
 which the erased program does not make. `find_mismatches` then reads that stale
 demand and reports a position needing a wrapper. That is exactly right for the
-coercer, which wants to know the original demand so it can preserve it, and
+type mediator, which wants to know the original demand so it can preserve it, and
 useless for deciding whether anything is broken.
 """
 from __future__ import annotations
@@ -29,8 +29,8 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(ROOT), str(HERE)]
 
 from detyper import detype
-from get_ast_data import get_ast_data
-from simple_type_graph import build_binding_graph
+from cinderx_binding import get_ast_data
+from typedness_graph import build_binding_graph
 from brute_force_prune import mark_generated_wrappers, removable_operand
 from global_search import baseline_tree, span
 from graph_oracle import build_index, check_reference, settle_with_patches

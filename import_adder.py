@@ -35,7 +35,7 @@ def _insert_point(body):
 def find_names_read(tree):
     """Every bare name this module still reads.
 
-    A Load of the bare name is how a wrapper the coercer builds, an annotation
+    A Load of the bare name is how a wrapper the type mediator builds, an annotation
     the remover writes, and a decorator the author wrote are all spelled, so
     one sweep answers for all of them. Reading too widely only costs an unused
     import; reading too narrowly deletes one that was needed, so a local that

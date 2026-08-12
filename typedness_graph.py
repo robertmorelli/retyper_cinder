@@ -10,8 +10,8 @@ Each link below cites the item it implements in valid_links.md.
 import ast
 from dataclasses import dataclass
 
-from anno_remover import CHECKED, _checked_ctor
-from get_ast_data import is_primative
+from annotation_remover import CHECKED, _checked_ctor
+from cinderx_binding import is_primative
 from types import SimpleNamespace
 
 TYPE = "type"
@@ -720,7 +720,7 @@ class Graph(ast.NodeVisitor):
         if self.owners.get(node) is None:
             return False   # a global read in a function uses the declaration
         if _checked_ctor(node.annotation, node.value) is not None:
-            # anno_remover rewrites `todo: CheckedList[C] = [...]` into an
+            # annotation_remover rewrites `todo: CheckedList[C] = [...]` into an
             # explicit CheckedList[C]([...]) constructor, so the container
             # keeps its type through erasure and everything read out of it
             # stays typed. valid_links #71
@@ -820,7 +820,7 @@ class Graph(ast.NodeVisitor):
     def classify(self, erased, bound):
         """Split the erased annotations by what erasure leaves them with.
 
-        rebuilt   anno_remover puts the type back, whatever the mask did --
+        rebuilt   annotation_remover puts the type back, whatever the mask did --
                   a checked container built from a literal. Never dynamic.
         recovers  cinderx re-infers it from its initializer, but only while
                   that initializer still has a type, so it joins the fixpoint

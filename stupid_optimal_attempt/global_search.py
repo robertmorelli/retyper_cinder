@@ -25,11 +25,11 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(ROOT), str(HERE)]
 
 from detyper import detype
-from find_needs_exact import find_needs_exact
-from get_ast_data import get_ast_data
+from inline_call_analysis import find_inline_args
+from cinderx_binding import get_ast_data
 from import_adder import add_imports
 from patch_picker import Wrapper, _choose
-from simple_type_graph import CONTEXT, TYPE, build_binding_graph
+from typedness_graph import CONTEXT, TYPE, build_binding_graph
 from brute_force_prune import (
     KeepSubset,
     check,
@@ -159,7 +159,7 @@ def build_actions(
     positions,
     generated_spans,
 ):
-    needs_exact = find_needs_exact(bound.tree, bound.reverse_outflow)
+    inline_args = find_inline_args(bound.tree, bound.reverse_outflow)
     component_types = unique_identity([
         value
         for mismatch in mismatch_map.values()
@@ -184,7 +184,7 @@ def build_actions(
                     produced,
                     target,
                     bound.valid_pair,
-                    needs_exact,
+                    inline_args,
                     bound.dynamic,
                     graph.must_agree(graph_node),
                 )

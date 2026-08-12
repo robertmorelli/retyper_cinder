@@ -3,7 +3,7 @@ from json import dump
 from list_benchmarks import get_bench_list
 from load_source import load_bench
 from ast import parse
-from get_ast_data import get_ast_data
+from cinderx_binding import get_ast_data
 
 counts = {}
 for bench, variant, path in get_bench_list():

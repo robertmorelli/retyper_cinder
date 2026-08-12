@@ -26,12 +26,29 @@ candidate root type, with the expression as its body. If CinderX binds that
 module, the expression works under that interface. The whole module comes along
 so classes, imports and callees still resolve.
 
-What this does NOT model, and where it will be wrong before anything else is:
-Static Python narrowing is flow sensitive. `local_types` is keyed by program
-point, so one variable can hold different types at different lines, and the
-interface here is one typing per local per function. Where a program narrows,
-phase 3 will propose an assignment the binder does not honour - which the final
-verification catches, but as a failure rather than as a better answer.
+STATUS: phases 1 and 2 work. Phase 3 does not, and the reason is structural
+rather than a bug.
+
+Phase 1 is sound and fast - on fannkuch it reaches a fixpoint in two rounds and
+6325 probes, about 35 seconds, and every interface row resolves. Phase 2 is a
+few lines. Phase 3 finds no feasible assignment, and a per-candidate audit
+shows why it is not a missing row: every candidate on its own has rows, and
+roots compatible with its target's pool. It is the *conjunction* that has no
+solution.
+
+That is the flow sensitivity, and it is fatal to this interface rather than
+awkward for it. Static Python types are per program point: fannkuch assigns `i`
+thirteen times, so one definition wants `Literal[0]`, a use downstream wants
+`int64`, and there is no single type for `i` that satisfies both. Widening
+literals to `int` only moves the conflict. One type per local cannot express
+the program, so no amount of repair to phase 3 will make this version work.
+
+The fix is to key the interface on the definition site rather than the name -
+SSA, in effect. fannkuch has 13 locals but 41 definition sites, so phase 3 can
+no longer enumerate its assignment space and needs variable elimination over
+the factor graph instead: each candidate expression constrains only the names
+it reads plus the one it defines, which should keep the treewidth small, though
+that is unmeasured.
 """
 from __future__ import annotations
 
@@ -49,7 +66,7 @@ HERE = Path(__file__).resolve().parent
 sys.path[:0] = [str(ROOT), str(HERE)]
 
 from detyper import detype
-from get_ast_data import get_ast_data
+from cinderx_binding import get_ast_data
 from import_adder import add_imports
 from brute_force_prune import check, mark_generated_wrappers
 from global_search import baseline_tree
@@ -149,9 +166,13 @@ def type_name(value, dynamic) -> str:
         name = value.klass.type_name.readable_name
     except Exception:
         return DYNAMIC
-    # A literal type is not a thing you can write down; its base is.
+    # `Literal[0]` is writable after all - Static Python binds it fine - and
+    # widening it to `int` was not a harmless simplification. The table then
+    # promised that `i: int` typechecks while the program actually produced
+    # `Literal[0]`, and fannkuch's verification died on exactly that:
+    # `cannot add Literal[0] and Literal[1]`.
     if name.startswith("Literal["):
-        return "int"
+        return name
     if "[" in name and not name.startswith(("Array[", "Optional[", "list[",
                                             "dict[", "tuple[")):
         return DYNAMIC
@@ -166,8 +187,7 @@ def annotation_ast(name: str) -> ast.expr:
     """Parse a spelling into an annotation node.
 
     `Array[int64]` is a Subscript, not an identifier. Building it as
-    `Name(id="Array[int64]")` made CinderX report `Name \`Array[int64]\` is not
-    defined`, so every typed interface row failed and only the all-dynamic row
+    `Name(id="Array[int64]")` made CinderX report an undefined name, so every typed interface row failed and only the all-dynamic row
     ever solved.
     """
     try:
@@ -194,6 +214,22 @@ def local_type_pools(bound, dynamic) -> dict:
                 type_name(bound.types.get(node), dynamic))
     return {name: tuple(sorted(values | {DYNAMIC}))
             for name, values in pools.items()}
+
+
+def compatible(root: str, want: str) -> bool:
+    """Can an expression inferred as `root` supply a local declared `want`?
+
+    Equality was the first rule and it made every assignment infeasible once
+    literal types stopped being widened: a variable assigned `0` here and `1`
+    there has two different inferred roots, and no single choice equals both.
+    A literal is an int, so this is the least widening that lets those two
+    definitions agree without going all the way back to discarding literals.
+    """
+    if root == want:
+        return True
+    if want == "int" and root.startswith("Literal["):
+        return True
+    return False
 
 
 def pool_for(pools, name):
@@ -283,6 +319,41 @@ def find_candidates(tree: ast.AST) -> list[Candidate]:
     return candidates
 
 
+def strip_module(base: ast.AST) -> ast.AST:
+    """The module reduced to what a probe needs: declarations, no bodies.
+
+    A probe only needs classes, imports, globals and callee *signatures* to
+    resolve; the bodies contribute nothing but bind time and errors of their
+    own. Replacing each body with a raise keeps every signature legal whatever
+    its return type, and cuts the per-probe bind to a fraction of the whole
+    module - which is what makes a fixpoint over several phase-1 passes
+    affordable at all.
+    """
+    module = copy.deepcopy(base)
+
+    def gut(node):
+        for child in ast.walk(node):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                child.body = [ast.Raise(
+                    exc=ast.Call(func=ast.Name(id="NotImplementedError",
+                                               ctx=ast.Load()),
+                                 args=[], keywords=[]), cause=None)]
+
+    kept = []
+    for statement in module.body:
+        if isinstance(statement, ast.If):
+            # `if __name__ == "__main__":` is a body, not a declaration.
+            continue
+        if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            gut(statement)
+        elif isinstance(statement, ast.ClassDef):
+            for member in statement.body:
+                gut(member)
+        kept.append(statement)
+    module.body = kept
+    return ast.fix_missing_locations(module)
+
+
 # ------------------------------------------------------ wrap enumeration
 
 class WrapAt(ast.NodeTransformer):
@@ -311,12 +382,15 @@ class WrapAt(ast.NodeTransformer):
         return ast.copy_location(call, node)
 
 
-def wrap_plans(candidate: Candidate, max_wraps: int):
-    """Every way to put up to `max_wraps` casts inside one expression.
+def wrap_plans_at(candidate: Candidate, count: int):
+    """Every way to place exactly `count` casts inside one expression."""
+    slots = [node._probe_slot for node in candidate.positions]
+    for chosen in itertools.combinations(slots, count):
+        for kinds in itertools.product(CAST_KINDS, repeat=count):
+            yield dict(zip(chosen, kinds))
 
-    Cheapest first, so the first plan that typechecks for a row is that row's
-    minimum and the rest of the enumeration for it can stop.
-    """
+
+def wrap_plans(candidate: Candidate, max_wraps: int):
     slots = [node._probe_slot for node in candidate.positions]
     for count in range(max_wraps + 1):
         for chosen in itertools.combinations(slots, count):
@@ -325,6 +399,19 @@ def wrap_plans(candidate: Candidate, max_wraps: int):
 
 
 # --------------------------------------------------------------- phase 1
+
+def _probe_import_point(module: ast.AST) -> int:
+    """After `import __static__`, which must precede every other import."""
+    index = 0
+    for position, statement in enumerate(module.body):
+        if isinstance(statement, ast.Import) and any(
+                a.name == "__static__" for a in statement.names):
+            index = position + 1
+        elif (isinstance(statement, ast.ImportFrom)
+              and statement.module == "__future__"):
+            index = max(index, position + 1)
+    return index
+
 
 def probe_module(base: ast.AST, candidate: Candidate, plan, interface,
                  root: str | None = None) -> ast.AST:
@@ -348,6 +435,13 @@ def probe_module(base: ast.AST, candidate: Candidate, plan, interface,
         type_params=[])
     module = copy.deepcopy(base)
     module.body.append(probe)
+    # add_imports only knows to emit `Any`. Injecting `Literal` here is enough:
+    # its pruner keeps whatever typing name the tree reads, and an annotation
+    # spelled `Literal[0]` reads it.
+    module.body.insert(_probe_import_point(module),
+                       ast.ImportFrom(module="typing",
+                                      names=[ast.alias(name="Literal"),
+                                             ast.alias(name="Any")], level=0))
     module = ast.fix_missing_locations(add_imports(module))
     for node in ast.walk(probe):
         node.lineno = PROBE_LINE
@@ -355,48 +449,83 @@ def probe_module(base: ast.AST, candidate: Candidate, plan, interface,
     return module
 
 
-def phase_one(base, candidates, pools, max_wraps, budget, verbose,
-              dynamic_marker=None):
-    """Cheapest wrap plan per (interface, root) row, per candidate expression.
+def phase_one(probe_base, candidates, pools, max_wraps, budget, verbose,
+              dynamic_marker=None, cache=None, tables=None):
+    """Cheapest wrap plan per (interface, inferred root), per expression.
 
-    This is where the factoring pays: each row is a question about one
-    expression, so the table is the size of one expression's options rather
-    than the product across the program.
+    Costs are kept down three ways, all of which matter once this is run
+    repeatedly to a fixpoint: the module is stripped to declarations, wrap
+    depth escalates only when the shallower depth found nothing, and every
+    probe is cached on (expression, interface, plan) so a later pass pays only
+    for the interface rows the pools have newly opened.
     """
-    tables = {}
+    cache = {} if cache is None else cache
+    tables = {} if tables is None else tables
     probes = 0
     started = time.monotonic()
     for candidate in candidates:
-        table = {}
+        table = tables.setdefault(candidate.key, {})
         rows = list(itertools.product(*[pool_for(pools, name)
                                         for name in candidate.reads]))
+        fresh = 0
         for row in rows:
             interface = dict(zip(candidate.reads, row))
-            # One sweep over the plans fills every root this interface can
-            # reach, because the root is read off the bind rather than asserted.
-            for plan in wrap_plans(candidate, max_wraps):
+            found_any = False
+            for count in range(max_wraps + 1):
+                if found_any:
+                    # A shallower plan already worked for this interface; a
+                    # deeper one cannot be cheaper, and enumerating it was most
+                    # of the old runtime.
+                    break
+                for plan in wrap_plans_at(candidate, count):
+                    if probes >= budget:
+                        break
+                    signature = (candidate.key, row,
+                                 tuple(sorted(plan.items())))
+                    if signature in cache:
+                        ok, root = cache[signature]
+                    else:
+                        probes += 1
+                        fresh += 1
+                        ok, root = probe_root_type(
+                            probe_module(probe_base, candidate, plan, interface),
+                            dynamic_marker)
+                        cache[signature] = (ok, root)
+                    if not ok:
+                        continue
+                    found_any = True
+                    key = (row, root)
+                    if key not in table or count < table[key][0]:
+                        table[key] = (count, plan)
                 if probes >= budget:
                     break
-                probes += 1
-                ok, root = probe_root_type(
-                    probe_module(base, candidate, plan, interface),
-                    dynamic_marker)
-                if not ok:
-                    continue
-                key = (row, root)
-                if key not in table or len(plan) < table[key][0]:
-                    table[key] = (len(plan), plan)
             if probes >= budget:
                 break
-        tables[candidate.key] = table
         if verbose:
             print(f"  {candidate.key[0]}:{candidate.key[1]} "
-                  f"reads={len(candidate.reads)} rows={len(rows)} "
-                  f"solved={len(table)} probes={probes}", file=sys.stderr)
+                  f"rows={len(rows)} solved={len(table)} new_probes={fresh}",
+                  file=sys.stderr)
         if probes >= budget:
             print(f"  probe budget {budget} exhausted", file=sys.stderr)
             break
     return tables, probes, time.monotonic() - started
+
+
+def observed_roots(candidates, tables):
+    """The root types phase 1 actually saw, per assigned local.
+
+    The seed pools come from the *original* program, but erased code infers
+    types that program never had - `object` above all - so an assignment
+    mentioning one could never match a table row. Feeding what was observed
+    back into the pools is what closes that gap.
+    """
+    found: dict[str, set] = {}
+    for candidate in candidates:
+        if not candidate.root_name:
+            continue
+        for (_, root) in tables.get(candidate.key, {}):
+            found.setdefault(candidate.root_name, set()).add(root)
+    return found
 
 
 # --------------------------------------------------------------- phase 2
@@ -411,6 +540,12 @@ def phase_two(candidates, tables):
     for candidate in candidates:
         if candidate.forced_root is None:
             continue
+        # `x: Any = Array[int64](nb)` fixes nothing - Any accepts every root.
+        # Treating it as a constraint that forces the root to be dynamic
+        # emptied the tables of all twelve annotated assignments in fannkuch,
+        # and phase 3 then had nothing to choose from.
+        if candidate.forced_root in ("Any", "object"):
+            continue
         table = tables.get(candidate.key, {})
         for key in list(table):
             _, root = key
@@ -422,13 +557,15 @@ def phase_two(candidates, tables):
 
 # --------------------------------------------------------------- phase 3
 
-def phase_three(candidates, tables, pools, verbose):
-    """Pick one typing per local, scoring by the phase-1 tables.
+def phase_three(candidates, tables, pools, verbose, limit=200000):
+    """Every interface assignment that the tables admit, cheapest first.
 
-    Each candidate expression contributes the cheapest row consistent with the
-    assignment. A local that no table can satisfy under an assignment makes
-    that assignment infeasible, which is what keeps this from proposing
-    something no expression can actually deliver.
+    This yields rather than returns. The interface is one type per local, but
+    Static Python types are per program point - fannkuch assigns `i` thirteen
+    times - so an assignment the tables call consistent can still be one the
+    binder will not produce. Ranking by cost and letting CinderX reject them in
+    order keeps the model as a generator, which it is good at, and stops it
+    being the judge, which it is not.
     """
     names = sorted({name for candidate in candidates
                     for name in candidate.reads + ((candidate.root_name,)
@@ -441,70 +578,105 @@ def phase_three(candidates, tables, pools, verbose):
         print(f"  interface variables: {len(names)} -> {size} assignments",
               file=sys.stderr)
 
-    best_total, best_assignment, best_plans = None, None, None
-    for combination in itertools.product(*spaces):
+    scored = []
+    for count, combination in enumerate(itertools.product(*spaces)):
+        if count >= limit:
+            break
         assignment = dict(zip(names, combination))
         total, plans, feasible = 0, {}, True
         for candidate in candidates:
             table = tables.get(candidate.key, {})
             row = tuple(assignment[name] for name in candidate.reads)
             want = assignment.get(candidate.root_name) if candidate.root_name else None
-            options = [(cost, plan, key[1])
-                       for (key, (cost, plan)) in table.items()
-                       if key[0] == row and (want is None or key[1] == want)]
+            options = [(cost, plan) for (key, (cost, plan)) in table.items()
+                       if key[0] == row
+                       and (want is None or compatible(key[1], want))]
             if not options:
                 feasible = False
                 break
-            cost, plan, _ = min(options, key=lambda option: option[0])
+            cost, plan = min(options, key=lambda option: option[0])
             total += cost
             plans[candidate.key] = plan
-        if not feasible:
-            continue
-        if best_total is None or total < best_total:
-            best_total, best_assignment, best_plans = total, assignment, plans
-    return best_total, best_assignment, best_plans, len(names)
+        if feasible:
+            scored.append((total, assignment, plans))
+    scored.sort(key=lambda item: item[0])
+    if verbose:
+        print(f"  feasible assignments: {len(scored)}", file=sys.stderr)
+    return scored, len(names)
+
+
+def materialize(base: ast.AST, plans) -> str:
+    """Apply every chosen plan to the real tree and print it.
+
+    Phase 1 judged each expression inside a probe, with its interface asserted
+    by parameter annotations. The real program has to *earn* those types from
+    the assignments around it, so this is where the factoring is actually
+    tested rather than assumed.
+    """
+    merged = {}
+    for plan in plans.values():
+        merged.update(plan)
+    tree = WrapAt(merged).visit(copy.deepcopy(base))
+    return ast.unparse(ast.fix_missing_locations(add_imports(tree)))
 
 
 # ------------------------------------------------------------------ main
 
-def run(source, mask, max_wraps, budget, verbose=True):
+def run(source, mask, max_wraps, budget, rounds, verbose=True):
     bound = get_ast_data(ast.parse(source))
     mediator = detype(source, mask=mask, bench=False)
     generated = mark_generated_wrappers(source, mediator)
     base = baseline_tree(mediator)
+    probe_base = strip_module(base)
 
     dynamic = bound.dynamic
-    # Erasure gives each local exactly one choice: the type it was inferred to
-    # have, or dynamic. A pool of every type in the program instead made phase
-    # 3 enumerate 2.5 trillion assignments over thirteen variables.
     pools = local_type_pools(bound, dynamic)
-    if verbose:
-        print(f"mediator wrappers: {len(generated)}", file=sys.stderr)
-        sized = {name: pool for name, pool in pools.items() if len(pool) > 1}
-        print(f"locals with a real choice: {len(sized)}", file=sys.stderr)
-
     candidates = find_candidates(base)
     if verbose:
+        print(f"mediator wrappers: {len(generated)}", file=sys.stderr)
         print(f"candidate expressions: {len(candidates)}", file=sys.stderr)
 
-    print("phase 1: per-expression tables", file=sys.stderr)
-    tables, probes, elapsed = phase_one(base, candidates, pools, max_wraps,
-                                        budget, verbose, dynamic)
-    print(f"  {probes} probes in {elapsed:.1f}s", file=sys.stderr)
+    cache, tables = {}, {}
+    total_probes = 0
+    for round_number in range(1, rounds + 1):
+        print(f"phase 1, round {round_number}", file=sys.stderr)
+        tables, probes, elapsed = phase_one(
+            probe_base, candidates, pools, max_wraps, budget, False,
+            dynamic, cache, tables)
+        total_probes += probes
+        solved = sum(len(t) for t in tables.values())
+        print(f"  {probes} new probes ({total_probes} total) in {elapsed:.1f}s, "
+              f"{solved} table rows", file=sys.stderr)
+
+        # Feed the observed roots back into the pools and go round again; the
+        # cache means the next pass only pays for genuinely new interface rows.
+        found = observed_roots(candidates, tables)
+        grown = dict(pools)
+        changed = 0
+        for name, roots in found.items():
+            before = set(pool_for(pools, name))
+            after = before | roots
+            if after != before:
+                grown[name] = tuple(sorted(after))
+                changed += 1
+        print(f"  pools grown for {changed} locals", file=sys.stderr)
+        if not changed:
+            print("  fixpoint reached", file=sys.stderr)
+            break
+        pools = grown
 
     print("phase 2: annotation-forced roots", file=sys.stderr)
     dropped = phase_two(candidates, tables)
     print(f"  dropped {dropped} rows", file=sys.stderr)
 
     print("phase 3: choose the interface", file=sys.stderr)
-    total, assignment, plans, variables = phase_three(candidates, tables,
-                                                      pools, verbose)
-    if total is None:
+    scored, variables = phase_three(candidates, tables, pools, verbose)
+    if not scored:
         print("  no feasible assignment", file=sys.stderr)
         return None
-    print(f"  best total: {total} wraps over {variables} interface variables",
-          file=sys.stderr)
-    return total, assignment, plans, candidates, base, len(generated)
+    print(f"  cheapest proposal: {scored[0][0]} wraps over {variables} "
+          f"interface variables", file=sys.stderr)
+    return scored, candidates, base, len(generated)
 
 
 def main():
@@ -515,19 +687,45 @@ def main():
                         help="most casts to try inside one expression")
     parser.add_argument("--budget", type=int, default=20000,
                         help="probe binds allowed in phase 1")
+    parser.add_argument("--rounds", type=int, default=6,
+                        help="phase-1 passes allowed while pools grow")
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument("-o", "--output", type=Path)
+    parser.add_argument("--verify", type=int, default=400,
+                        help="proposals to check, cheapest first")
     args = parser.parse_args()
 
     started = time.monotonic()
     result = run(args.source.read_text(), args.mask, args.max_wraps,
-                 args.budget, not args.quiet)
+                 args.budget, args.rounds, not args.quiet)
     print(f"total elapsed: {time.monotonic() - started:.1f}s", file=sys.stderr)
     if result is None:
         raise SystemExit(2)
-    total, assignment, plans, candidates, base, mediator_count = result
-    print(f"\nphase-3 optimum: {total} wraps (mediator used {mediator_count})")
-    for name, value in sorted(assignment.items()):
-        print(f"  {name}: {value}")
+    scored, candidates, base, mediator_count = result
+
+    # The cheap bind filters; the loader confirms. Proposals are already in
+    # cost order, so the first that survives both is the cheapest realisable
+    # one the tables can express.
+    print(f"\nverifying proposals in cost order "
+          f"(mediator used {mediator_count})", file=sys.stderr)
+    tried = 0
+    for total, assignment, plans in scored[:args.verify]:
+        tried += 1
+        source_out = materialize(base, plans)
+        if not binds_clean(ast.parse(source_out)):
+            continue
+        verdict = check(source_out, False, 180)
+        if verdict.returncode != 0:
+            continue
+        print(f"\nVERIFIED: {total} wraps after {tried} proposals "
+              f"(mediator used {mediator_count})")
+        for name, value in sorted(assignment.items()):
+            print(f"  {name}: {value}")
+        if args.output:
+            args.output.write_text(source_out + "\n")
+            print(f"wrote {args.output}")
+        return
+    print(f"\nno proposal verified (tried {tried} of {len(scored)})")
 
 
 if __name__ == "__main__":

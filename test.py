@@ -25,10 +25,10 @@ from tempfile import TemporaryDirectory
 from time import perf_counter_ns
 
 from detyper import detype
-from get_ast_data import get_ast_data
+from cinderx_binding import get_ast_data
 from list_benchmarks import get_bench_list
 from load_source import load_bench
-from simple_type_graph import build_binding_graph
+from typedness_graph import build_binding_graph
 
 RUNNER = path.join(path.dirname(path.abspath(__file__)), "static_runner.py")
 MODES = ("compile", "runtime")

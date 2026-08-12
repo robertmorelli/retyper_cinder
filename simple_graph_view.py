@@ -1,12 +1,12 @@
-"""Render simple_type_graph as a dependency-free interactive HTML canvas."""
+"""Render typedness_graph as a dependency-free interactive HTML canvas."""
 import argparse
 import ast
 import json
 import webbrowser
 from pathlib import Path
 
-from get_ast_data import get_ast_data
-from simple_type_graph import build_binding_graph
+from cinderx_binding import get_ast_data
+from typedness_graph import build_binding_graph
 
 HTML = r'''<!doctype html><meta charset="utf-8"><title>Type/context source graph</title>
 <style>html,body{margin:0;height:100%;overflow:hidden;background:#0d1117;color:#d7dee7;font:18px system-ui}#source{position:fixed;inset:0;overflow:auto;padding:90px 7vw 130px;font:20px/3.2 ui-monospace,monospace}.line{display:block;white-space:pre;min-height:30px;border-radius:5px}.line.hot{background:#263142}.no{display:inline-block;width:3.5em;color:#526070;user-select:none}.text{position:relative;z-index:3;background:#0d1117cc;pointer-events:none}svg{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}.edge{fill:none;stroke:#78889b;stroke-width:2;opacity:.28;marker-mid:url(#arrow)}.edge.hot{stroke:#ffd166;stroke-width:2;opacity:1;marker-mid:url(#arrow-hot)}body.selected .edge:not(.hot){opacity:.05}.cell{pointer-events:stroke;cursor:pointer;stroke-width:4;stroke-linecap:round}.type{stroke:#56b4ff}.context{stroke:#ff9561}#help,#info{position:fixed;z-index:5;background:#171d25ee;border:1px solid #3a4655;border-radius:8px;padding:10px}#help{top:12px;left:12px}#info{bottom:12px;left:12px;white-space:pre-wrap;max-width:720px}</style>
