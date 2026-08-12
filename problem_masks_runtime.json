@@ -1,147 +1,147 @@
 {
   "nbody/advanced": {
     "130": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpulcjkcis/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpivddb5k0/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "154": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsu5_838w/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8t_nuu6u/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "198": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpl8wk72cc/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpl498k26g/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "2": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4m14qzvr/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqimmhgot/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
     "20": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp83ywoc7r/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3c1l1mas/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "223": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1cs7zsxb/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpv117yb1r/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "258": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprk7xkec8/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp21merzwp/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "260": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpo6c726wr/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpid0iqzh0/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "284": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp81cdhu1w/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmprpiusnzq/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "30": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpaz5lkk99/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpa089wogt/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "323": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpimnlr4mn/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpe6ybv6xe/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "326": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp1_qy_2za/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpzgem18ca/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "4": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqosgoy19/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqrjjb93t/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
     "415": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3w_y_vur/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmj88az4l/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "471": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3ctt95vw/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8k0thrr2/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "475": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpuxv143zs/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpvjkxe961/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "479": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmph9owwr66/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpyaus2_zc/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
     "6": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpfcrhigzi/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjm9solkm/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "68": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdt78zliz/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp19e3lmdn/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "75": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp0qdzltyu/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsmsqsxmf/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "77": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpn_hxekq1/bench_module.py', 103, 0)",
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqjk8pxea/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
