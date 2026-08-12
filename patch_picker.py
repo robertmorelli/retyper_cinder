@@ -140,8 +140,24 @@ def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None, compared=Fa
         # what makes two arguments agree once cinderx substitutes the body.
         return CastWrapper(type_ctx, node)
 
+def choose_patch(node, type, type_ctx, valid_pair, needs_exact, dyn=None,
+                 compared=False):
+    """Which wrapper this position wants, without writing it down.
+
+    The tower collapser has to know what a rebuild would produce before it can
+    decide whether to rebuild at all, and `_record` commits to the tables.
+    """
+    return _choose(node, type, type_ctx, valid_pair, needs_exact, dyn, compared)
+
+
+def record_patch(w, node, type, type_ctx, types, ctxs, dyn, constructors):
+    """File a chosen wrapper in the tables. The other half of choose_patch."""
+    return _record(w, node, type, type_ctx, types, ctxs, dyn, constructors)
+
+
 def pick_patch(node, type, type_ctx, valid_pair, needs_exact, types, ctxs, dyn,
                constructors, compared=False):
-    return _record(_choose(node, type, type_ctx, valid_pair, needs_exact, dyn,
-                           compared),
-                   node, type, type_ctx, types, ctxs, dyn, constructors)
+    return record_patch(
+        choose_patch(node, type, type_ctx, valid_pair, needs_exact, dyn,
+                     compared),
+        node, type, type_ctx, types, ctxs, dyn, constructors)

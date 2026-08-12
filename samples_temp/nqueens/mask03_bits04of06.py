@@ -29,7 +29,7 @@ def create_array(start: int64, end: int64, step: int64) -> Any:
     i: int64 = 0
     if (end - start) * step <= 0:
         return Array[int64](0)
-    size: int64 = int64(int64((static_abs(box(end - start)) - 1) // static_abs(box(step)) + 1))
+    size: int64 = int64((static_abs(box(end - start)) - 1) // static_abs(box(step)) + 1)
     a: Array[int64] = Array[int64](box(size))
     while i < size:
         a[i] = c

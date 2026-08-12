@@ -18,7 +18,8 @@ from ast import (Call, If, IfExp, Load, Name, NodeTransformer, Not, Slice,
                  Subscript, UnaryOp, While, copy_location, unparse)
 
 from get_ast_data import get_ctx, is_primative
-from patch_picker import PRIMITIVE_NAMES, pick_patch
+from patch_picker import (PRIMITIVE_NAMES, choose_patch, pick_patch,
+                          record_patch)
 
 # coercions that exist only to produce a primitive. In a slot that is no longer
 # primitive they do nothing but make the program invalid.
@@ -297,13 +298,26 @@ class Coercer(NodeTransformer):
         if node in self.needs_exact or self.narrowing_cast(node):
             return None
         inner = extract_coerced(node, self.constructors)
-        if inner is None or self.load_bearing(node, beneath_unary(inner)):
+        if inner is None:
             return None
-        collapsed = pick_patch(
-            inner, self.types.get(beneath_unary(inner)),
-            self.type_ctxs.get(node), self.valid_pair, self.needs_exact,
-            self.types, self.type_ctxs, self.dyn, self.constructors,
-            self.graph.must_agree(node)).wrap()
+        value = beneath_unary(inner)
+        candidate = choose_patch(
+            inner, self.types.get(value), self.type_ctxs.get(node),
+            self.valid_pair, self.needs_exact, self.dyn,
+            self.graph.must_agree(node))
+        # What replaces the tower is this rebuild, not the bare value inside
+        # it. Where the rebuild hands back the same type the tower did --
+        # `int64(int64(x))` rebuilt as `int64(x)` -- nothing downstream can
+        # tell the difference, so the question load_bearing asks does not
+        # arise. Only when the rebuild produces something else, a bare value
+        # most of all, can a consumer lose its type.
+        if (candidate.T is not self.types.get(node)
+                and self.load_bearing(node, value)):
+            return None
+        record_patch(candidate, inner, self.types.get(value),
+                     self.type_ctxs.get(node), self.types, self.type_ctxs,
+                     self.dyn, self.constructors)
+        collapsed = candidate.wrap()
         if self.types.get(collapsed) is not None:
             self.graph.propagate(collapsed, self.types.get(collapsed),
                                  self.types, self.type_ctxs)

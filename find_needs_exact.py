@@ -34,15 +34,18 @@ class InlineCallArgFinder(NodeTransformer):
         return node
 
 class IteratorFinder(NodeTransformer):
-    """A list comprehension's element has to be spelled exactly.
+    """A list comprehension's element, spelled exactly. Nothing uses this now.
 
-    This looks removable and is not. In isolation the cast it forces changes
-    no outcome -- CheckedList checks every element as it is built -- and on
-    wrong data it turns a clean `bad value 'int' for chklist[C]` into a
-    segfault. Taking it out passes those probes and then fails six held_karp
-    masks with `Literal[2] received for positional arg`, because the exact
-    spelling is also what keeps `_choose` off the `valid_pair` branch. The
-    comprehension casts it produces are the price of that.
+    It used to be needed, and the reason it stopped is worth keeping. Marking
+    the element exact kept `_choose` off the `valid_pair` branch, which is
+    what dropping it cost: six held_karp masks with `Literal[2] received for
+    positional arg`. In exchange it produced a cast to `object` on every
+    comprehension element -- a cast to dynamic, which checks nothing.
+
+    Once `CastWrapper` stopped emitting a cast to `int` the held_karp masks
+    held on their own, so the exactness was buying nothing and the casts were
+    pure cost: pystone alone lost 25 of them. Measured over the 830 masks with
+    this finder unused, both modes, no regressions.
     """
 
     def __init__(self):
@@ -71,17 +74,20 @@ def find_needs_exact(tree, reverse_outflow, types=None):
     bool -- an int subclass -- without complaint, and every slot we tried
     accepts an inexact int.
 
-    That is the only safe trim. Exactness looks equally meaningless where the
-    demand is an object, but `_choose` also reads this set to decide whether to
-    try `valid_pair` at all, so waving it through there drops coercions the
-    position still needs. Moving the question into `_choose` and skipping the
-    list comprehensions were both tried, and both cost real failures.
+    What is left is the arguments of a call to an `@inline` function, and
+    nothing else. This set does two jobs -- it spells a box exactly, and it
+    keeps `_choose` off the `valid_pair` branch -- and the second is the one
+    that matters here: it is what lets an argument reach the cast to `object`
+    that makes two disagreeing arguments agree. Six deltablue masks.
+
+    The other two members were dropped and measured. A returned expression is
+    read once, by whatever the call feeds, and that consumer picks its own
+    coercion, so exactness there only bought a cast to dynamic. List
+    comprehension elements went the same way; see IteratorFinder.
     """
     inline_finder = InlineCallArgFinder(reverse_outflow)
-    # iter_finder = IteratorFinder()
     inline_finder.visit(tree)
-    # iter_finder.visit(tree)
-    found = inline_finder.needs_exact # | iter_finder.needs_exact
+    found = inline_finder.needs_exact
     if types is None:
         return found
     return {node for node in found if not _is_int(types.get(node))}
