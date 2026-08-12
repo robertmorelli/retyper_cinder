@@ -140,14 +140,6 @@ class Graph(ast.NodeVisitor):
                 self.groups.union(root, neighbor)  # valid_links #3
             for flows, slot in ((bound.outflow, TYPE), (bound.inflow, CONTEXT)):
                 for node in flows.get(root, ()):
-                    if slot is TYPE and self.inlines_into(root, node):
-                        # cinderx says this call takes the function's declared
-                        # return type. For an @inline it does not: the body is
-                        # substituted, so the call yields what the returned
-                        # expression yields. visit_Call draws that edge
-                        # instead, and drawing both would leave the annotation
-                        # feeding a call it no longer decides.
-                        continue
                     # #1 where slot is TYPE, #2 where it is CONTEXT: the two
                     # foundational links, drawn from cinderx's own analysis
                     self.flow(self.cell(root, TYPE), self.cell(node, slot))
@@ -553,19 +545,19 @@ class Graph(ast.NodeVisitor):
                                        node.args):
                 # valid_links #18 and #19
                 self.link(param, argument, CONTEXT)
-            if (returned := self.inlined_result(target)) is not None:
-                # cinderx substitutes an @inline body at the call site, so the
-                # call yields whatever the returned expression yields -- not
-                # whatever the return annotation said, which erasure may have
-                # taken away entirely. A resolved call to an ordinary function
-                # still has to go through the annotation.
-                self.result_link(returned, node)
-            elif target.returns is not None:
+            if target.returns is not None:
                 self.link(target, node)  # valid_links #22
 
     def visit_Return(self, node):
         if node.value is not None and self.function is not None:
             self.link(self.function, node.value, CONTEXT)  # valid_links #21
+            if self.inlined_result(self.function) is node.value:
+                # cinderx substitutes an @inline body, so what the body
+                # produces is what the function is. The edge stops at the
+                # annotation rather than running on to the call sites: those
+                # are already fed from here, and a call whose receiver went
+                # dynamic yields a boxed value however the body is written.
+                self.link(node.value, self.function)
 
     def visit_For(self, node):
         if type(node.target) in (ast.Tuple, ast.List):

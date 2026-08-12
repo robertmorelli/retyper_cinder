@@ -144,6 +144,72 @@ def binds_clean(source: str) -> bool:
     return not sink.errors
 
 
+def statement_groups(base, count: int) -> list[list[int]]:
+    """Wrapper indices, grouped by the innermost statement holding them.
+
+    A statement is the coarsest thing whose interior the rest of the program
+    sees only through the values it produces, which is what makes it a
+    plausible seam to cut on. Nine of fannkuch's ten wrappers sit alone in
+    theirs, which turns 2^10 subsets into 20.
+    """
+    inner: dict[int, tuple] = {}
+    for statement in ast.walk(base):
+        if not isinstance(statement, ast.stmt):
+            continue
+        for node in ast.walk(statement):
+            index = getattr(node, "_optimal_candidate", None)
+            if index is None:
+                continue
+            key = (getattr(statement, "lineno", 0), id(statement))
+            if index not in inner or key[0] > inner[index][0]:
+                inner[index] = key
+
+    groups: dict[tuple, list[int]] = {}
+    for index in range(count):
+        groups.setdefault(inner.get(index, (0, 0)), []).append(index)
+    return [sorted(members) for _, members in sorted(groups.items())]
+
+
+def chunked_search(base, count: int, run_program: bool, timeout: int):
+    """Minimise each statement's wrappers against the rest held full, then
+    verify the combination.
+
+    Decomposition is an assumption, not a theorem - statements are coupled
+    through the variables they assign, and the whole lattice is not even
+    monotone, so a group's best choice against full neighbours need not be its
+    best choice against reduced ones. The combination is therefore checked, and
+    a failed check falls back to the exhaustive search rather than being
+    reported as an answer.
+    """
+    groups = statement_groups(base, count)
+    everything = set(range(count))
+    attempts = 0
+    chosen: set[int] = set()
+
+    for group in groups:
+        others = everything - set(group)
+        best = set(group)
+        for size in range(len(group) + 1):
+            found = False
+            for keep in itertools.combinations(group, size):
+                attempts += 1
+                if binds_clean(materialize(base, others | set(keep))):
+                    best = set(keep)
+                    found = True
+                    break
+            if found:
+                break
+        chosen |= best
+
+    attempts += 1
+    source = materialize(base, chosen)
+    if binds_clean(source):
+        result = check(source, run_program, timeout)
+        if result.returncode == 0:
+            return chosen, source, result, attempts, len(groups)
+    return None, None, None, attempts, len(groups)
+
+
 def search(base, count: int, run_program: bool, timeout: int):
     attempts = 0
     spawns = 0
