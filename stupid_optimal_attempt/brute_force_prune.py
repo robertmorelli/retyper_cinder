@@ -26,6 +26,11 @@ sys.path.insert(0, str(ROOT))
 from detyper import detype
 from import_adder import add_imports
 
+sys.path.insert(0, str(ROOT / "_cinderx/cinderx/PythonLib"))
+from cinderx.compiler.errors import CollectingErrorSink
+from cinderx.compiler.static import StaticCodeGenerator
+from cinderx.compiler.static.compiler import Compiler
+
 # Calls that are pure representation adaptations and can be peeled back to
 # their operand. `clen` and `Array` are deliberately absent: they compute or
 # allocate rather than merely adapting an existing value.
@@ -117,8 +122,31 @@ def check(source: str, run_program: bool, timeout: int):
             command, capture_output=True, text=True, timeout=timeout)
 
 
+def binds_clean(source: str) -> bool:
+    """Does CinderX accept this, without paying for a subprocess?
+
+    A subset that fails to bind cannot pass the loader, and binding in process
+    costs milliseconds against the hundreds a `static_runner.py` spawn costs.
+    On fannkuch, where the answer turns out to be all ten wrappers and every
+    one of the 1024 subsets has to be tried, this is the difference between ten
+    minutes and one.
+    """
+    sink = CollectingErrorSink()
+    compiler = Compiler(StaticCodeGenerator, error_sink=sink)
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return False
+    try:
+        compiler.bind("", "", tree, tree, optimize=0)
+    except Exception:
+        return False
+    return not sink.errors
+
+
 def search(base, count: int, run_program: bool, timeout: int):
     attempts = 0
+    spawns = 0
     for retained_count in range(count + 1):
         print(
             f"trying solutions with {retained_count}/{count} wrappers",
@@ -128,9 +156,16 @@ def search(base, count: int, run_program: bool, timeout: int):
             attempts += 1
             retained = set(retained_tuple)
             source = materialize(base, retained)
+            # The loader is the authority, but it only needs asking about
+            # subsets the binder has not already ruled out.
+            if not binds_clean(source):
+                continue
+            spawns += 1
             result = check(source, run_program, timeout)
             if result.returncode == 0:
+                print(f"loader spawns: {spawns}", file=sys.stderr)
                 return retained, source, result, attempts
+    print(f"loader spawns: {spawns}", file=sys.stderr)
     return None, None, None, attempts
 
 

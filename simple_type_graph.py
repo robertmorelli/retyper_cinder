@@ -140,6 +140,14 @@ class Graph(ast.NodeVisitor):
                 self.groups.union(root, neighbor)  # valid_links #3
             for flows, slot in ((bound.outflow, TYPE), (bound.inflow, CONTEXT)):
                 for node in flows.get(root, ()):
+                    if slot is TYPE and self.inlines_into(root, node):
+                        # cinderx says this call takes the function's declared
+                        # return type. For an @inline it does not: the body is
+                        # substituted, so the call yields what the returned
+                        # expression yields. visit_Call draws that edge
+                        # instead, and drawing both would leave the annotation
+                        # feeding a call it no longer decides.
+                        continue
                     # #1 where slot is TYPE, #2 where it is CONTEXT: the two
                     # foundational links, drawn from cinderx's own analysis
                     self.flow(self.cell(root, TYPE), self.cell(node, slot))
@@ -492,6 +500,33 @@ class Graph(ast.NodeVisitor):
         # whatever primitive it still holds. valid_links #57
         self.flow(self.cell(node, TYPE), self.cell(node.value, CONTEXT))
 
+    def inlines_into(self, root, node):
+        """Is this the cinderx outflow edge from an @inline to one of its calls?
+
+        Only a call: an @inline function is still a value elsewhere -- a name
+        that is read, passed or stored takes its declared type as usual, and
+        only the call site sees the substituted body.
+        """
+        return (type(node) is ast.Call
+                and self.inlined_result(root) is not None
+                and any(target is root for target, _ in self.callees(node.func)))
+
+    def inlined_result(self, target):
+        """The single expression an `@inline` function hands back, or None.
+
+        Only one return, and it has to return a value: cinderx inlines a body
+        it can substitute as an expression, and a function with two exits has
+        no one expression the call site could be said to yield.
+        """
+        if not isinstance(target, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            return None
+        if "inline" not in {ast.unparse(d) for d in target.decorator_list}:
+            return None
+        returns = [n for n in ast.walk(target) if type(n) is ast.Return]
+        if len(returns) != 1 or returns[0].value is None:
+            return None
+        return returns[0].value
+
     def visit_Call(self, node):
         self.link(node.func, node)  # valid_links #17
         for argument in node.args:
@@ -518,7 +553,14 @@ class Graph(ast.NodeVisitor):
                                        node.args):
                 # valid_links #18 and #19
                 self.link(param, argument, CONTEXT)
-            if target.returns is not None:
+            if (returned := self.inlined_result(target)) is not None:
+                # cinderx substitutes an @inline body at the call site, so the
+                # call yields whatever the returned expression yields -- not
+                # whatever the return annotation said, which erasure may have
+                # taken away entirely. A resolved call to an ordinary function
+                # still has to go through the annotation.
+                self.result_link(returned, node)
+            elif target.returns is not None:
                 self.link(target, node)  # valid_links #22
 
     def visit_Return(self, node):

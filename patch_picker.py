@@ -52,14 +52,14 @@ class ConstrWrapper(Wrapper):
         self.node, self.T = node, T
         self.next_root = copy_location(Call(_type_expr(readable_name(T)), [node], []), node)
 
-DONT_CAST = ('object', 'int')
+DONT_CAST = ('int',)
 # node -> cast(T,node)
 class CastWrapper(Wrapper):
     def __init__(self, T, node):
         if readable_name(T) in DONT_CAST:
-            # `object` is how cinderx spells DYNAMIC, so this cast asks for
-            # nothing: leave the value alone. T stays None, which keeps
-            # _record from filing a coercion that is not there.
+            # every slot we tried accepts an inexact int, so the cast checks
+            # nothing. T stays None, which keeps _record from filing a
+            # coercion that is not there.
             return super().__init__(node)
         self.node, self.T = node, T
         self.next_root = copy_location(
@@ -134,6 +134,10 @@ def _choose(node, type, type_ctx, valid_pair, needs_exact, dyn=None, compared=Fa
     elif is_primative(type_ctx):
         return ConstrWrapper(type_ctx, node)
     else:
+        # A cast to `object` -- to dynamic -- reaches this branch only where
+        # needs_exact kept it off `valid_pair` above, which is the argument of
+        # an @inline call and nothing else. That cast is load-bearing: it is
+        # what makes two arguments agree once cinderx substitutes the body.
         return CastWrapper(type_ctx, node)
 
 def pick_patch(node, type, type_ctx, valid_pair, needs_exact, types, ctxs, dyn,

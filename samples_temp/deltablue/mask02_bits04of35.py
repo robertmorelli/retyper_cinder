@@ -126,7 +126,7 @@ class UrnaryConstraint(Constraint):
         self.satisfied = False
 
     def choose_method(self, mark: int64) -> None:
-        if self.my_output.mark != mark and stronger(self.strength, self.my_output.walk_strength):
+        if box(self.my_output.mark != mark) and box(stronger(cast(object, self.strength), cast(object, self.my_output.walk_strength))):
             self.satisfied = True
         else:
             self.satisfied = False
@@ -178,21 +178,21 @@ class BinaryConstraint(Constraint):
 
     def choose_method(self, mark: int64) -> None:
         if self.v1.mark == mark:
-            if self.v2.mark != mark and stronger(self.strength, self.v2.walk_strength):
+            if box(self.v2.mark != mark) and box(stronger(cast(object, self.strength), cast(object, self.v2.walk_strength))):
                 self.direction = Direction.FORWARD
             else:
                 self.direction = Direction.BACKWARD
         if self.v2.mark == mark:
-            if self.v1.mark != mark and stronger(self.strength, self.v1.walk_strength):
+            if box(self.v1.mark != mark) and box(stronger(cast(object, self.strength), cast(object, self.v1.walk_strength))):
                 self.direction = Direction.BACKWARD
             else:
                 self.direction = Direction.NONE
         if weaker(self.v1.walk_strength, self.v2.walk_strength):
-            if stronger(self.strength, self.v1.walk_strength):
+            if stronger(cast(object, self.strength), cast(object, self.v1.walk_strength)):
                 self.direction = Direction.BACKWARD
             else:
                 self.direction = Direction.NONE
-        elif stronger(self.strength, self.v2.walk_strength):
+        elif stronger(cast(object, self.strength), cast(object, self.v2.walk_strength)):
             self.direction = Direction.FORWARD
         else:
             self.direction = Direction.BACKWARD

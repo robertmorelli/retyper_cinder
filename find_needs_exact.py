@@ -1,21 +1,29 @@
 from sys import path
 from ast import NodeTransformer
-from ast import FunctionDef, Return, unparse, walk
+from ast import FunctionDef, unparse
 
 path.insert(0, "_cinderx/cinderx/PythonLib")
 from cinderx.compiler.static.types import CType
 
 class InlineCallArgFinder(NodeTransformer):
+    """The arguments of a call to an `@inline` function.
+
+    Only the arguments. The returned expression used to be here too, and it is
+    the one position where the demand costs something it does not buy: the
+    return is read once, by whatever the call feeds, and that consumer decides
+    its own coercion. Marking it exact only pushed `_choose` off `valid_pair`
+    and onto a cast to `object`, which is a cast to dynamic -- no narrowing, no
+    check, nothing but a wrapper on the value the body already produced.
+
+    The arguments are different. cinderx substitutes the body at each call
+    site, so two arguments that disagree -- one still typed, one erased --
+    become an `int64 < dynamic` inside it. The cast to `object` is what makes
+    them agree, and dropping it costs six deltablue masks.
+    """
+
     def __init__(self, reverse_outflow):
         self.reverse_outflow = reverse_outflow
         self.needs_exact = set()
-
-    def visit_FunctionDef(self, node):
-        if "inline" in set(map(unparse, node.decorator_list)):
-            self.needs_exact |= {n.value for n in walk(node)
-                                 if isinstance(n, Return) and n.value is not None}
-        self.generic_visit(node)
-        return node
 
     def visit_Call(self, node):
         if source := self.reverse_outflow.get(node):

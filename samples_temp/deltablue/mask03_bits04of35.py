@@ -187,7 +187,7 @@ class BinaryConstraint(Constraint):
                 self.direction = Direction.BACKWARD
             else:
                 self.direction = Direction.NONE
-        if weaker(self.v1.walk_strength, self.v2.walk_strength):
+        if weaker(cast(object, self.v1.walk_strength), cast(object, self.v2.walk_strength)):
             if stronger(self.strength, self.v1.walk_strength):
                 self.direction = Direction.BACKWARD
             else:

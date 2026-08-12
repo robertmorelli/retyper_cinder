@@ -40,7 +40,7 @@ def weaker(s1: Strength, s2: Strength) -> cbool:
 
 @inline
 def weakest_of(s1: Any, s2: Any) -> Strength:
-    return cast(Strength, s1 if s1.strength > s2.strength else s2)
+    return s1 if s1.strength > s2.strength else s2
 
 @final
 class Strength:
@@ -219,7 +219,7 @@ class BinaryConstraint(Constraint):
     def recalculate(self) -> None:
         ihn: Variable = self.input()
         out: Variable = self.output()
-        out.walk_strength = weakest_of(self.strength, ihn.walk_strength)
+        out.walk_strength = weakest_of(cast(object, self.strength), cast(object, ihn.walk_strength))
         out.stay = ihn.stay
         if out.stay:
             self.execute()
@@ -273,7 +273,7 @@ class ScaleConstraint(BinaryConstraint):
     def recalculate(self) -> None:
         ihn: Variable = self.input()
         out: Variable = self.output()
-        out.walk_strength = weakest_of(self.strength, ihn.walk_strength)
+        out.walk_strength = weakest_of(cast(object, self.strength), cast(object, ihn.walk_strength))
         out.stay = ihn.stay and self.scale.stay and self.offset.stay
         if out.stay:
             self.execute()
