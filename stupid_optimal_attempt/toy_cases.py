@@ -34,7 +34,7 @@ import subprocess
 import tempfile
 
 from detyper import detype
-from brute_force_prune import check, mark_generated_wrappers
+from brute_force_prune import check, removable_operand
 
 
 SAMPLES = (4, 5, 6, 7)
@@ -170,8 +170,17 @@ def ground_truth(name: str, source: str):
         mediator = detype(source, mask=0, bench=False)
     except Exception as error:
         return None, f"detype raised {type(error).__name__}: {error}"
-    generated = mark_generated_wrappers(source, mediator)
+    # Count by shape. `call_key` carries line and column, so once the tree is
+    # rewritten the author's own `int64(j)` stops matching itself and gets
+    # counted as something the mediator generated - which inflated every
+    # baseline here and made two toys look as though the mediator was beatable.
+    original = {ast.unparse(node) for node in ast.walk(ast.parse(source))
+                if isinstance(node, ast.Call)}
     text = ast.unparse(mediator)
+    generated = [node for node in ast.walk(mediator)
+                 if isinstance(node, ast.Call)
+                 and removable_operand(node) is not None
+                 and ast.unparse(node) not in original]
     verdict = check(text, False, 120)
     if verdict.returncode != 0:
         tail = (verdict.stderr or "").strip().splitlines()

@@ -23,6 +23,12 @@ module_path = argv[1]
 require_static = '--require-static' in argv
 compile_only = '--compile-only' in argv
 
+# Several benchmarks read an iteration count from sys.argv[1]. The runner's own
+# arguments would be parsed as one -- int('/var/folders/.../bench_module.py') --
+# so the module has to see a bare argv.
+import sys
+sys.argv = [module_path]
+
 sys_path.insert(0, path.dirname(path.abspath(module_path)))
 module = import_module(path.splitext(path.basename(module_path))[0])
 

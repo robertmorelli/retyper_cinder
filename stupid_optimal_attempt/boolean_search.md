@@ -116,3 +116,59 @@ what the mediator already produces.
 **The wrap set is not determined by the typing.** Fixing the types leaves
 several valid wrap sets of different sizes, because a wrap high can cover what
 several low ones would. The canonical choice is one of them, not the cheapest.
+
+
+## The brute force, and what it settled
+
+`true_minimum.py` is the independent answer. It takes the mediator's output,
+peels its coercions back off, and then tries every subset of wrappable
+positions up to a depth, every conversion at each, compiling with the Static
+Python loader and *running* the result to check it still computes what the
+mediator computes. An in-process bind filters first, because the loader and the
+runtime each cost a subprocess and reject almost everything.
+
+It is exponential and only usable on toys. That is the point: a solver claiming
+a minimum means nothing until something independent says what the minimum is.
+
+What it settled:
+
+| case | mediator | true minimum |
+| --- | ---: | ---: |
+| array_read | 2 | 2 |
+| index_wrap | 1 | 1 |
+| array_store | 1 | 1 |
+| mixed | 2 | 2 |
+
+The mediator is minimal on every toy. An earlier version of this file, and
+several solver runs, claimed otherwise - `array_read` at 2 against 3, and so
+on. That was a counting bug, not a result. `call_key` includes line and column,
+so after any pass rewrites the tree the author's own `int64(j)` no longer
+matches itself, gets counted as generated, and gets stripped - which let the
+brute force "win" by deleting author code the mediator is not allowed to touch.
+Counting by shape instead makes the discrepancy vanish.
+
+The one real gap that survives correct counting is fannkuch: the mediator uses
+10 and a verified 9 exists, checked under both counters and confirmed to
+compute `[4, 7, 10, 16]`. That is the only case worth pointing a solver at.
+
+## Approaches that were tried and removed
+
+Kept here so they are not rebuilt. Each was a whole solver; all are deleted.
+
+- **branch and bound over wrapper sets, CinderX as oracle** - one error per
+  bind, branching restricted to that error's reverse slice. The restriction is
+  unsound: fannkuch's known ten-wrapper answer has no position in the tightest
+  error's slice, so it was cut at depth zero.
+- **best-first on error count** - reached one error remaining and stalled
+  forever. The last error was repairable only by a coordinated set, and error
+  count gives no gradient toward it.
+- **per-statement tables keyed on concrete types** - needed a pool per local of
+  every type it had been observed to take, and answers to questions like
+  whether `Literal[0]` satisfies `int`. The pools filled with debris and the
+  matching over-constrained. Bits fixed this.
+- **one global settle, searching which annotations survive** - cannot express
+  "consider both cases and reconcile", because there is only ever one typing.
+  Every valid assignment came out at exactly the mediator's count.
+- **the graph as a validator** - it is a generator. Asked whether a program is
+  well typed it reported 35 mismatches on one that compiles and runs, because
+  a node with no context edge keeps the annotated program's demand.

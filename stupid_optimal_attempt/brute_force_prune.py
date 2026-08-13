@@ -70,8 +70,19 @@ def removable_operand(call: ast.Call):
 
 
 def mark_generated_wrappers(original_source: str, transformed: ast.AST):
+    """Which calls in the output the mediator put there.
+
+    Identity is the call's shape, not its position. `call_key` carries line and
+    column, and every pass rewrites the tree, so an author-written `int64(nb)`
+    stopped matching itself and was marked as generated - which meant
+    `baseline_tree` stripped the author's own cast out of the program the
+    solvers search. They then re-derived it and were charged for it: on
+    index_wrap that turned an exact reproduction of the mediator into a
+    three-wrap "loss". Two identical author calls are indistinguishable this
+    way, which costs an unused candidate; position cost correctness.
+    """
     original_calls = {
-        call_key(node)
+        ast.unparse(node)
         for node in ast.walk(ast.parse(original_source))
         if isinstance(node, ast.Call)
     }
@@ -79,7 +90,7 @@ def mark_generated_wrappers(original_source: str, transformed: ast.AST):
     for node in ast.walk(transformed):
         if (isinstance(node, ast.Call)
                 and removable_operand(node) is not None
-                and call_key(node) not in original_calls):
+                and ast.unparse(node) not in original_calls):
             node._optimal_candidate = len(candidates)
             candidates.append(node)
     return candidates
