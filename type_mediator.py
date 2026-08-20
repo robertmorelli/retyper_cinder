@@ -14,8 +14,9 @@ Erasure is not part of this. `remove_annotations` must finish across the whole
 tree first, because whether a value needs coercing depends on what every other
 annotation became.
 """
-from ast import (Call, If, IfExp, Load, Name, NodeTransformer, Not, Slice,
-                 Subscript, UnaryOp, While, copy_location, unparse)
+from ast import (Call, DictComp, GeneratorExp, If, IfExp, ListComp, Load, Name,
+                 NodeTransformer, Not, SetComp, Slice, Subscript, UnaryOp,
+                 While, copy_location, unparse, walk)
 
 from cinderx_binding import get_ctx, is_primative
 from patch_picker import (PRIMITIVE_NAMES, choose_patch, pick_patch,
@@ -23,15 +24,15 @@ from patch_picker import (PRIMITIVE_NAMES, choose_patch, pick_patch,
 
 # coercions that exist only to produce a primitive. In a slot that is no longer
 # primitive they do nothing but make the program invalid.
-TO_PRIMITIVE = ("int64", "cbool", "clen", "double")
+TO_PRIMITIVE = ("int64", "cbool", "double")
 
 
 def unwrapped_primitive(node):
     """What a primitive constructor was converting, or None.
 
-    `clen` is not one of these. It is in TO_PRIMITIVE because it exists to
-    produce a primitive, but it computes a length rather than converting its
-    operand, and stepping over it would change what the program says.
+    `clen` is not one of these: it computes a length rather than converting
+    its operand, so stepping over it would change what the program says. Its
+    spelling is decided by `spell_len` instead.
     """
     if (isinstance(node, Call) and isinstance(node.func, Name)
             and node.func.id in PRIMITIVE_NAMES and len(node.args) == 1):
@@ -82,6 +83,11 @@ def extract_coerced(node, constructors):
     if not isinstance(node, Call):
         return None
     first, second, *_ = node.args + [None, None]
+    if isinstance(node.func, Name) and node.func.id == "clen":
+        # `clen(x)` is registered like a constructor because it yields an
+        # int64, but it measures its operand rather than converting it. Peeling
+        # it off leaves the container where its length belongs.
+        return None
     if node.func in constructors:
         from cinderx.compiler.static.types import CType
         if isinstance(constructors[node.func], CType):
@@ -104,6 +110,8 @@ class Coercer(NodeTransformer):
         self.inline_args = inline_args
         self.graph = graph
         self.constructors = constructors
+        # the elements a comprehension builds its container out of
+        self.payloads = set()
 
     # ---------------------------------------------------------------- record
 
@@ -123,14 +131,26 @@ class Coercer(NodeTransformer):
 
     # --------------------------------------------------------------- rewrites
 
-    def demote_clen(self, node):
-        """`clen(x)` yields an int64, `len(x)` a dynamic. Once the operand is
-        dynamic the primitive form has nothing to measure."""
-        if (isinstance(node, Call) and isinstance(node.func, Name)
-                and node.func.id == "clen" and node.args
-                and self.types.get(node.args[0]) == self.dyn):
-            node.func.id = "len"
-            self.types[node] = self.dyn
+    def spell_len(self, node):
+        """`clen` and `len` are one measurement in two spellings.
+
+        `clen` compiles to FAST_LEN and yields an int64; `len` goes through the
+        object protocol and yields a dynamic. Which one a call wants follows
+        from the pair: the primitive form where the operand can be measured
+        that way and the slot wants a primitive, the object form otherwise.
+        Never dropped -- a length is not a conversion of its operand, and
+        stepping over it hands back the container.
+        """
+        if not (isinstance(node, Call) and isinstance(node.func, Name)
+                and node.func.id in ("clen", "len") and len(node.args) == 1):
+            return
+        measured = self.types.get(node.args[0])
+        fast = (measured is not None and measured is not self.dyn
+                and fast_len(measured))
+        primitive = fast and self.type_ctxs.get(node) is not self.dyn
+        node.func.id = "clen" if primitive else "len"
+        self.types[node] = (self.dyn.klass.type_env.int64.instance
+                            if primitive else self.dyn)
 
     def bare_test(self, node):
         """A branch demands nothing of its test, so a coercion there is noise.
@@ -153,27 +173,7 @@ class Coercer(NodeTransformer):
         inner = unwrapped_primitive(node.test)
         if inner is not None:
             node.test = inner
-        self.promote_clen(node)
-
-    def promote_clen(self, node):
-        """`len(x)` measuring a test, where the operand still has a type.
-
-        The mirror of `demote_clen`. `clen` is the primitive length and `len`
-        the trip through the object protocol, and the difference is not small:
-        on a CheckedList in a loop condition, `clen(x)` measured 15x faster
-        than `len(x)` and 2.4x faster than testing the container itself. The
-        one thing `clen` cannot measure is a dynamic, which is the case
-        `demote_clen` exists for, so everything else belongs in the fast form.
-        """
-        test = node.test
-        if not (isinstance(test, Call) and isinstance(test.func, Name)
-                and test.func.id == "len" and len(test.args) == 1):
-            return
-        measured = self.types.get(test.args[0])
-        if measured is None or measured is self.dyn or not fast_len(measured):
-            return
-        test.func.id = "clen"
-        self.types[test] = self.dyn.klass.type_env.int64.instance
+        self.spell_len(node.test)
 
     def bare_unary(self, node):
         """A unary operator passes its operand's kind through, so a coercion
@@ -327,7 +327,7 @@ class Coercer(NodeTransformer):
 
     def visit(self, node):
         self.generic_visit(node)
-        self.demote_clen(node)
+        self.spell_len(node)
         if isinstance(node, (If, IfExp, While)):
             self.bare_test(node)
         if isinstance(node, UnaryOp):
@@ -353,7 +353,8 @@ class Coercer(NodeTransformer):
             return target
         wrapper = pick_patch(target, t, tc, self.valid_pair, self.inline_args,
                              self.types, self.type_ctxs, self.dyn,
-                             self.constructors, self.graph.must_agree(node))
+                             self.constructors, self.graph.must_agree(node),
+                             node in self.payloads)
         result = wrapper.wrap()
         if result is not target and wrapper.T is not None:
             # the position yields something new, so the other half of any pair
@@ -362,8 +363,21 @@ class Coercer(NodeTransformer):
         return result
 
 
+def _payloads(tree):
+    """Every expression a comprehension builds its container out of."""
+    found = set()
+    for node in walk(tree):
+        if isinstance(node, (ListComp, SetComp, GeneratorExp)):
+            found.add(node.elt)
+        elif isinstance(node, DictComp):
+            found.update((node.key, node.value))
+    return found
+
+
 def coerce_tree(tree, types, type_ctxs, dyn, valid_pair, inline_args, graph,
                 constructors):
-    Coercer(types, type_ctxs, dyn, valid_pair, inline_args, graph,
-            constructors).visit(tree)
+    coercer = Coercer(types, type_ctxs, dyn, valid_pair, inline_args, graph,
+                      constructors)
+    coercer.payloads = _payloads(tree)
+    coercer.visit(tree)
     return tree

@@ -1,5 +1,7 @@
 from re import compile
 from ast import Name, Load, Attribute, Call, copy_location, walk
+from ast import Slice, Subscript
+
 from cinderx_binding import is_primative, is_const
 
 def _type_expr(name):
@@ -53,6 +55,8 @@ class ConstrWrapper(Wrapper):
         self.next_root = copy_location(Call(_type_expr(readable_name(T)), [node], []), node)
 
 DONT_CAST = ('int',)
+# containers whose slice comes back as a plain list
+CHECKED_NAMES = ('chklist', 'CheckedList', 'chkdict', 'CheckedDict')
 # node -> cast(T,node)
 class CastWrapper(Wrapper):
     def __init__(self, T, node):
@@ -106,7 +110,16 @@ def _narrows_optional(type, type_ctx):
 
 
 # TODO: figure out if this produces enough casts
-def _choose(node, type, type_ctx, valid_pair, inline_args, dyn=None, compared=False):
+def _choose(node, type, type_ctx, valid_pair, inline_args, dyn=None,
+            compared=False, payload=False):
+    if payload and type is dyn and type_ctx is not dyn:
+        # The payload of a checked comprehension. A dynamic fits any slot on
+        # its own, but `[s for s in sources]` builds its container out of what
+        # the payload yields, and chklist[dynamic] is not chklist[T] however
+        # assignable the elements are. T1 < T2 is still fine -- only a dynamic
+        # has to be pinned, and a checked container never holds a primitive,
+        # so the pin is a cast.
+        return CastWrapper(type_ctx, node)
     if _narrows_optional(type, type_ctx):
         return CastWrapper(type_ctx, node)
     # Boxing a machine literal in a dynamic slot -- `box(double(2.0))` -- fixes
@@ -122,6 +135,14 @@ def _choose(node, type, type_ctx, valid_pair, inline_args, dyn=None, compared=Fa
         # This is the case erasure creates -- the annotation that made the slot
         # primitive is gone, and the value still is one, so it has to box.
         return BoxWrapper(node, type, node in inline_args)
+    if (node.__class__ is Subscript and node.slice.__class__ is Slice
+            and readable_name(type_ctx).startswith(CHECKED_NAMES)):
+        # A slice hands back a plain list whatever it was taken from. The typed
+        # path never checks that, so only erasure makes it visible, and dynamic
+        # counts as a valid pair for a checked container -- this has to come
+        # before that test. cast() checks exactness and fails on the list, so
+        # the container is rebuilt instead.
+        return ConstrWrapper(type_ctx, node)
     if node not in inline_args and valid_pair(type, type_ctx, node):
         return Wrapper(node)
     elif type == type_ctx:
@@ -141,13 +162,14 @@ def _choose(node, type, type_ctx, valid_pair, inline_args, dyn=None, compared=Fa
         return CastWrapper(type_ctx, node)
 
 def choose_patch(node, type, type_ctx, valid_pair, inline_args, dyn=None,
-                 compared=False):
+                 compared=False, payload=False):
     """Which wrapper this position wants, without writing it down.
 
     The tower collapser has to know what a rebuild would produce before it can
     decide whether to rebuild at all, and `_record` commits to the tables.
     """
-    return _choose(node, type, type_ctx, valid_pair, inline_args, dyn, compared)
+    return _choose(node, type, type_ctx, valid_pair, inline_args, dyn, compared,
+                   payload)
 
 
 def record_patch(w, node, type, type_ctx, types, ctxs, dyn, constructors):
@@ -156,8 +178,8 @@ def record_patch(w, node, type, type_ctx, types, ctxs, dyn, constructors):
 
 
 def pick_patch(node, type, type_ctx, valid_pair, inline_args, types, ctxs, dyn,
-               constructors, compared=False):
+               constructors, compared=False, payload=False):
     return record_patch(
         choose_patch(node, type, type_ctx, valid_pair, inline_args, dyn,
-                     compared),
+                     compared, payload),
         node, type, type_ctx, types, ctxs, dyn, constructors)

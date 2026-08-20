@@ -4,8 +4,13 @@ import ast
 import json
 import webbrowser
 from pathlib import Path
+from types import SimpleNamespace
 
+from annotation_remover import remove_annotations
 from cinderx_binding import get_ast_data
+from import_adder import add_imports
+from inline_call_analysis import find_inline_args
+from type_mediator import coerce_tree
 from typedness_graph import build_binding_graph
 
 HTML = r'''<!doctype html><meta charset="utf-8"><title>Type/context source graph</title>
@@ -15,20 +20,71 @@ HTML = r'''<!doctype html><meta charset="utf-8"><title>Type/context source graph
 for(const slot of ['type','context']){const lines=new Map;for(const n of data.nodes.filter(n=>n.slot===slot)){if(!lines.has(n.line))lines.set(n.line,[]);lines.get(n.line).push(n)}for(const group of lines.values()){const ends=[];group.sort((a,b)=>a.col-b.col||b.endcol-a.endcol);for(const n of group){const end=n.endline===n.line?n.endcol:Infinity;let lane=ends.findIndex(value=>n.col>=value);if(lane<0)lane=ends.length;n.lane=lane;ends[lane]=end}}}
 data.source.forEach((text,i)=>{const row=document.createElement('span');row.className='line';row.dataset.line=i+1;const no=document.createElement('span');no.className='no';no.textContent=i+1;const body=document.createElement('span');body.className='text';body.textContent=text||' ';row.append(no,body);source.append(row)});
 function el(tag,attrs){const e=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);return e}function position(n){const row=document.querySelector(`.line[data-line="${n.line}"]`),body=row.querySelector('.text'),r=body.getBoundingClientRect(),style=getComputedStyle(body),probe=document.createElement('canvas').getContext('2d');probe.font=style.font;const w=probe.measureText('M').width,x1=r.left+n.col*w,x2=r.left+Math.max(n.col+1,n.endline===n.line?n.endcol:n.col+1)*w;const center=(r.top+r.bottom)/2,gap=7*(n.lane||0);return{x:(x1+x2)/2,x1,x2,y:n.slot==='type'?center+15+gap:center-15-gap}}
-function draw(){edges.replaceChildren();cells.replaceChildren();const pos=new Map(data.nodes.map(n=>[n.id,position(n)]));for(const [i,e] of data.edges.entries()){const a=pos.get(e[0]),b=pos.get(e[1]),dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1,end=b,bend=Math.max(24,Math.min(100,len/3)),sign=dx<0?-1:1;const mid={x:(a.x+end.x)/2,y:(a.y+end.y)/2},path=el('path',{d:`M${a.x},${a.y} Q${a.x+bend*sign},${a.y} ${mid.x},${mid.y} Q${end.x-bend*sign},${end.y} ${end.x},${end.y}`,class:'edge','data-edge':i});edges.append(path)}for(const n of data.nodes){const p=pos.get(n.id),line=el('line',{x1:p.x1,y1:p.y,x2:p.x2,y2:p.y,class:`cell ${n.slot}`,'data-id':n.id});line.onclick=()=>select(n);cells.append(line)}}
-function select(n){document.body.classList.add('selected');document.querySelectorAll('.hot').forEach(e=>e.classList.remove('hot'));document.querySelector(`.line[data-line="${n.line}"]`)?.classList.add('hot');for(const [i,e] of data.edges.entries())if(e.includes(n.id))document.querySelector(`[data-edge="${i}"]`)?.classList.add('hot');info.textContent=n.label+'\nvalue: '+(n.values.join(' | ')||'∅')+'\nblue = produced type, orange = demanded context'}source.onscroll=draw;onresize=draw;requestAnimationFrame(draw);</script>'''
+function draw(){edges.replaceChildren();cells.replaceChildren();const pos=new Map(data.nodes.map(n=>[n.id,position(n)]));for(const [i,e] of data.edges.entries()){const a=pos.get(e[0]),b=pos.get(e[1]),dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1,end=b,bend=Math.max(24,Math.min(100,len/3)),sign=dx<0?-1:1;const mid={x:(a.x+end.x)/2,y:(a.y+end.y)/2},path=el('path',{d:`M${a.x},${a.y} Q${a.x+bend*sign},${a.y} ${mid.x},${mid.y} Q${end.x-bend*sign},${end.y} ${end.x},${end.y}`,class:'edge','data-edge':i});edges.append(path)}for(const n of data.nodes){const p=pos.get(n.id),line=el('line',{x1:p.x1,y1:p.y,x2:p.x2,y2:p.y,class:`cell ${n.slot}`,'data-id':n.id});line.onclick=()=>select(n);cells.append(line)}if(current)select(current)}
+let current=null;
+function select(n){current=n;document.body.classList.add('selected');document.querySelectorAll('.hot').forEach(e=>e.classList.remove('hot'));document.querySelector(`.line[data-line="${n.line}"]`)?.classList.add('hot');for(const [i,e] of data.edges.entries())if(e.includes(n.id))document.querySelector(`[data-edge="${i}"]`)?.classList.add('hot');info.textContent=n.label+'\nvalue: '+(n.values.join(' | ')||'∅')+'\nblue = produced type, orange = demanded context'}source.onscroll=draw;onresize=draw;requestAnimationFrame(draw);</script>'''
 
 
-def graph_data(source):
-    bound = get_ast_data(ast.parse(source))
+def graph_data(source, mask=0, bench=False):
+    """Cells and edges for `source`, or for what a mask makes of it.
+
+    A masked tree is drawn from the predicted tables rather than a rebind: the
+    interesting masks are the ones whose output does not bind, and those are
+    exactly the ones there would otherwise be no picture of.
+    """
+    bound = written = get_ast_data(ast.parse(source))
     graph = build_binding_graph(bound)
+    placed = {}
+    if mask:
+        granularity = "benchmark" if bench else "annotation"
+        erased = graph.nodes_for_mask(mask, granularity)
+        predicted = graph.settle(bound, erased)
+        bound = SimpleNamespace(types=predicted.types,
+                                type_contexts=predicted.contexts,
+                                tree=bound.tree)
+        # The cells still name nodes of the detyped tree, but those carry the
+        # original file's positions. Re-parsing the unparsed text gives the
+        # same shape with the text's own line numbers to draw against.
+        # detype() parses its own copy, whose nodes no cell names. The same
+        # two passes run here against the tree the graph was built from.
+        detyped = remove_annotations(written.tree, erased, predicted.types,
+                                     predicted.contexts, False)
+        detyped = coerce_tree(detyped, predicted.types, predicted.contexts,
+                              written.dynamic, written.valid_pair,
+                              find_inline_args(detyped, written.reverse_outflow,
+                                               predicted.types), graph,
+                              written.constructors)
+        detyped = ast.fix_missing_locations(add_imports(detyped))
+        source = ast.unparse(detyped)
+        # Paired field by field: unparsing rewrites a few nodes (`-1.5`
+        # comes back as a UnaryOp) and a flat walk slides from there on, so a
+        # subtree that stops matching is dropped rather than misplaced.
+        def pair(left, right):
+            if type(left) is not type(right):
+                return
+            placed[left] = right
+            for field, value in ast.iter_fields(left):
+                twin = getattr(right, field, None)
+                if isinstance(value, list) and isinstance(twin, list):
+                    if len(value) != len(twin):
+                        continue
+                    for kid, mate in zip(value, twin):
+                        if isinstance(kid, ast.AST):
+                            pair(kid, mate)
+                elif isinstance(value, ast.AST) and isinstance(twin, ast.AST):
+                    pair(value, twin)
+        pair(detyped, ast.parse(source))
     cells = {
         cell
         for edge in graph.edges
         for cell in (edge.source, edge.target)
     }
+    if mask:
+        # A node the pairing could not place has no position in this text, and
+        # drawing it at the original file's coordinates puts a cell in mid-air.
+        cells = {cell for cell in cells if cell[0] in placed}
     def anchor(cell):
-        node = cell[0]
+        node = placed.get(cell[0], cell[0])
         return (getattr(node, "annotation", None)
                 or getattr(node, "returns", None) or node)
 
@@ -44,6 +100,7 @@ def graph_data(source):
     def value(cell):
         table = bound.types if cell[1] == "type" else bound.type_contexts
         return table.get(cell[0])
+
     nodes = [{"id": ids[cell], "slot": cell[1],
               "line": getattr(anchor(cell), "lineno", 0),
               "col": getattr(anchor(cell), "col_offset", 0),
@@ -52,7 +109,8 @@ def graph_data(source):
               "label": label(cell),
               "values": [str(value(cell))] if value(cell) is not None else []}
              for cell in ordered]
-    edges = [[ids[edge.source], ids[edge.target]] for edge in graph.edges]
+    edges = [[ids[edge.source], ids[edge.target]] for edge in graph.edges
+             if edge.source in ids and edge.target in ids]
     return {"nodes": nodes, "edges": edges, "source": source.splitlines()}
 
 
@@ -61,8 +119,13 @@ def main():
     parser.add_argument("source")
     parser.add_argument("-o", "--output", default="type-graph.html")
     parser.add_argument("--open", action="store_true")
+    parser.add_argument("--mask", type=int, default=0,
+                        help="draw the graph a mask predicts, not the source's")
+    parser.add_argument("--bench", action="store_true",
+                        help="mask indexes function groups, not annotations")
     args = parser.parse_args()
-    data = json.dumps(graph_data(Path(args.source).read_text())).replace("<", "\\u003c")
+    data = json.dumps(graph_data(Path(args.source).read_text(), args.mask,
+                                 args.bench)).replace("<", "\\u003c")
     output = Path(args.output).resolve()
     output.write_text(HTML.replace("__DATA__", data))
     print(output)

@@ -94,6 +94,10 @@ class Graph(ast.NodeVisitor):
         self.types = {}
         self._index = None
         self.tagged = {"result": set(), "sibling": set()}
+        # read -> the assignments cinderx would narrow it to, kept aside so
+        # settle can drop them for a name whose declaration survives the mask
+        self.narrowings = {}
+        self.reaching = {}
         if bound is not None:
             self.construct(bound)
 
@@ -101,7 +105,11 @@ class Graph(ast.NodeVisitor):
         return (node, slot)
 
     def flow(self, source, target):
-        if source is not None and target is not None:
+        # A cell is no source for itself. cinderx files an inflow from a
+        # declaration to its own target where an assignment has no value
+        # expression -- a loop target, a comprehension target -- and that edge
+        # would decide a position from the half of it being decided.
+        if source is not None and target is not None and source[0] is not target[0]:
             self.edges.add(Edge(source, target))
 
     def link(self, source, target, slot=TYPE, kind=None):
@@ -124,6 +132,19 @@ class Graph(ast.NodeVisitor):
     # ------------------------------------------------------------------ setup
 
     def construct(self, bound):
+        # A name unpacked from an iterator is assigned DYNAMIC, which
+        # maybe_set_local_type turns back into the declared type, so the
+        # position narrows nothing and a read looks straight through it.
+        unpacked = {element
+                    for node in ast.walk(bound.tree)
+                    if type(node) in (ast.For, ast.AsyncFor)
+                    and type(node.target) in (ast.Tuple, ast.List)
+                    for element in ast.walk(node.target)
+                    if type(element) is ast.Name}
+        self.reaching = {read: [d for d in defs
+                                if d is not read and d not in unpacked]
+                         for read, defs in bound.resolved_from.items()
+                         if isinstance(defs, frozenset)}
         self.resolved = bound.reverse_outflow
         self.types = bound.types
         self.index(bound.tree)
@@ -134,6 +155,9 @@ class Graph(ast.NodeVisitor):
         # it trivially gate-neutral, and it partitions into a group of its own.
         roots = ({*bound.outflow, *bound.inflow, *bound.components,
                   *bound.annotation_roots} - {None})
+        stored = {node.value: target
+                  for node in ast.walk(bound.tree) if type(node) is ast.Assign
+                  for target in node.targets if type(target) is ast.Name}
         for root in roots:
             self.groups.find(root)
             for neighbor in filter(None, bound.components.get(root, ())):
@@ -142,10 +166,33 @@ class Graph(ast.NodeVisitor):
                 for node in flows.get(root, ()):
                     # #1 where slot is TYPE, #2 where it is CONTEXT: the two
                     # foundational links, drawn from cinderx's own analysis
+                    if slot is TYPE:
+                        reaching = self.reaching.get(node)
+                        if reaching and not any(d is root for d in reaching):
+                            # the read takes its type from the assignment that
+                            # reaches it; the declaration reaches that
+                            # assignment, not the read
+                            for definition in reaching:
+                                self.flow(self.cell(definition, TYPE),
+                                          self.cell(node, TYPE))
+                                self.narrowings.setdefault(node, []).append(
+                                    definition)
+                            continue
+                    if slot is CONTEXT and node in stored:
+                        # cinderx has no node for a Store-context name, so it
+                        # reports the declaration demanding the assigned value
+                        # directly. Route it through the target the way an
+                        # attribute target is routed, so a name that goes
+                        # dynamic carries its demand to the value.
+                        self.flow(self.cell(root, TYPE),
+                                  self.cell(stored[node], TYPE))
+                        continue
                     self.flow(self.cell(root, TYPE), self.cell(node, slot))
 
+        self.tree = bound.tree
         self.visit(bound.tree)
         self.link_overrides()
+        self.read_through_targets()
 
         ordered = sorted(roots, key=lambda node: (node.lineno, node.col_offset))
         partitions = self.groups.partitions()
@@ -156,6 +203,30 @@ class Graph(ast.NodeVisitor):
         self.annotation_units = [frozenset(partitions[leader])
                                  for leader in representatives]
         self.benchmark_units = self.group_functions()
+
+    def read_through_targets(self):
+        """A declaration is read through its target, not out of its annotation.
+
+        `x: T = v` gives the annotation's type to `x`, and every use of `x`
+        takes it from there, so the reads hang off the left-hand side and the
+        annotation has exactly one outgoing edge.
+        """
+        moved = {node for node in ast.walk(self.tree)
+                 if type(node) is ast.AnnAssign
+                 and type(node.target) in (ast.Name, ast.Attribute)}
+        for edge in list(self.edges):
+            node, slot = edge.source
+            if slot is not TYPE or type(node) is not ast.AnnAssign:
+                continue
+            if type(node.target) not in (ast.Name, ast.Attribute):
+                continue
+            if edge.target == self.cell(node.value, CONTEXT):
+                continue  # the declaration's own demand on its initializer
+            self.edges.discard(edge)
+            if edge.target != self.cell(node.target, TYPE):
+                self.flow(self.cell(node.target, TYPE), edge.target)
+        for node in moved:
+            self.flow(self.cell(node, TYPE), self.cell(node.target, TYPE))
 
     def index(self, tree):
         """Collect names, classes and syntactic marks before the walk.
@@ -346,6 +417,16 @@ class Graph(ast.NodeVisitor):
             self.generic_visit(node)
         return super().visit(node)
 
+    def generic_visit(self, node):
+        # An annotation is a type, not an expression: `CheckedList[Body]` is
+        # not a subscript of anything, and the edges the ordinary rules draw
+        # inside one form a closed island nothing reads.
+        annotation = getattr(node, "annotation", None) or getattr(
+            node, "returns", None)
+        for child in ast.iter_child_nodes(node):
+            if child is not annotation:
+                self.visit(child)
+
     def visit_FunctionDef(self, node):
         outer = self.function
         self.function = node
@@ -365,12 +446,21 @@ class Graph(ast.NodeVisitor):
             return
         # valid_links #6 -- cinderx resolves annotated and module level names,
         # so this only covers the bindings it leaves unresolved.
+        # cinderx's own reaching definitions: a read takes its type from the
+        # assignments that reach it, not from every binding of the name.
+        reaching = self.reaching.get(node)
+        if reaching:
+            for binder in reaching:
+                self.link(binder, node)
+                self.narrowings.setdefault(node, []).append(binder)
+            return
         for scope in (self.function, None):
             binders = self.bindings.get((scope, node.id))
             if binders:
                 for binder in binders:
                     if binder is not node:
                         self.link(binder, node)
+                        self.narrowings.setdefault(node, []).append(binder)
                 return
 
     def visit_Assign(self, node):
@@ -379,6 +469,15 @@ class Graph(ast.NodeVisitor):
                 # An attribute or an element has a declared type of its own, so
                 # the slot demands the value rather than taking its type.
                 self.link(target, node.value, CONTEXT)  # valid_links #64
+            elif self.annotated_target(target):
+                # A declaration fixes the type, so the store demands the value
+                # rather than taking its type -- the same shape as #64. The
+                # narrowing edge goes in too: once the mask takes the
+                # annotation away, cinderx types the target from the value
+                # again, and settle drops the edge while the annotation stands.
+                self.link(target, node.value, CONTEXT)
+                self.link(node.value, target)
+                self.narrowings.setdefault(target, []).append(node.value)
             else:
                 # valid_links #4, and #38 for the chained form
                 self.link(node.value, target)
@@ -391,6 +490,14 @@ class Graph(ast.NodeVisitor):
             # the declaration's type rather than something the annotation
             # overrides. valid_links #65
             self.link(node.value, node)
+
+    def declaration_of(self, read):
+        """The annotated binding a name reads through, if it has one."""
+        for scope in (self.owners.get(read), None):
+            declaration = self.annotated(scope, getattr(read, "id", None))
+            if declaration is not None:
+                return declaration
+        return None
 
     def annotated_target(self, target):
         """Does this target have a declaration that fixes its type?"""
@@ -432,7 +539,11 @@ class Graph(ast.NodeVisitor):
                 self.link(slot, node)  # valid_links #8
 
     def visit_Subscript(self, node):
-        self.link(node.value, node)  # valid_links #9
+        if type(node.slice) is not ast.Slice:
+            self.link(node.value, node)  # valid_links #9
+        # A slice is a plain list whatever it came from -- chklist[B][0:] is a
+        # list at runtime, and only the typed path skips the check that says
+        # so -- so the container's type is no source for it.
         for part in self.slice_parts(node.slice):
             # valid_links #10 and #11
             self.link(node.value, part, CONTEXT)
@@ -561,10 +672,10 @@ class Graph(ast.NodeVisitor):
 
     def visit_For(self, node):
         if type(node.target) in (ast.Tuple, ast.List):
-            # `for b1, b2 in pairs` bound nothing at all before this: every
-            # element target was invisible to the graph. valid_links #69
-            for element in node.target.elts:
-                self.link(node.iter, element)
+            # `for b1, b2 in pairs` narrows nothing: assign_value only spreads
+            # element types when the source is a literal tuple, so every name
+            # unpacked from an iterator is dynamic whatever the container
+            # holds, and the annotation on it is all there is. valid_links #69
             return
         if type(node.target) is not ast.Name:
             return
@@ -583,6 +694,12 @@ class Graph(ast.NodeVisitor):
                 self.link(generator.iter, generator.target)  # valid_links #25
         for element in elements:
             self.link(element, node)  # valid_links #26
+            # and the demand back down: a CheckedList context hands its
+            # element type to the payload, which visitListComp does by
+            # visiting the element expecting it. Context to context -- what the
+            # comprehension is asked for decides what its elements are asked
+            # for, whatever type it happens to hold.
+            self.flow(self.cell(node, CONTEXT), self.cell(element, CONTEXT))
 
     def visit_ListComp(self, node):
         self.visit_comprehension_expr(node, [node.elt])
@@ -671,7 +788,11 @@ class Graph(ast.NodeVisitor):
         """One pass over the edges, indexed both ways.
 
         `outgoing` maps a cell to what it feeds; the other two map a node to
-        the expressions feeding each of its slots.
+        the cells feeding each of its slots. A feed is a cell rather than a
+        node because an edge can leave either slot: a context to context edge
+        says what a position is asked for follows from what its parent is
+        asked for, and reading that off the parent's type would decide it
+        against the wrong half.
         """
         if self._index is None:
             outgoing, by_type, by_context = {}, {}, {}
@@ -679,7 +800,7 @@ class Graph(ast.NodeVisitor):
                 outgoing.setdefault(edge.source, []).append(edge.target)
                 node, slot = edge.target
                 table = by_context if slot == CONTEXT else by_type
-                table.setdefault(node, []).append(edge.source[0])
+                table.setdefault(node, []).append(edge.source)
             self._index = (outgoing, by_type, by_context)
         return self._index
 
@@ -773,9 +894,10 @@ class Graph(ast.NodeVisitor):
         feeds its type cell.
         """
         if type(node) is ast.BoolOp:
-            return node.values
+            return [self.cell(value, TYPE) for value in node.values]
         if type(node) is ast.Compare:
-            return (node.left, *node.comparators)
+            return [self.cell(part, TYPE)
+                    for part in (node.left, *node.comparators)]
         return feeds
 
     def decide_type(self, node, feeds, dead, bound):
@@ -800,15 +922,16 @@ class Graph(ast.NodeVisitor):
         """
         if any(feed in dead for feed in feeds):
             return bound.dynamic
-        if (node in self.conditions and node in dead
+        if (node in self.conditions and self.cell(node, TYPE) in dead
                 and self.machine(bound.type_contexts.get(node))):
             # A condition that lost its type cannot be asked for a machine
             # boolean; the demand is what makes the patcher wrap it in
             # cbool(). Scoped to conditions on purpose -- the unscoped version
             # of this rule cost 143. valid_links #35 and #36
             return bound.dynamic
-        if (node in dead and self.machine(bound.type_contexts.get(node))
-                and all((self.cell(feed, TYPE), self.cell(node, CONTEXT))
+        if (self.cell(node, TYPE) in dead
+                and self.machine(bound.type_contexts.get(node))
+                and all((feed, self.cell(node, CONTEXT))
                         in self.tagged["sibling"] for feed in feeds)):
             # the demand comes from an operand, not a declaration: a
             # dynamic value cannot be coerced up to meet one, so the other
@@ -830,6 +953,14 @@ class Graph(ast.NodeVisitor):
         """
         rebuilt, recovers, seeds = set(), set(), set()
         for node in erased:
+            if not (type(node) in (ast.AnnAssign, ast.arg)
+                    or getattr(node, "returns", None) is not None):
+                # A unit holds everything an annotation is linked to, not only
+                # the annotations. Erasing it takes the annotations away and
+                # leaves the rest to be decided from what still feeds them: a
+                # loop target reads its container whether or not it shares a
+                # unit with something erased.
+                continue
             if (type(node) is ast.AnnAssign
                     and _checked_ctor(node.annotation, node.value) is not None):
                 rebuilt.add(node)
@@ -837,11 +968,40 @@ class Graph(ast.NodeVisitor):
                 recovers.add(node)
             else:
                 seeds.add(node)
+        # Reads hang off the target, not the declaration, so a seeded
+        # declaration has to take its target down with it.
+        for node in list(seeds):
+            if type(node) is ast.AnnAssign and type(node.target) in (
+                    ast.Name, ast.Attribute):
+                seeds.add(node.target)
         return rebuilt, recovers, seeds
 
     def settle(self, bound, erased=()):
         by_type, by_context = self.sources()
         _, recovers, seeds = self.classify(erased, bound)
+        # A declared local reads as its declaration: cinderx narrows it to an
+        # assigned value only while the declaration is gone, so the narrowing
+        # edges stand or fall with the annotation the mask leaves behind.
+        kept = {read: [self.cell(b, TYPE) for b in binders
+                       if self.declaration_of(read) is None
+                       or self.declaration_of(read) in erased
+                       or b is self.declaration_of(read)]
+                for read, binders in self.narrowings.items()}
+        narrowing_cells = {read: [self.cell(b, TYPE) for b in binders]
+                           for read, binders in self.narrowings.items()}
+        by_type = {node: [feed for feed in feeds
+                          if node not in kept or feed in kept[node]
+                          or feed not in narrowing_cells.get(node, ())]
+                   for node, feeds in by_type.items()}
+        # #65 is about what cinderx infers where the annotation is gone. A
+        # declaration that still has its annotation keeps that type whatever
+        # its initializer became, so the value is not a feed for it.
+        erased = set(erased)
+        by_type = {node: [feed for feed in feeds
+                          if not (type(node) is ast.AnnAssign
+                                  and feed == self.cell(node.value, TYPE)
+                                  and node not in erased)]
+                   for node, feeds in by_type.items()}
         # Every typed node is decided, not only the ones an edge points at: a
         # comparison has no incoming type edge, so restricting this to edge
         # targets meant its rule never ran and it kept a cbool it no longer
@@ -849,22 +1009,40 @@ class Graph(ast.NodeVisitor):
         # still take the recovery back.
         decided_nodes = list(bound.types) + list(recovers)
 
-        dead = set(seeds)
+        # One fixpoint over both slots: a context can now depend on another
+        # context, so the two cannot be decided in sequence.
+        dead = {self.cell(node, TYPE) for node in seeds}
+        dead.update(self.cell(node, CONTEXT) for node in seeds)
+        # Only a position something demands of is decided: with no feeds at
+        # all the sibling clause is vacuously true and would take every
+        # machine context down with it.
+        context_nodes = [node for node in by_context
+                         if node in bound.type_contexts and node not in seeds]
         pending = True
         while pending:
             pending = False
             for node in decided_nodes:
-                if node in dead:
+                cell = self.cell(node, TYPE)
+                if cell in dead:
                     continue
                 if self.decide_type(node, by_type.get(node, ()), dead,
                                     bound) is bound.dynamic:
-                    dead.add(node)
+                    dead.add(cell)
+                    pending = True
+            for node in context_nodes:
+                cell = self.cell(node, CONTEXT)
+                if cell in dead:
+                    continue
+                if self.decide_context(node, by_context.get(node, ()), dead,
+                                       bound) is bound.dynamic:
+                    dead.add(cell)
                     pending = True
 
-        types = {node: (bound.dynamic if node in dead else value)
+        types = {node: (bound.dynamic if self.cell(node, TYPE) in dead
+                        else value)
                  for node, value in bound.types.items()}
         for node in decided_nodes:
-            if node not in dead:
+            if self.cell(node, TYPE) not in dead:
                 decided = self.decide_type(node, by_type.get(node, ()), dead,
                                            bound)
                 if decided is not None:
@@ -875,9 +1053,9 @@ class Graph(ast.NodeVisitor):
         contexts = dict(bound.type_contexts)
         for node in seeds:
             contexts[node] = bound.dynamic
-        for node, feeds in by_context.items():
-            if node in contexts and node not in seeds:
-                contexts[node] = self.decide_context(node, feeds, dead, bound)
+        for node in context_nodes:
+            contexts[node] = self.decide_context(
+                node, by_context[node], dead, bound)
         return SimpleNamespace(types=types, contexts=contexts)
 
     def coercion(self, node):

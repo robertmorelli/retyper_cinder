@@ -1,0 +1,27 @@
+{
+  "deltablue/advanced": {
+    "1840016465666716217989232593006232845761439906392574081305": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: chklist[dynamic] cannot be assigned to chklist[bench_module.Constraint]', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4mmn3u7_/bench_module.py', 338, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    }
+  },
+  "nbody/advanced": {
+    "2016254667620005383429321": {
+      "error": "incorrect register type.",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    },
+    "227895688405872465946216": {
+      "error": "incorrect register type.",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "runtime_failure"
+    }
+  }
+}
