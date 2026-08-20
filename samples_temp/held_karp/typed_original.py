@@ -1,226 +1,211 @@
 from __future__ import annotations
 
 import __static__
-from __static__ import CheckedList, box, int64
-from typing import Tuple
-import time
+from __static__ import Array, box, inline, int64
 import random
+import time
+from typing import Tuple
 
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
 
-INF_WEIGHT: float = 1.0e18
+INF_WEIGHT: int = 1 << 60
 REFERENCE_NODE_COUNT: int = 5
 RANDOM_NODE_COUNT: int = 14
 
+@inline
+def infinity() -> int64:
+    return int64(INF_WEIGHT)
 
-class Set64:
-    def __init__(self, bits: int64) -> None:
-        self.bits: int64 = bits
+@inline
+def set_from_city(city: int64) -> int64:
+    return 1 << city
 
-    @classmethod
-    def from_city(cls, city: int64) -> Set64:
-        return Set64(int64(1) << city)
+@inline
+def first_set_of_size(size: int64) -> int64:
+    return ((1 << size) - 1) << 1
 
-    @classmethod
-    def first_of_size(cls, size: int64) -> Set64:
-        return Set64(((int64(1) << size) - 1) << 1)
+@inline
+def full_set_for_node_count(node_count: int64) -> int64:
+    return (1 << node_count) - 2
 
-    @classmethod
-    def full_for_node_count(cls, node_count: int64) -> Set64:
-        return Set64((int64(1) << node_count) - 2)
+@inline
+def remove_from_set(bits: int64, other: int64) -> int64:
+    return bits & ~other
 
-    def remove(self, other: Set64) -> Set64:
-        return Set64(self.bits & ~other.bits)
+@inline
+def ctz(low_bit: int64, bit_indexes: Array[int64]) -> int64:
+    return bit_indexes[low_bit]
 
-    def next_same_size(self) -> Set64:
-        value: int64 = self.bits
-        low_bit: int64 = value & -value
-        carry: int64 = value + low_bit
-        return Set64(carry + (((carry ^ value) // low_bit) >> 2))
+def next_set_of_same_size(bits: int64, bit_indexes: Array[int64]) -> int64:
+    # Gosper's hack on a compressed mask, shifted so city zero never enters S.
+    value: int64 = bits >> 1
+    low_bit: int64 = value & -value
+    carry: int64 = value + low_bit
+    shift: int64 = bit_indexes[low_bit]
+    return (carry | (((carry ^ value) >> 2) >> shift)) << 1
 
-    def fill_members(self, scratch: CheckedList[int]) -> int64:
-        count: int64 = 0
-        remaining: int64 = self.bits
-        while remaining != 0:
-            low_bit: int64 = remaining & -remaining
-            index: int64 = 0
-            value: int64 = low_bit
-            while value > 1:
-                value >>= 1
-                index += 1
-            scratch[box(count)] = box(index)
-            count += 1
-            remaining &= remaining - 1
-        return count
+def fill_set_members(bits: int64, scratch: Array[int64], bit_indexes: Array[int64]) -> int64:
+    count: int64 = 0
+    remaining: int64 = bits
+    while remaining != 0:
+        low_bit: int64 = remaining & -remaining
+        index: int64 = ctz(low_bit, bit_indexes)
+        scratch[count] = index
+        count += 1
+        remaining &= remaining - 1
+    return count
 
-
-class HeldKarpDP:
-    def __init__(self, subset_count: int64, node_count: int64, fill_value: float) -> None:
-        self.node_count: int64 = node_count
-        total_slots: int64 = subset_count * node_count
-        self.values: CheckedList[float] = CheckedList[float]([fill_value] * box(total_slots))
-
-    def offset(self, subset: Set64, city: int64) -> int64:
-        return subset.bits * self.node_count + city
-
-    def get(self, subset: Set64, city: int64) -> float:
-        return self.values[box(self.offset(subset, city))]
-
-    def set(self, subset: Set64, city: int64, value: float) -> None:
-        self.values[box(self.offset(subset, city))] = value
-
-    def transition_cost(
-        self,
-        distances: DistanceMatrix,
-        subset_without_city: Set64,
-        members: CheckedList[int],
-        member_count: int64,
-        city: int64,
-    ) -> float:
-        best: float = INF_WEIGHT
-        index: int64 = 0
-        while index < member_count:
-            previous_city: int64 = int64(members[box(index)])
-            current: float = self.get(subset_without_city, previous_city) + distances.get(previous_city, city)
-            if current < best:
-                best = current
-            index += 1
-        return best
-
-    def initialize_base_cases(self, distances: DistanceMatrix) -> None:
-        start_city: int64 = 0
-        city: int64 = 1
-        while city < self.node_count:
-            subset: Set64 = Set64.from_city(city)
-            self.set(subset, city, distances.get(start_city, city))
-            city += 1
-
-    def solve_subsets_of_size(
-        self,
-        distances: DistanceMatrix,
-        subset_size: int64,
-        scratch: CheckedList[int],
-    ) -> None:
-        subset_limit: int64 = int64(1) << self.node_count
-        subset: Set64 = Set64.first_of_size(subset_size)
-
-        while subset.bits < subset_limit:
-            member_count: int64 = subset.fill_members(scratch)
-            index: int64 = 0
-            while index < member_count:
-                city: int64 = int64(scratch[box(index)])
-                city_set: Set64 = Set64.from_city(city)
-                subset_without_city: Set64 = subset.remove(city_set)
-                best: float = self.transition_cost(
-                    distances,
-                    subset_without_city,
-                    scratch,
-                    member_count,
-                    city,
-                )
-                self.set(subset, city, best)
-                index += 1
-            subset = subset.next_same_size()
-
-    def close_tour(self, distances: DistanceMatrix) -> float:
-        visited: Set64 = Set64.full_for_node_count(self.node_count)
-        best: float = INF_WEIGHT
-        start_city: int64 = 0
-        city: int64 = 1
-        while city < self.node_count:
-            current: float = self.get(visited, city) + distances.get(city, start_city)
-            if current < best:
-                best = current
-            city += 1
-        return best
-
-
+# wrapper around Array[int64] to get flat data layout
 class DistanceMatrix:
-    def __init__(self, node_count: int64) -> None:
-        self.node_count: int64 = node_count
-        self.values: CheckedList[float] = CheckedList[float]([0.0] * box(node_count * node_count))
+    def __init__(self, node_count: int) -> None:
+        self.node_count: int64 = int64(node_count)
+        total_slots: int = node_count * node_count
+        self.values: Array[int64] = Array[int64](total_slots)
 
+    @inline
     def offset(self, row: int64, column: int64) -> int64:
         return row * self.node_count + column
 
-    def get(self, row: int64, column: int64) -> float:
-        return self.values[box(self.offset(row, column))]
+    @inline
+    def get(self, row: int64, column: int64) -> int64:
+        return self.values[self.offset(row, column)]
 
-    def set(self, row: int64, column: int64, value: float) -> None:
-        self.values[box(self.offset(row, column))] = value
-
-    def fill_reference_values(self) -> None:
-        values: Tuple[float, ...] = (
-            0.0, 3.0, 4.0, 2.0, 7.0,
-            3.0, 0.0, 4.0, 6.0, 3.0,
-            4.0, 4.0, 0.0, 5.0, 8.0,
-            2.0, 6.0, 5.0, 0.0, 6.0,
-            7.0, 3.0, 8.0, 6.0, 0.0,
-        )
-        row: int64 = 0
-        while row < self.node_count:
-            column: int64 = 0
-            while column < self.node_count:
-                value: float = values[box(self.offset(row, column))]
-                if row == column:
-                    self.set(row, column, INF_WEIGHT)
-                else:
-                    self.set(row, column, value)
-                column += 1
-            row += 1
+    def set(self, row: int64, column: int64, value: int64):
+        self.values[self.offset(row, column)] = value
 
 
+# sanity check to ensure nothing weird happened
+def fill_reference_values(matrix: DistanceMatrix) -> None:
+    values: Tuple[int, ...] = (
+        0, 3, 4, 2, 7,
+        3, 0, 4, 6, 3,
+        4, 4, 0, 5, 8,
+        2, 6, 5, 0, 6,
+        7, 3, 8, 6, 0)
+    row: int64 = 0
+    while row < matrix.node_count:
+        column: int64 = 0
+        while column < matrix.node_count:
+            offset: int64 = matrix.offset(row, column)
+            value: int64 = int64(values[box(offset)])
+            if row == column:
+                matrix.set(row, column, infinity())
+            else:
+                matrix.set(row, column, value)
+            column += 1
+        row += 1
+
+# random sample should not affect perf except marginally in max conditions
 def fill_random_values(matrix: DistanceMatrix) -> None:
     row: int64 = 0
     while row < matrix.node_count:
         column: int64 = 0
         while column < matrix.node_count:
             if row == column:
-                matrix.set(row, column, INF_WEIGHT)
+                matrix.set(row, column, infinity())
             else:
-                # Generating a random float representing distance
-                random_dist: float = float(random.uniform(1.0, 100.0))
-                matrix.set(row, column, random_dist)
+                matrix.set(row, column, int64(random.randint(1, 100)))
             column += 1
         row += 1
 
+# the alg
+def held_karp(node_count: int, distances: DistanceMatrix) -> int64:
+    n: int64 = int64(node_count)
+    start_city: int64 = 0
+    subset_capacity: int = 1 << node_count
+    total_slots: int = subset_capacity * node_count
+    g: Array[int64] = Array[int64](total_slots)
+    members: Array[int64] = Array[int64](node_count)
+    bit_indexes: Array[int64] = Array[int64](subset_capacity)
+    bit_index: int64 = 0
+    while bit_index < n:
+        bit_indexes[1 << bit_index] = bit_index
+        bit_index += 1
 
-def held_karp(node_count: int64, distances: DistanceMatrix) -> float:
-    subset_capacity: int64 = int64(1) << node_count
-    dp: HeldKarpDP = HeldKarpDP(subset_capacity, node_count, INF_WEIGHT)
+    # Initialize g to infinity so every uncomputed state is visibly invalid.
+    slot: int64 = 0
+    machine_slots: int64 = int64(total_slots)
+    while slot < machine_slots:
+        g[slot] = infinity()
+        slot += 1
 
-    scratch: CheckedList[int] = CheckedList[int]([0] * box(node_count))
-    dp.initialize_base_cases(distances)
+    # for k in {1, ..., n - 1}: g({k}, k) = d(0, k)
+    city: int64 = 1
+    while city < n:
+        singleton: int64 = set_from_city(city)
+        g[singleton * n + city] = distances.get(start_city, city)
+        city += 1
 
+    # for subset sizes 2 through n - 1
     subset_size: int64 = 2
-    while subset_size < node_count:
-        dp.solve_subsets_of_size(distances, subset_size, scratch)
+    subset_limit: int64 = 1 << n
+    while subset_size < n:
+        # for every S subset of {1, ..., n - 1} with |S| = subset_size
+        subset: int64 = first_set_of_size(subset_size)
+        while subset < subset_limit:
+            member_count: int64 = fill_set_members(subset, members, bit_indexes)
+
+            # for every k in S
+            city_index: int64 = 0
+            while city_index < member_count:
+                city = members[city_index]
+                city_set: int64 = set_from_city(city)
+                subset_without_city: int64 = remove_from_set(subset, city_set)
+                previous_offset: int64 = subset_without_city * n
+                best: int64 = infinity()
+
+                # min over m in S, m != k:
+                # g(S - {k}, m) + d(m, k)
+                previous_index: int64 = 0
+                while previous_index < member_count:
+                    previous_city: int64 = members[previous_index]
+                    if previous_city != city:
+                        current: int64 = (
+                            g[previous_offset + previous_city]
+                            + distances.get(previous_city, city))
+                        if current < best:
+                            best = current
+                    previous_index += 1
+
+                g[subset * n + city] = best
+                city_index += 1
+
+            subset = next_set_of_same_size(subset, bit_indexes)
         subset_size += 1
 
-    return dp.close_tour(distances)
+    # min over k != 0: g({1, ..., n - 1}, k) + d(k, 0)
+    full: int64 = full_set_for_node_count(n)
+    best = infinity()
+    city = 1
+    while city < n:
+        current = g[full * n + city] + distances.get(city, start_city)
+        if current < best:
+            best = current
+        city += 1
+    return best
 
 
-def run_reference_case() -> float:
-    node_count: int64 = int64(REFERENCE_NODE_COUNT)
+def run_reference_case() -> int64:
+    node_count: int = REFERENCE_NODE_COUNT
     distances: DistanceMatrix = DistanceMatrix(node_count)
-    distances.fill_reference_values()
+    fill_reference_values(distances)
     return held_karp(node_count, distances)
 
 
-def run_random_benchmark(node_count: int64) -> float:
+def run_random_benchmark(node_count: int) -> int64:
     distances: DistanceMatrix = DistanceMatrix(node_count)
     fill_random_values(distances)
     return held_karp(node_count, distances)
 
 
 def main() -> None:
-    reference_result: float = run_reference_case()
-    assert int(reference_result) == 19
-    random_node_count: int64 = int64(RANDOM_NODE_COUNT)
+    reference_result: int64 = run_reference_case()
+    assert reference_result == 19
+    random_node_count: int = RANDOM_NODE_COUNT
 
     start_time: float = time.time()
-    random_result: float = run_random_benchmark(random_node_count)
+    random_result: int64 = run_random_benchmark(random_node_count)
     end_time: float = time.time()
 
     print(end_time - start_time)

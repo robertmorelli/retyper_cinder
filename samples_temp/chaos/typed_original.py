@@ -203,7 +203,7 @@ class Chaosgame(object):
             basepoint.y = self.miny
         return basepoint
 
-if __name__ == "__main__":
+def main():
     splines: list = [
         Spline([
             GVector(1.597350, 3.304460, 0.000000),
@@ -232,3 +232,6 @@ if __name__ == "__main__":
     endTime = time.time()
     runtime = endTime - startTime
     print(runtime)
+
+if __name__ == "__main__":
+    main()

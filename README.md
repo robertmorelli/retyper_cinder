@@ -3,6 +3,7 @@ This is a tool for testing the performance of cinderx at different "proportions 
 ## Fact Gathering
 
 for all expressions in a program... make vertices and edges
+far all expressions in a program you can consider the actual type of any expression and the obligations an expression might have to fulfill. For instance, passing an argument to a parameter. The argument must fulfill the type of the parameter as per the function signature; that would be an example of an obligation. A value reassigned to a declared variable must be compatible with the variables declared type. Therefore the value must meet the obligation to the type in order to be a valid assignment.
 
 This uses a modified cinderx type binder and some post processing to gather facts about the code being processed. This modified type binder collects the following data:
 - All type binding results for expressions.

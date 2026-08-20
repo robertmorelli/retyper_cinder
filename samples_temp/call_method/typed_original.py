@@ -140,9 +140,11 @@ def test_calls() -> None:
     return
 
 
-if __name__ == "__main__":
+def main():
     startTime = time.time()
     test_calls() # call
     endTime = time.time()
     runtime = endTime - startTime
     print(runtime)
+if __name__ == "__main__":
+    main()

@@ -14,9 +14,9 @@ Erasure is not part of this. `remove_annotations` must finish across the whole
 tree first, because whether a value needs coercing depends on what every other
 annotation became.
 """
-from ast import (Call, DictComp, GeneratorExp, If, IfExp, ListComp, Load, Name,
-                 NodeTransformer, Not, SetComp, Slice, Subscript, UnaryOp,
-                 While, copy_location, unparse, walk)
+from ast import (BinOp, Call, DictComp, GeneratorExp, If, IfExp, ListComp,
+                 Load, Name, NodeTransformer, Not, SetComp, Slice, Subscript,
+                 UnaryOp, While, copy_location, unparse, walk)
 
 from cinderx_binding import get_ctx, is_primative
 from patch_picker import (PRIMITIVE_NAMES, choose_patch, pick_patch,
@@ -28,14 +28,20 @@ TO_PRIMITIVE = ("int64", "cbool", "double")
 
 
 def unwrapped_primitive(node):
-    """What a primitive constructor was converting, or None.
+    """What a conversion was converting, or None.
+
+    `box` counts alongside the primitive constructors. It is the conversion
+    that matters most under an operator: `box(not box(x))` asks cinderx to box
+    a bool, which it refuses, where the operator over the bare primitive is a
+    cbool the outer box takes.
 
     `clen` is not one of these: it computes a length rather than converting
     its operand, so stepping over it would change what the program says. Its
     spelling is decided by `spell_len` instead.
     """
     if (isinstance(node, Call) and isinstance(node.func, Name)
-            and node.func.id in PRIMITIVE_NAMES and len(node.args) == 1):
+            and node.func.id in PRIMITIVE_NAMES | {"box"}
+            and len(node.args) == 1):
         return node.args[0]
     return None
 
@@ -112,6 +118,8 @@ class Coercer(NodeTransformer):
         self.constructors = constructors
         # the elements a comprehension builds its container out of
         self.payloads = set()
+        # node -> the outermost coercion enclosing it, whose demand decides it
+        self.tower_tops = {}
 
     # ---------------------------------------------------------------- record
 
@@ -308,9 +316,10 @@ class Coercer(NodeTransformer):
         # What replaces the tower is this rebuild, not the bare value inside
         # it. Where the rebuild hands back the same type the tower did --
         # `int64(int64(x))` rebuilt as `int64(x)` -- nothing downstream can
-        # tell the difference, so the question load_bearing asks does not
-        # arise. Only when the rebuild produces something else, a bare value
-        # most of all, can a consumer lose its type.
+        # tell the difference. Where it would hand back something a consumer
+        # still needs the type of, the tower is rebuilt to the type it had
+        # rather than left standing: leaving it means the argument inside it
+        # was never decided at all.
         if (candidate.T is not self.types.get(node)
                 and self.load_bearing(node, value)):
             return None
@@ -363,6 +372,31 @@ class Coercer(NodeTransformer):
         return result
 
 
+def _tower_tops(tree):
+    """Where inside a coercion tower each position takes its demand from.
+
+    A coercion's argument is not a position of its own: `box(i)` says what box
+    wants of `i`, not what the program wants there. The demand that decides
+    the whole tower is the one on its outermost layer, so every node inside
+    one is mapped to that layer and judged against its context.
+    """
+    tops = {}
+    for node in walk(tree):
+        if not (isinstance(node, Call) and isinstance(node.func, Name)
+                and node.func.id in PRIMITIVE_NAMES | {"box", "cast"}
+                and node.args):
+            continue
+        top = tops.get(node, node)
+        inner = node.args[-1]
+        tops[inner] = top
+        while (isinstance(inner, Call) and isinstance(inner.func, Name)
+               and inner.func.id in PRIMITIVE_NAMES | {"box", "cast"}
+               and inner.args):
+            inner = inner.args[-1]
+            tops[inner] = top
+    return tops
+
+
 def _payloads(tree):
     """Every expression a comprehension builds its container out of."""
     found = set()
@@ -379,5 +413,6 @@ def coerce_tree(tree, types, type_ctxs, dyn, valid_pair, inline_args, graph,
     coercer = Coercer(types, type_ctxs, dyn, valid_pair, inline_args, graph,
                       constructors)
     coercer.payloads = _payloads(tree)
+    coercer.tower_tops = _tower_tops(tree)
     coercer.visit(tree)
     return tree

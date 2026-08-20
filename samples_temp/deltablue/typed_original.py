@@ -313,7 +313,7 @@ class ScaleConstraint(BinaryConstraint):
             self.v2.value = self.v1.value * self.scale.value + self.offset.value
         else:
             self.v1.value = (
-                                    self.v2.value - self.offset.value) / self.scale.value
+                                    self.v2.value - self.offset.value) // self.scale.value
 
     def recalculate(self) -> None:
         ihn: Variable = self.input()
@@ -640,7 +640,7 @@ def delta_blue(i: int) -> None:
     projection_test(n)
 
 
-if __name__ == "__main__":
+def main():
     n: int = 10000
     startTime = time.time()
     delta_blue(n)
@@ -648,3 +648,7 @@ if __name__ == "__main__":
     endTime = time.time()
     runtime = endTime - startTime
     print(runtime)
+
+if __name__ == "__main__":
+
+    main()

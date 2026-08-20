@@ -11,15 +11,19 @@ another random mask at the same proportion, up to DRAWS tries. Some proportions
 cannot be filled at all -- nbody's codegen abort is not an inliner bug -- so the
 graph is expected to have holes.
 
-Also counts the coercions the detyper injected: cast(), box(), and primitive
-constructor calls in the output, over what the original source already had.
+Also counts the wraps in the output, over what the original source already
+had. A wrap is one call that moves a value between representations: a cast, a
+box, a primitive or boxed constructor, or a checked container rebuilt around a
+value. Every layer counts. `box(double(x))` is two, and should not be in the
+output at all -- it is a tower the collapser did not take apart, and a counter
+that charged it as one would hide that.
 
   python typedness_sweep2.py                     -> typedness2_results.json
   python typedness_sweep2.py --benchmark pystone --samples 3
   python typedness_sweep2.py --runs 3            median of 3 runs per mask
 """
 from argparse import ArgumentParser
-from ast import Call, Name, parse, unparse, walk
+from ast import Call, Name, Subscript, parse, unparse, walk
 from json import dump
 from math import comb
 from os import path
@@ -42,7 +46,8 @@ VARIANT = "advanced"
 GRANULARITY = "benchmark"
 SKIP = {"scratch"}
 DRAWS = 5
-COERCERS = {"cast", "box"} | set(PRIMITIVE_NAMES)
+CHECKED = {"CheckedList", "CheckedDict", "CheckedSet"}
+BOXED = {"int", "float", "str", "bool"}
 MODES = (("compiled", "run_compiled.py"), ("plain", "run_plain.py"))
 BAR = 30
 
@@ -55,11 +60,56 @@ def unit_count(bench):
         return 0
 
 
-def coercions(tree):
-    """cast(), box(), and primitive constructor calls in a tree."""
-    return sum(1 for node in walk(tree)
-               if isinstance(node, Call) and isinstance(node.func, Name)
-               and node.func.id in COERCERS)
+def wrapper_name(node):
+    """Which wrapper this call is, or None if it is not one.
+
+    Arity is part of the test. `cast` takes a type and a value, everything
+    else takes the one value it converts, and a same-named call with any other
+    shape is some other function.
+
+    `clen` is deliberately absent: it computes a length rather than converting
+    its operand, and it replaces a `len` one for one, so counting it would
+    move the total for a swap that wrapped nothing.
+
+    `int`, `float`, `str` and `bool` are here. They are the boxed spellings of
+    the primitives and they convert what they are handed, which is what a wrap
+    is; whether the author wrote it or the mediator did decides nothing about
+    what the program then does.
+    """
+    if not isinstance(node, Call):
+        return None
+    func = node.func
+    if isinstance(func, Name):
+        if func.id == "cast" and len(node.args) == 2:
+            return "cast"
+        if func.id == "box" and len(node.args) == 1:
+            return "box"
+    # `CheckedList[Point](xs)` reaches here two ways. Written by hand it is a
+    # Subscript. Built by the mediator it is a Name whose id is the whole
+    # string, brackets and all -- `_type_expr` splits a readable name on dots
+    # and never on a subscript -- so a check for a Subscript callee sees the
+    # author's and misses ours, which is the wrap that moves with the mask.
+    if isinstance(func, Subscript) and isinstance(func.value, Name):
+        name = func.value.id
+    elif isinstance(func, Name):
+        name = func.id.split("[")[0]
+    else:
+        return None
+    if len(node.args) == 1 and (name in PRIMITIVE_NAMES or name in CHECKED
+                                or name in BOXED):
+        return name
+    return None
+
+
+def wraps(tree):
+    """How many wraps a tree carries, counting every layer.
+
+    A tower is worth what it costs. `box(double(x))` converts twice and is
+    charged twice -- it is also a tower that should have been collapsed, and
+    charging it as one wrap would make the counter quietest exactly where the
+    output is worst.
+    """
+    return sum(1 for node in walk(tree) if wrapper_name(node) is not None)
 
 
 def levels(n, proportions):
@@ -86,12 +136,12 @@ def draw(n, k, used, rng):
 
 
 def build(source, mask):
-    """The detyped source and how many coercions the detyper put in it."""
+    """The detyped source and how many wraps the detyper put in it."""
     if mask == 0:                      # detype reads mask=0 as "erase all"
         tree = parse(source)
         return unparse(tree), 0
     tree = detype(source, mask=mask, bench=True)
-    return unparse(tree), coercions(tree) - coercions(parse(source))
+    return unparse(tree), wraps(tree) - wraps(parse(source))
 
 
 def execute(script, module_path, timeout):

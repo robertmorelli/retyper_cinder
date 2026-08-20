@@ -450,7 +450,7 @@ class Richards(object):
         return True
 
 
-if __name__ == "__main__":
+def main():
     num_iterations = 8
     if len(sys.argv) > 1:
         num_iterations = int(sys.argv[1])
@@ -460,3 +460,5 @@ if __name__ == "__main__":
     end_time = time.time()
     runtime = end_time - start_time
     print(runtime)
+if __name__ == "__main__":
+    main()

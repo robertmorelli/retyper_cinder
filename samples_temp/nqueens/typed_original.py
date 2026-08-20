@@ -112,7 +112,7 @@ def bench_n_queens(queen_count: int) -> List[Array[int64]]:
     return list(solve(queen_count))
 
 
-if __name__ == "__main__":
+def main():
     import sys
 
     num_iterations = 1
@@ -123,9 +123,11 @@ if __name__ == "__main__":
     startTime = time.time()
     for _ in range(num_iterations):
         res: list = bench_n_queens(queen_count)  ## main fun call?
-
     endTime = time.time()
     runtime = endTime - startTime
     print(runtime)
 
     # assert len(res) == 92
+
+if __name__ == "__main__":
+    main()

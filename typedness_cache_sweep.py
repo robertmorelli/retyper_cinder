@@ -12,7 +12,7 @@ from time import sleep
 from load_source import load_bench
 from typedness_cache_probe import make_l1d_template, metric_totals
 from typedness_sweep import _is_main_guard
-from typedness_sweep2 import build, coercions
+from typedness_sweep2 import build, wraps
 
 COUNTER_UNSAFE = {"deltablue"}
 
@@ -120,7 +120,7 @@ def cache_row(benchmark, source, point, mask_row, temporary, template, seconds):
 
 def checkpoint(output, data, cache_rows):
     originals = {
-        benchmark: coercions(parse(load_bench(benchmark, "advanced")))
+        benchmark: wraps(parse(load_bench(benchmark, "advanced")))
         for benchmark in {point["benchmark"] for point in data["points"]}
     }
     cache_by_key = {

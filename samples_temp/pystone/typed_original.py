@@ -302,7 +302,7 @@ def run() -> None:
     loops: int = LOOPS
     pystones(loops)
 
-if __name__ == "__main__":
+def main():
     import sys
 
     num_iterations = 2
@@ -318,3 +318,5 @@ if __name__ == "__main__":
     runtime = endTime - startTime
     print(runtime)
 
+if __name__ == "__main__":
+    main()

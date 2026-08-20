@@ -22,7 +22,7 @@ from tempfile import TemporaryDirectory
 from time import perf_counter
 
 from load_source import load_bench
-from typedness_sweep2 import (VARIANT, GRANULARITY, DRAWS, build, coercions,
+from typedness_sweep2 import (VARIANT, GRANULARITY, DRAWS, build, wraps,
                               draw, execute, levels)
 
 BAR = 30
@@ -92,7 +92,7 @@ def main():
     benches = sorted({r["benchmark"] for r in rows})
     units = {r["benchmark"]: r["units"] for r in rows}
     sources = {b: load_bench(b, VARIANT) for b in benches}
-    originals = {b: coercions(parse(sources[b])) for b in sources}
+    originals = {b: wraps(parse(sources[b])) for b in sources}
 
     have = {}
     for r in rows:

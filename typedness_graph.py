@@ -35,6 +35,10 @@ SIGNATURES.update(dict.fromkeys(("pop", "get", "copy", "index", "count"),
 SIGNATURES.update(dict.fromkeys(("append", "add", "insert", "extend",
                                  "remove", "discard"), "element"))
 CINDER_CONVERSIONS = {n for n, k in SIGNATURES.items() if k == "argument"}
+# the calls that exist to change a value's representation
+COERCIONS = {"box", "cast"} | {n for n in SIGNATURES if n in (
+    "double", "cbool", "int8", "int16", "int32", "int64",
+    "uint8", "uint16", "uint32", "uint64")}
 
 # What the cinder intrinsics yield, looked up rather than guessed from the
 # argument. These give their own type whatever goes in, so an erased argument
@@ -553,6 +557,18 @@ class Graph(ast.NodeVisitor):
             return [part for part in (node.lower, node.upper, node.step) if part]
         return [node]
 
+    def chain_contexts(self, operands):
+        """Each operand is asked for what the one before it was asked for.
+
+        A context is the type a position ends up with once the mediator has
+        wrapped it, so operands that have to agree agree on contexts rather
+        than on what they happen to yield. The chain runs left to right
+        because that is the order the mediator can fix things in: bottom up,
+        left to right.
+        """
+        for left, right in zip(operands, operands[1:]):
+            self.flow(self.cell(left, CONTEXT), self.cell(right, CONTEXT))
+
     def siblings(self, operands, tolerant=True):
         """Operands constrain each other.
 
@@ -568,7 +584,15 @@ class Graph(ast.NodeVisitor):
                     self.link(left, right, CONTEXT, kind="sibling")
 
     def visit_BinOp(self, node):
-        self.siblings([node.left, node.right])  # valid_links #13
+        # The demand on the whole reaches the left operand, and the left hands
+        # it on to the right. `Pow` is exempt: cinderx clears the context
+        # there, the result is a double whatever went in. valid_links #13
+        # The demand on the whole reaches the left operand, and the left hands
+        # it on to the right. `Pow` is exempt: cinderx clears the context
+        # there, the result is a double whatever went in. valid_links #13
+        if type(node.op) is not ast.Pow:
+            self.flow(self.cell(node, CONTEXT), self.cell(node.left, CONTEXT))
+        self.chain_contexts([node.left, node.right])
         # Both operands feed the result. `"" * 2` stays a str because nothing
         # was erased there and decide_type keeps the original type; but once
         # either operand is dynamic the result is too, whichever side it was.
@@ -577,24 +601,39 @@ class Graph(ast.NodeVisitor):
         self.result_link(node.right, node)  # valid_links #59
 
     def visit_Compare(self, node):
-        self.siblings([node.left, *node.comparators])  # valid_links #14
+        # the operands agree in series and the last of them says what the
+        # comparison itself comes out as. valid_links #14
+        self.chain_contexts([node.left, *node.comparators])
+        self.flow(self.cell(node.comparators[-1], CONTEXT),
+                  self.cell(node, TYPE))
         # no result link: a comparison is a boolean whatever its operands
         # are, so its type never follows them. struck #60.
 
     def visit_UnaryOp(self, node):
         if type(node.op) is not ast.Not:
+            # the kind passes through, so the demand on the whole is the
+            # demand on the operand. `not x` is a bool whatever x is, so its
+            # demand says nothing about what x is asked for.
+            self.flow(self.cell(node, CONTEXT), self.cell(node.operand, CONTEXT))
             # A sign change or a bitwise invert keeps its operand's type;
             # `not x` is a boolean whatever x is, which is why struck #61
             # was struck out and this visitor went with it. valid_links #68
             self.result_link(node.operand, node)
 
     def visit_BoolOp(self, node):
-        self.siblings(node.values)  # valid_links #15
-        for arm in node.values:
-            self.result_link(arm, node)  # valid_links #62
+        # `a and b` is the union of its arms, and a union of a primitive with
+        # anything else is not a type cinderx will build. So the arms agree in
+        # series and the last of them decides what the whole yields.
+        # valid_links #15 and #62
+        # `a and b` is the union of its arms, and a union of a primitive with
+        # anything else is not a type cinderx will build. So the arms agree in
+        # series and the last of them decides what the whole yields.
+        # valid_links #15 and #62
+        self.chain_contexts(node.values)
+        self.flow(self.cell(node.values[-1], CONTEXT), self.cell(node, TYPE))
 
     def visit_IfExp(self, node):
-        self.siblings([node.body, node.orelse])  # valid_links #16
+        self.chain_contexts([node.body, node.orelse])  # valid_links #16
         for arm in (node.body, node.orelse):
             self.result_link(arm, node)  # valid_links #63
 
@@ -636,7 +675,13 @@ class Graph(ast.NodeVisitor):
             # A call whose callee lost its type is a dynamic call, and a
             # dynamic call takes objects: the arguments have to box whatever
             # the surviving parameter annotations still ask for.
-            self.link(node.func, argument, CONTEXT)  # valid_links #66
+            if self.called_name(node.func) not in COERCIONS:
+                # A coercion's parameter demand is not the program's demand:
+                # `box(i)` says box takes a primitive, not that `i` is asked
+                # for one. Wrapping the argument to satisfy it builds a layer
+                # inside a tower that the tower's own rebuild then has to
+                # undo. valid_links #66
+                self.link(node.func, argument, CONTEXT)
         if self.called_name(node.func) in CINDER_CONVERSIONS:
             for argument in node.args:
                 self.link(argument, node)  # valid_links #20
@@ -886,17 +931,19 @@ class Graph(ast.NodeVisitor):
     def type_parts(self, node, feeds):
         """What an expression's type depends on.
 
-        A boolean operator yields one of its arms. A comparison has no
-        incoming type edge -- its type never follows an operand -- so its
-        operands are read directly; comparing two dynamics yields a dynamic,
-        not a bool, and claiming otherwise held its sibling at cbool and
-        produced Union[dynamic, cbool]. Everything else depends on whatever
+        A boolean operator yields one of its arms, a comparison a boolean
+        over both. Either way what they yield follows what their operands end
+        up as once the mediator has wrapped them -- their contexts -- and not
+        the types they hold before that. Everything else depends on whatever
         feeds its type cell.
         """
+        if type(node) is ast.BinOp:
+            return [self.cell(part, CONTEXT)
+                    for part in (node.left, node.right)]
         if type(node) is ast.BoolOp:
-            return [self.cell(value, TYPE) for value in node.values]
+            return [self.cell(value, CONTEXT) for value in node.values]
         if type(node) is ast.Compare:
-            return [self.cell(part, TYPE)
+            return [self.cell(part, CONTEXT)
                     for part in (node.left, *node.comparators)]
         return feeds
 
