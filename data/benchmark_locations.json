@@ -35,9 +35,9 @@
     "untyped": "static-python-perf/Benchmark/float/untyped/main.py"
   },
   "held_karp": {
-    "advanced": "static-python-perf/Benchmark/held_karp/advanced/main.py",
-    "shallow": "static-python-perf/Benchmark/held_karp/shallow/main.py",
-    "untyped": "static-python-perf/Benchmark/held_karp/untyped/main.py"
+    "advanced": "static-python-perf/Benchmark/held_karp/advanced/main3.py",
+    "shallow": "static-python-perf/Benchmark/held_karp/shallow/main3.py",
+    "untyped": "static-python-perf/Benchmark/held_karp/untyped/main3.py"
   },
   "nbody": {
     "advanced": "static-python-perf/Benchmark/nbody/advanced/main.py",

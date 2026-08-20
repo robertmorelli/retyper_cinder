@@ -78,11 +78,12 @@ def main():
     for f in data.get("failures", []):
         holes.setdefault(f["benchmark"], []).append(f)
 
-    cols = 4
+    cols = min(4, len(benches))
     rows_n = ceil(len(benches) / cols)
-    fig, axes = plt.subplots(rows_n, cols, figsize=(4.3 * cols, 3.2 * rows_n),
+    width = 7.5 if len(benches) == 1 else 4.3 * cols
+    fig, axes = plt.subplots(rows_n, cols, figsize=(width, 3.2 * rows_n),
                              facecolor=SURFACE)
-    flat = axes.ravel()
+    flat = [axes] if len(benches) == 1 else axes.ravel()
 
     for ax, bench in zip(flat, benches):
         rows = [p for p in points if p["benchmark"] == bench]
@@ -140,11 +141,17 @@ def main():
     for ax in flat[len(benches):]:
         ax.axis("off")
 
-    fig.suptitle("Benchmark time vs proportion of typedness, run directly "
+    if len(benches) == 1:
+        title = ("Runtime vs proportion typed, run directly; injected coercions "
+                 f"({data['samples']} masks per proportion, --no-inliner)")
+    else:
+        title = ("Benchmark time vs proportion of typedness, run directly "
                  "(no static compilation), with injected coercions "
-                 f"({data['samples']} masks per proportion, --no-inliner)",
-                 fontsize=12, color=INK, x=.01, ha="left", y=.997)
-    fig.tight_layout(rect=(0, 0, 1, .98))
+                 f"({data['samples']} masks per proportion, --no-inliner)")
+    fig.suptitle(title,
+                 fontsize=10 if len(benches) == 1 else 12,
+                 color=INK, x=.01, ha="left", y=.997)
+    fig.tight_layout(rect=(0, 0, 1, .92 if len(benches) == 1 else .98))
     fig.savefig(args.out, dpi=150, facecolor=SURFACE)
     print(f"wrote {args.out}")
 

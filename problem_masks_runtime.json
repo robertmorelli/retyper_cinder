@@ -1,868 +1,84 @@
 {
   "deltablue/advanced": {
-    "0": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1024": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1048576": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1073741824": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1075840002": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1230270464": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "128": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "12892258332": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "131072": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "134217728": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "16": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "16384": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "16777216": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
     "17174216698": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "17179869184": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
     "17179873320": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "17318281232": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "2": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "2048": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "2097152": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "2147483648": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "21780168960": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "22615822657": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "24411692418": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "25498380": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "256": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "25757085434": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "262144": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "26503440461": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "26503721856": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "26784808895": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "268435456": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "29257366475": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "31121076991": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "32": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "32768": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "33554432": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "33806090238": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "34342830047": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "34356785005": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "34359738367": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "34359738368": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "34363999232": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "4": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "40545120009": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "4096": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "4194304": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "42915485679": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "42949668799": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "4294967296": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "43622862918": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "44026579584": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "44467118806": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "45624483839": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "48790395324": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "49859784605": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "512": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "51539607551": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "524288": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "536870912": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "54214515967": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "56269343548": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "56822663398": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "60129386495": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "60129542143": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "629810240": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "64": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "64354254847": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "64411320045": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "64424509439": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "65536": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "66495971327": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "66571993087": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "66974117782": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "67108864": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "67376218111": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "67527819007": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "67645468669": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "67645734911": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68174213118": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68182597495": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68182605823": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68377115471": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68451041279": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68575821819": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68585257599": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68585259007": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
     "68645891579": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68652367871": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68685922303": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68702699519": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68711088127": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68715282431": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68717379583": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68718428159": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68718952447": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719214591": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719345663": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719411199": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719443967": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
     "68719460351": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719468543": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719472639": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719474687": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719475711": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476223": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476479": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476607": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476671": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476703": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476719": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476727": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476731": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476733": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476734": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68719476735": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "8": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "8192": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "8388608": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "83919872": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "8589934592": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "8589955136": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
-      "granularity": "benchmark",
-      "kind": "fuzz",
       "known": true,
       "status": "runtime_failure"
     },
     "8760107552": {
-      "error": "cinderx.StaticTypeError: extract_plan_from_constraints expected 'Planner' for argument self, got 'tuple'",
+      "error": "TypeError: 'float' object cannot be interpreted as an integer",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
@@ -870,101 +86,10 @@
     }
   },
   "nbody/advanced": {
-    "0": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1007": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1015": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1017": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1019": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1021": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1022": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "1023": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "12": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "128": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "130": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
     "154": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8t_nuu6u/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "16": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
@@ -975,52 +100,10 @@
       "known": true,
       "status": "runtime_failure"
     },
-    "2": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "20": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
     "223": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpv117yb1r/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "230": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "248": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "255": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "256": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
@@ -1045,24 +128,10 @@
       "known": true,
       "status": "runtime_failure"
     },
-    "286": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
     "30": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpa089wogt/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "32": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
       "known": true,
       "status": "runtime_failure"
     },
@@ -1080,64 +149,8 @@
       "known": true,
       "status": "runtime_failure"
     },
-    "33": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "355": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "369": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "370": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "4": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "40": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
     "415": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpmj88az4l/bench_module.py', 103, 0)",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "425": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "454": {
-      "error": "incorrect register type.",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
@@ -1164,174 +177,6 @@
       "known": true,
       "status": "runtime_failure"
     },
-    "495": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "509": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "510": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "511": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "512": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "514": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "520": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "542": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "544": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "555": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "566": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "589": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "6": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "611": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "617": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "64": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "653": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "66": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "666": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "68": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "696": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "703": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "710": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "737": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
     "75": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsmsqsxmf/bench_module.py', 103, 0)",
       "granularity": "benchmark",
@@ -1339,143 +184,10 @@
       "known": true,
       "status": "runtime_failure"
     },
-    "767": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
     "77": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqjk8pxea/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "793": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "796": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "8": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "806": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "824": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "831": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "835": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "895": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "9": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "91": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "951": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "955": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "958": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "959": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "975": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "989": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "990": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "fuzz",
-      "known": true,
-      "status": "runtime_failure"
-    },
-    "991": {
-      "error": "incorrect register type.",
-      "granularity": "benchmark",
-      "kind": "level",
       "known": true,
       "status": "runtime_failure"
     }
