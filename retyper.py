@@ -71,7 +71,6 @@ from cinderx.compiler.static.compiler import Compiler
 from cinderx.compiler.static.type_binder import TypeBinder
 from detyper import detype
 from import_adder import _insert_point, add_imports
-from inline_call_analysis import find_inline_args
 from list_benchmarks import get_bench_list
 from load_source import load_bench
 from test import _error, _run_module
@@ -283,9 +282,7 @@ def mediate(tree):
     bound, sink = bind_tolerantly(parse(unparse(tree)))
     coerced = coerce_tree(bound.tree, bound.types, bound.type_contexts,
                           bound.dynamic, bound.valid_pair,
-                          find_inline_args(bound.tree, bound.reverse_outflow,
-                                           bound.types),
-                          build_binding_graph(bound), bound.constructors)
+                          bound.reverse_outflow, build_binding_graph(bound))
     return (unparse(fix_missing_locations(add_imports(coerced))),
             len(sink.errors))
 

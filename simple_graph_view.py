@@ -9,7 +9,6 @@ from types import SimpleNamespace
 from annotation_remover import remove_annotations
 from cinderx_binding import get_ast_data
 from import_adder import add_imports
-from inline_call_analysis import find_inline_args
 from type_mediator import coerce_tree
 from typedness_graph import build_binding_graph
 
@@ -51,9 +50,7 @@ def graph_data(source, mask=0, bench=False):
                                      predicted.contexts, False)
         detyped = coerce_tree(detyped, predicted.types, predicted.contexts,
                               written.dynamic, written.valid_pair,
-                              find_inline_args(detyped, written.reverse_outflow,
-                                               predicted.types), graph,
-                              written.constructors)
+                              written.reverse_outflow, graph)
         detyped = ast.fix_missing_locations(add_imports(detyped))
         source = ast.unparse(detyped)
         # Paired field by field: unparsing rewrites a few nodes (`-1.5`

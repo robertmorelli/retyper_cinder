@@ -8,7 +8,7 @@ Made by sebastiancr@fb.com(Sebastian Chaves) based on main.py made by collinwint
 from __future__ import annotations
 import __static__
 from typing import Any
-from __static__ import int64, box, Array, clen
+from __static__ import int64, box, Array
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
@@ -89,7 +89,7 @@ def solve(queen_count: Any) -> Any:
     cols: Any = range(queen_count)
     static_cols: Any = create_array(0, queen_count, 1)
     for vec in permutations(static_cols):
-        if queen_count == box(clen(set((vec[i] + i for i in cols)))) == box(clen(set((vec[i] - i for i in cols)))):
+        if queen_count == len(set((vec[i] + i for i in cols))) == len(set((vec[i] - i for i in cols))):
             yield vec
 
 def bench_n_queens(queen_count: Any) -> Any:

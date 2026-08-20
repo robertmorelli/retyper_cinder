@@ -94,7 +94,6 @@ class Graph(ast.NodeVisitor):
         self.slots = {}
         self.owning_class = {}
         self.conditions = set()
-        self.operands = set()
         self.types = {}
         self._index = None
         self.tagged = {"result": set(), "sibling": set()}
@@ -301,12 +300,9 @@ class Graph(ast.NodeVisitor):
             self.bind(scope, node.target.id, node.target)
 
     def index_marks(self, node):
-        """Positions the later rules ask about: conditions and operands."""
+        """Positions the later rules ask about: the conditions."""
         if type(node) in (ast.If, ast.While, ast.IfExp):
             self.conditions.add(node.test)
-        if type(node) is ast.Compare:
-            self.operands.add(node.left)
-            self.operands.update(node.comparators)
 
     def bind(self, scope, name, node):
         self.bindings.setdefault((scope, name), []).append(node)
@@ -642,17 +638,6 @@ class Graph(ast.NodeVisitor):
         # whatever primitive it still holds. valid_links #57
         self.flow(self.cell(node, TYPE), self.cell(node.value, CONTEXT))
 
-    def inlines_into(self, root, node):
-        """Is this the cinderx outflow edge from an @inline to one of its calls?
-
-        Only a call: an @inline function is still a value elsewhere -- a name
-        that is read, passed or stored takes its declared type as usual, and
-        only the call site sees the substituted body.
-        """
-        return (type(node) is ast.Call
-                and self.inlined_result(root) is not None
-                and any(target is root for target, _ in self.callees(node.func)))
-
     def inlined_result(self, target):
         """The single expression an `@inline` function hands back, or None.
 
@@ -852,22 +837,6 @@ class Graph(ast.NodeVisitor):
     def outgoing(self):
         return self.index_edges()[0]
 
-    def propagate(self, node, produced, types, contexts):
-        """Carry a patched position's new type to whatever demanded it.
-
-        A coercion changes what this position yields, and the sibling links put
-        the other half of any pair that has to agree one edge away -- so the
-        far side is told the real type rather than being decided against a
-        stale one.
-        """
-        source = self.cell(node, TYPE)
-        for target in self.outgoing().get(source, ()):
-            where, slot = target
-            if slot == CONTEXT:
-                contexts[where] = produced
-            elif (source, target) in self.tagged["result"]:
-                types[where] = produced
-
     def sources(self):
         """Each node's feeds, split by slot."""
         return self.index_edges()[1:]
@@ -916,17 +885,6 @@ class Graph(ast.NodeVisitor):
             return value is not None and is_primative(value)
         except Exception:
             return False
-
-    def must_agree(self, node):
-        """Is this a position where the two sides have to match?
-
-        A comparison's result is not coerced, so its operands must already
-        agree and neither can be moved. Arithmetic, an assignment and a call
-        argument all coerce the result, so one side may move to meet the
-        other. Both rewriters ask this before boxing a machine literal, and
-        `decide_context` uses the same distinction for sibling demands.
-        """
-        return node in self.operands
 
     def type_parts(self, node, feeds):
         """What an expression's type depends on.
@@ -1104,20 +1062,6 @@ class Graph(ast.NodeVisitor):
             contexts[node] = self.decide_context(
                 node, by_context[node], dead, bound)
         return SimpleNamespace(types=types, contexts=contexts)
-
-    def coercion(self, node):
-        """Report an author-written cinder coercion and what it wraps.
-
-        The patcher uses this to drop a coercion that erasure has made
-        pointless. Returning None unconditionally, as this used to, meant that
-        never happened.
-        """
-        if type(node) is not ast.Call or len(node.args) != 1:
-            return None
-        name = self.called_name(node.func)
-        if name in CINDER_CONVERSIONS or name in FIXED_RESULT:
-            return name, node.args[0]
-        return None
 
 
 def build_binding_graph(bound):

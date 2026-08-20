@@ -27,7 +27,7 @@ from __future__ import annotations
 import __static__
 from typing import Any
 from typing import List
-from __static__ import CheckedList, box, clen
+from __static__ import CheckedList
 import random
 import time
 random.seed(1234)
@@ -75,9 +75,9 @@ class Spline(object):
             knots += CheckedList[int]([len(points) - degree]) * degree
             self.knots = knots
         else:
-            if box(clen(points)) > len(knots) - degree + 1:
+            if len(points) > len(knots) - degree + 1:
                 raise ValueError('too many control points')
-            elif box(clen(points)) < len(knots) - degree + 1:
+            elif len(points) < len(knots) - degree + 1:
                 raise ValueError('not enough control points')
             last = knots[0]
             for cur in CheckedList[int](knots[1:]):
