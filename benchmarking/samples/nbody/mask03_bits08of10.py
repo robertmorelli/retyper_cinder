@@ -38,7 +38,7 @@ class Vector:
         self.z: Any = z
 
     def __repr__(self):
-        return f'Vector({(float(self.x), float(self.y), float(self.z))})'
+        return f'Vector({(self.x, self.y, self.z)})'
 
 class Body:
 

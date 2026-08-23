@@ -1,6 +1,7 @@
 from ast import If, IfExp, Name, Load, Attribute, Call, copy_location, walk
 from ast import NodeTransformer, Not, Slice, Subscript, UnaryOp
 from ast import While, unparse
+from dataclasses import dataclass, replace
 
 from .cinderx_binding import get_ctx, is_primative, is_const
 
@@ -10,6 +11,24 @@ def _type_expr(name):
     for attr in parts[1:]:
         node = Attribute(value=node, attr=attr, ctx=Load())
     return node
+
+
+def simple_call_name(node):
+    """Return the name of a unary bare-name call, or None."""
+    if (isinstance(node, Call) and isinstance(node.func, Name)
+            and len(node.args) == 1):
+        return node.func.id
+    return None
+
+
+def is_simple_call(names, node):
+    """Whether `node` is the specified tower of unary bare-name calls."""
+    for name in names:
+        if simple_call_name(node) != name:
+            return False
+        node = node.args[0]
+    return True
+
 
 # cbool is a CIntType, but its boxed representation is bool.
 def boxed_instance(t):
@@ -47,6 +66,9 @@ class Edit:
         self.node = self.next_root = node
     def run(self):
         return self.next_root
+
+class NoEdit(Edit):
+    """An explicit decision to leave this expression unchanged."""
 
 class BoxEdit(Edit):
     def __init__(self, node, t, exact=False):
@@ -97,6 +119,26 @@ class ClenEdit(Edit):
         self.types[self.call] = self.dyn.klass.type_env.int64.instance
         return self.edit.run()
 
+
+class DiscardTestConversion(Edit):
+    def __init__(self, edit):
+        self.edit = edit
+
+    def run(self):
+        result = self.edit.run()
+        return Tower().peel(result) or result
+
+
+class DiscardIndexNarrowing(Edit):
+    def __init__(self, edit):
+        self.edit = edit
+
+    def run(self):
+        result = self.edit.run()
+        if is_simple_call(("int64",), result):
+            return result.args[0]
+        return result
+
 def _still_required(produced, held, type_ctx, readers, dyn):
     """Return the type that must be restored after stripping a coercion tower.
 
@@ -118,52 +160,156 @@ def _primitive_len(call, asked_for, is_test, types, dyn):
             and (is_test or asked_for in PRIMITIVE_NAMES))
 
 
-def _choose(node, type, type_ctx, valid_pair, is_inline_arg, dyn=None,
-            payload=False, produced=None, readers=(), sits_on_len=False,
-            asked_for=None, is_test=False, types=None):
-    if sits_on_len:
-        primitive_len = _primitive_len(node, asked_for, is_test, types, dyn)
-        produced_len = (dyn.klass.type_env.int64.instance
-                        if primitive_len else dyn)
-        edit = _choose(node, produced_len, type_ctx, valid_pair,
-                       is_inline_arg, dyn, payload, produced, readers)
-        return (ClenEdit(edit, node, types, dyn) if primitive_len
-                else LenEdit(edit, node, types, dyn))
-    if (required := _still_required(produced, type, type_ctx, readers,
-                                    dyn)) is not None:
+@dataclass(frozen=True)
+class MediationRequest:
+    node: object
+    types: dict
+    type_contexts: dict
+    dynamic: object
+    valid_pair: object
+    graph: object
+    payloads: set
+    is_test: bool = False
+    is_index: bool = False
+    is_inline_arg: bool = False
+    index_container: object = None
+
+
+@dataclass(frozen=True)
+class EditRequest:
+    mediation: MediationRequest
+    node: object
+    type: object
+    type_ctx: object
+    produced: object = None
+    readers: tuple = ()
+    sits_on_len: bool = False
+    asked_for: str | None = None
+
+    @property
+    def dynamic(self):
+        return self.mediation.dynamic
+
+    @property
+    def inline_arg(self):
+        return self.mediation.is_inline_arg
+
+    @property
+    def payload(self):
+        return self.mediation.node in self.mediation.payloads
+
+
+def _keep_without_type_pair(request):
+    if not request.type or not request.type_ctx:
+        return NoEdit(request.node)
+    return None
+
+
+def _choose_len(request):
+    if not request.sits_on_len:
+        return None
+    primitive = _primitive_len(request.node, request.asked_for,
+                               request.mediation.is_test,
+                               request.mediation.types,
+                               request.dynamic)
+    produced = (request.dynamic.klass.type_env.int64.instance
+                if primitive else request.dynamic)
+    inner = _choose_core(replace(request, type=produced, sits_on_len=False,
+                                 asked_for=None))
+    return (ClenEdit(inner, request.node, request.mediation.types,
+                     request.dynamic)
+            if primitive
+            else LenEdit(inner, request.node, request.mediation.types,
+                         request.dynamic))
+
+
+def _restore_stripped_representation(request):
+    required = _still_required(request.produced, request.type,
+                               request.type_ctx, request.readers,
+                               request.dynamic)
+    if required is not None:
         # Restore a required representation after stripping the original tower.
-        if is_primative(type) and not is_primative(required):
-            return BoxEdit(node, type, is_inline_arg)
+        if is_primative(request.type) and not is_primative(required):
+            return BoxEdit(request.node, request.type, request.inline_arg)
         if is_primative(required) or readable_name(required) in CONVERTIBLE:
-            return ConstrEdit(required, node)
-        return CastEdit(required, node)
-    if payload and type is dyn and type_ctx is not dyn:
+            return ConstrEdit(required, request.node)
+        return CastEdit(required, request.node)
+    return None
+
+
+def _repair_typed_payload(request):
+    if (request.payload and request.type is request.dynamic
+            and request.type_ctx is not request.dynamic):
         # A dynamic comprehension payload cannot satisfy a typed container.
-        return CastEdit(type_ctx, node)
-    if is_option_of(type, type_ctx):
+        return CastEdit(request.type_ctx, request.node)
+    return None
+
+
+def _restore_optional_narrowing(request):
+    if is_option_of(request.type, request.type_ctx):
         # the cast is what narrows: drop it and the None reaches the use site.
-        return CastEdit(type_ctx, node)
-    if dyn is not None and type_ctx is dyn and is_primative(type) and not is_const(node):
+        return CastEdit(request.type_ctx, request.node)
+    return None
+
+
+def _box_for_dynamic_context(request):
+    if (request.dynamic is not None and request.type_ctx is request.dynamic
+            and is_primative(request.type) and not is_const(request.node)):
         # Machine values must box in dynamic slots; literals box implicitly.
-        return BoxEdit(node, type, is_inline_arg)
-    if (node.__class__ is Subscript and node.slice.__class__ is Slice
-            and readable_name(type_ctx).startswith(CHECKED_NAMES)):
+        return BoxEdit(request.node, request.type, request.inline_arg)
+    return None
+
+
+def _rebuild_checked_slice(request):
+    if (request.node.__class__ is Subscript
+            and request.node.slice.__class__ is Slice
+            and readable_name(request.type_ctx).startswith(CHECKED_NAMES)):
         # Checked-container slices return lists; reconstruct before valid_pair.
-        return ConstrEdit(type_ctx, node)
-    if not is_inline_arg and valid_pair(type, type_ctx, node):
-        return Edit(node)
-    elif type == type_ctx:
-        return Edit(node)
-    elif is_primative(type):
-        if is_const(node):
-            return Edit(node)
-        else:
-            return BoxEdit(node, type)
-    elif is_primative(type_ctx):
-        return ConstrEdit(type_ctx, node)
-    else:
-        # Inline substitution requires disagreeing arguments to meet as dynamic.
-        return CastEdit(type_ctx, node)
+        return ConstrEdit(request.type_ctx, request.node)
+    return None
+
+
+def _satisfy_context(request):
+    if (not request.inline_arg
+            and request.mediation.valid_pair(
+                request.type, request.type_ctx, request.node)):
+        return NoEdit(request.node)
+    if request.type == request.type_ctx:
+        return NoEdit(request.node)
+    if is_primative(request.type):
+        return (NoEdit(request.node) if is_const(request.node)
+                else BoxEdit(request.node, request.type))
+    if is_primative(request.type_ctx):
+        return ConstrEdit(request.type_ctx, request.node)
+    # Inline substitution requires disagreeing arguments to meet as dynamic.
+    return CastEdit(request.type_ctx, request.node)
+
+
+def _choose_core(request):
+    if edit := _keep_without_type_pair(request):
+        return edit
+    if edit := _choose_len(request):
+        return edit
+    if edit := _restore_stripped_representation(request):
+        return edit
+    if edit := _repair_typed_payload(request):
+        return edit
+    if edit := _restore_optional_narrowing(request):
+        return edit
+    if edit := _box_for_dynamic_context(request):
+        return edit
+    if edit := _rebuild_checked_slice(request):
+        return edit
+    return _satisfy_context(request)
+
+
+def _choose(request):
+    edit = _choose_core(request)
+    if request.mediation.is_test:
+        return DiscardTestConversion(edit)
+    if request.mediation.is_index:
+        return DiscardIndexNarrowing(edit)
+    return edit
 
 # Single-argument conversions Tower may peel; cast is handled separately.
 UNWRAPPABLE = {"box"} | PRIMITIVE_NAMES
@@ -181,7 +327,7 @@ class Tower(NodeTransformer):
             return None
         if node.func.id == "cast" and len(node.args) == 2:
             return node.args[1]
-        if node.func.id in UNWRAPPABLE and len(node.args) == 1:
+        if simple_call_name(node) in UNWRAPPABLE:
             return node.args[0]
         return None
 
@@ -196,9 +342,7 @@ class Tower(NodeTransformer):
         bottom = top
         while isinstance(bottom, UnaryOp):
             bottom = bottom.operand
-        sits_on_len = (isinstance(top, Call) and isinstance(top.func, Name)
-                       and top.func.id in ("clen", "len")
-                       and len(top.args) == 1)
+        sits_on_len = simple_call_name(top) in ("clen", "len")
         return top, bottom, sits_on_len
 
     def visit_UnaryOp(self, node):
@@ -221,13 +365,15 @@ class Tower(NodeTransformer):
         return node
 
 
-def mediate(node, types, type_ctxs, dyn, valid_pair, graph, payloads,
-            is_test=False, is_index=False, is_inline_arg=False):
+def mediate(mediation):
     """Choose and apply the edit required at one expression position.
 
     Towers are stripped before comparing their underlying type with the
     position's demand. Position flags come from the parent-aware walk.
     """
+    node = mediation.node
+    types = mediation.types
+    dyn = mediation.dynamic
     ctx = get_ctx(node)
     if isinstance(node, Slice) or (ctx is not None
                                    and not isinstance(ctx, Load)):
@@ -240,21 +386,19 @@ def mediate(node, types, type_ctxs, dyn, valid_pair, graph, payloads,
                  else None)
     # Tower records the stripped type, including the effect of unary operators.
     target = tower
-    t, tc = types.get(target), type_ctxs.get(node)
-    result = target if not (t and tc) else _choose(
-        target, t, tc, valid_pair, is_inline_arg, dyn,
-        node in payloads, None if tower is node else types.get(node),
-        [types.get(where) for where, slot in
-         graph.outgoing().get(graph.cell(node, "type"), ())
-         if slot == "type"], sits_on_len, asked_for, is_test, types).run()
-
-    # Tests discard narrowing conversions; indices discard only int64 narrowing.
-    if is_test:
-        inner = Tower().peel(result)
-        if inner is not None:
-            result = inner
-    elif (is_index and isinstance(result, Call)
-            and isinstance(result.func, Name) and result.func.id == "int64"
-            and len(result.args) == 1):
-        result = result.args[0]
-    return result
+    t, tc = types.get(target), mediation.type_contexts.get(node)
+    request = EditRequest(
+        mediation=mediation,
+        node=target,
+        type=t,
+        type_ctx=tc,
+        produced=None if tower is node else types.get(node),
+        readers=tuple(
+            types.get(where) for where, slot in
+            mediation.graph.outgoing().get(
+                mediation.graph.cell(node, "type"), ())
+            if slot == "type"),
+        sits_on_len=sits_on_len,
+        asked_for=asked_for,
+    )
+    return _choose(request).run()

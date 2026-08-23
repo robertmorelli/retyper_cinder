@@ -2,8 +2,9 @@
 from ast import (Call, DictComp, FunctionDef, GeneratorExp, If, IfExp,
                  ListComp, NodeTransformer, SetComp, Slice, Subscript, While,
                  unparse, walk)
+from dataclasses import replace
 
-from .patch_picker import mediate
+from .patch_picker import MediationRequest, mediate
 
 
 def is_inline_call(call, reverse_outflow):
@@ -36,27 +37,41 @@ class Coercer(NodeTransformer):
 
     def __init__(self, types, type_ctxs, dyn, valid_pair, reverse_outflow,
                  graph, payloads):
-        self.tables = (types, type_ctxs, dyn, valid_pair, graph, payloads)
+        self.request = MediationRequest(
+            node=None,
+            types=types,
+            type_contexts=type_ctxs,
+            dynamic=dyn,
+            valid_pair=valid_pair,
+            graph=graph,
+            payloads=payloads,
+        )
         self.types, self.reverse_outflow = types, reverse_outflow
-        self.tests, self.indices, self.inlined = set(), set(), set()
+        self.tests, self.indices, self.inlined = set(), {}, set()
 
     def visit(self, node):
         if isinstance(node, (If, IfExp, While)):
             self.tests.add(node.test)
         elif isinstance(node, Subscript):
             if isinstance(node.slice, Slice):
-                self.indices.update(part for part in (
-                    node.slice.lower, node.slice.upper, node.slice.step)
-                                    if part is not None)
+                for part in (node.slice.lower, node.slice.upper,
+                             node.slice.step):
+                    if part is not None:
+                        self.indices[part] = node.value
             else:
-                self.indices.add(node.slice)
+                self.indices[node.slice] = node.value
         elif isinstance(node, Call) and is_inline_call(node,
                                                        self.reverse_outflow):
             self.inlined.update(inline_args(node, self.types))
         self.generic_visit(node)
-        return mediate(node, *self.tables, is_test=node in self.tests,
-                       is_index=node in self.indices,
-                       is_inline_arg=node in self.inlined)
+        return mediate(replace(
+            self.request,
+            node=node,
+            is_test=node in self.tests,
+            is_index=node in self.indices,
+            is_inline_arg=node in self.inlined,
+            index_container=self.indices.get(node),
+        ))
 
 
 def coerce_tree(tree, types, type_ctxs, dyn, valid_pair, reverse_outflow,

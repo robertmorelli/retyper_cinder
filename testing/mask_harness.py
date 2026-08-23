@@ -84,7 +84,19 @@ def _run_module(source, compile_only=False):
     return proc, elapsed
 
 
-def compile_case(case, source, repetitions):
+def compile_original(source, repetitions):
+    samples = []
+    for _ in range(repetitions):
+        proc, elapsed = _run_module(source, compile_only=True)
+        if proc.returncode:
+            return {"status": "typed_compile_failure",
+                    "error": proc.stderr.strip().splitlines()[-1],
+                    "samples": []}
+        samples.append(elapsed)
+    return {"status": "ok", "samples": samples}
+
+
+def compile_case(case, source, repetitions, original):
     start = perf_counter_ns()
     try:
         output = source if case.mask == 0 else unparse(detype(
@@ -93,19 +105,18 @@ def compile_case(case, source, repetitions):
         return {"status": "detype_failure", "error": _error(exc),
                 "metrics": {}}
     transform_ns = perf_counter_ns() - start
-    typed_samples, detyped_samples = [], []
-    for i in range(repetitions):
-        order = (("typed", source, typed_samples),
-                 ("detyped", output, detyped_samples))
-        if i % 2:
-            order = tuple(reversed(order))
-        for label, artifact, samples in order:
-            proc, elapsed = _run_module(artifact, compile_only=True)
-            if proc.returncode:
-                return {"status": f"{label}_compile_failure",
-                        "error": proc.stderr.strip().splitlines()[-1],
-                        "metrics": {"transform_ns": transform_ns}}
-            samples.append(elapsed)
+    if original["status"] != "ok":
+        return {"status": original["status"], "error": original["error"],
+                "metrics": {"transform_ns": transform_ns}}
+    typed_samples = original["samples"]
+    detyped_samples = []
+    for _ in range(repetitions):
+        proc, elapsed = _run_module(output, compile_only=True)
+        if proc.returncode:
+            return {"status": "detyped_compile_failure",
+                    "error": proc.stderr.strip().splitlines()[-1],
+                    "metrics": {"transform_ns": transform_ns}}
+        detyped_samples.append(elapsed)
     typed_med, detyped_med = median(typed_samples), median(detyped_samples)
     return {"status": "ok", "metrics": {
         "transform_ns": transform_ns,
@@ -158,12 +169,13 @@ def runtime_case(case, source, repetitions):
 
 
 def execute(payload):
-    mode, case, repetitions = payload
+    mode, case, repetitions, original = payload
     started = perf_counter_ns()
     try:
         source = load_bench(case.benchmark, case.variant)
-        result = (compile_case if mode == "compile" else runtime_case)(
-            case, source, repetitions)
+        result = (compile_case(case, source, repetitions, original)
+                  if mode == "compile"
+                  else runtime_case(case, source, repetitions))
     except Exception as exc:
         result = {"status": "error", "error": _error(exc), "metrics": {}}
     result.update(case=asdict(case), phase=mode,
@@ -267,7 +279,18 @@ def run_mode(mode, cases, kinds):
     progress.draw()
     results = []
     with ProcessPoolExecutor(max_workers=WORKERS) as pool:
-        futures = [pool.submit(execute, (mode, case, REPETITIONS))
+        originals = {}
+        if mode == "compile":
+            sources = {(case.benchmark, case.variant):
+                       load_bench(case.benchmark, case.variant)
+                       for case in cases}
+            pending = {key: pool.submit(compile_original, source, REPETITIONS)
+                       for key, source in sources.items()}
+            originals = {key: future.result()
+                         for key, future in pending.items()}
+        futures = [pool.submit(execute, (
+                       mode, case, REPETITIONS,
+                       originals.get((case.benchmark, case.variant))))
                    for case in cases]
         for future in as_completed(futures):
             results.append(future.result())

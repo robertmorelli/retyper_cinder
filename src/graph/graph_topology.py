@@ -41,6 +41,15 @@ class AnnotationLocation:
     owner: ast.AST | None
 
 
+@dataclass(frozen=True)
+class NarrowingChoice:
+    """The alternative edges for one declaration/value narrowing decision."""
+    annotation: ast.AST
+    value: ast.AST
+    narrowing_edge: Edge
+    declared_edge: Edge
+
+
 class UnionFind:
     def __init__(self):
         self.parents = {}
@@ -103,8 +112,30 @@ class Topology(ast.NodeVisitor):
         if not can_narrow(declared, assigned, self.dynamic):
             self.link(fallback, target)
         else:
-            self.narrowing_choices.append(
-                (value, fallback, target, declaration))
+            self.narrowing_choices.append(NarrowingChoice(
+                annotation=declaration,
+                value=value,
+                narrowing_edge=Edge(self.cell(value, TYPE),
+                                     self.cell(target, TYPE)),
+                declared_edge=Edge(self.cell(fallback, TYPE),
+                                   self.cell(target, TYPE)),
+            ))
+
+    def narrowing_return(self, value, function):
+        """Choose an inline expression or its declared return context."""
+        assigned = self.types.get(value)
+        declared = self.types.get(function)
+        if not can_narrow(declared, assigned, self.dynamic):
+            self.link(function, value, CONTEXT)
+        else:
+            self.narrowing_choices.append(NarrowingChoice(
+                annotation=function,
+                value=value,
+                narrowing_edge=Edge(self.cell(value, TYPE),
+                                     self.cell(function, TYPE)),
+                declared_edge=Edge(self.cell(function, TYPE),
+                                   self.cell(value, CONTEXT)),
+            ))
 
     def narrowing_link(self, source, target):
         """A reaching definition always feeds its read."""
@@ -478,9 +509,11 @@ class Topology(ast.NodeVisitor):
 
     def visit_Return(self, node):
         if node.value is not None and self.function is not None:
-            self.link(self.function, node.value, CONTEXT)
-            if self.inlined_result(self.function) is node.value:
-                self.link(node.value, self.function)
+            if (self.function.returns is not None
+                    and self.inlined_result(self.function) is node.value):
+                self.narrowing_return(node.value, self.function)
+            else:
+                self.link(self.function, node.value, CONTEXT)
 
     def visit_For(self, node):
         iterable = self.resolved.get(node.iter)

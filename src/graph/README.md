@@ -74,12 +74,16 @@ For `return value` inside function `F`:
 
 - `F.type -> value.context`
 
-If `F` is decorated with `inline` and has exactly one value-returning
-`return`:
+An annotated `@inline` function with exactly one value-returning `return` is a
+narrowing choice:
 
-- `value.type -> F.type`
+- while `value` narrows the return declaration:
+  - `value.type -> F.type`
+- otherwise:
+  - `F.type -> value.context`
 
-This models CinderX substituting the returned expression at an inline call
+This prevents a dynamic inline expression from replacing a return annotation,
+while still modeling CinderX substituting a narrowing expression at the call
 site.
 
 ### Names and assignments
@@ -258,9 +262,8 @@ The final mediated arm context feeds the result.
 
 ### Calls
 
-A call combines three sources of information: the callee expression, any
-resolved parameter and return annotations, and the semantics of known CinderX
-operations.
+A call combines the callee expression, relationships exported by the CinderX
+binder, and the semantics of known CinderX operations.
 
 For `callee(arguments)`, producing `call`:
 
@@ -270,16 +273,9 @@ For `callee(arguments)`, producing `call`:
 
 This models a dynamic callee accepting boxed objects.
 
-For each resolved callee definition:
-
-- `parameter.type -> argument.context` for each positional pair
-- `callee-definition.type -> call.type` when it has a return annotation
-- Omit leading `self` for an ordinary bound method call.
-- Keep the leading parameter for an explicit `Class.method(...)` call.
-
-Constructor calls use the class's `__init__`, or its inherited initializer if
-it has none. A known receiver limits same-named method candidates to compatible
-classes when possible.
+Parameter-to-argument and return-to-call relationships come only from the
+CinderX binder tables. Topology does not guess callees from names or receiver
+syntax.
 
 #### Known calls
 
@@ -479,9 +475,15 @@ as dynamic with the declaration.
 
 ## Flow
 
-Flow combines the clipped edges with the currently selected redefinition
-edges, indexes them by target type and context cell, and propagates loss of
-typedness to a fixed point.
+Flow combines the clipped edges with the currently selected narrowing edges,
+indexes them by target type and context cell, and propagates loss of typedness
+to a fixed point. Assignment and inline-return choices use the same table; each
+entry stores its narrowing edge and its declared-type edge.
+
+After narrowing choices settle, their edges and the clipped fixed edges become
+the graph's edge set. Mediation therefore reads the same active topology that
+flow used. A caller which needs another mask builds a fresh graph; the
+visualizer does this for every request.
 
 The initial dead set is the dynamic-cell set returned by clipping. Every node
 in the original type table participates in type settlement, along with active

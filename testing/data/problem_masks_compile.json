@@ -1,11 +1,4038 @@
 {
+  "call_method/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "10": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "101": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "102": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "106": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "107": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "110": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "111": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "115": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "116": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "117": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "118": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "119": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "12": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "122": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "123": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "125": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "126": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "127": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "15": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "18": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "20": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "23": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "24": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "31": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "33": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "36": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "40": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "43": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "45": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "46": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "48": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "5": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "53": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "54": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "55": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "59": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "6": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "61": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "62": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "63": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "77": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "78": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "80": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "87": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "89": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "9": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "91": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "92": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "94": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "95": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "96": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "99": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "call_method_slots/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "10": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "103": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "105": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "106": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "107": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "108": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "109": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "110": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "111": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "113": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "114": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "115": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "117": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "118": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "119": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "120": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "121": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "122": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "123": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "124": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "125": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "126": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "127": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "15": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "20": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "24": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "29": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "30": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "31": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "36": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "39": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "40": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "43": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "45": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "47": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "48": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "54": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "59": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "60": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "62": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "63": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "72": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "75": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "79": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "80": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "87": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "9": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "90": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "91": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "93": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "95": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "96": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "call_simple/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "10": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "11": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "12": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "13": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "14": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "15": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "18": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "19": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "20": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "21": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "22": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "23": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "24": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "25": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "26": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "27": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "28": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "29": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "30": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "31": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "33": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "35": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "36": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "37": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "38": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "39": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "40": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "41": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "42": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "43": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "44": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "45": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "46": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "47": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "48": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "49": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "5": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "50": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "51": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "52": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "53": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "54": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "55": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "56": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "57": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "58": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "59": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "6": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "60": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "61": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "62": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "63": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "7": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "9": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "chaos/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1024": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1033": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1034": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1206": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1227": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1230": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1279": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "128": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1309": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1340": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "164": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1805": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1811": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1917": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "193": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2035": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2042": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2047": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2048": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2057": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2084": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2184": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2303": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2431": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2532": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "256": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "259": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2592": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2783": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2799": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2816": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2964": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3071": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3199": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3263": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "35": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3580": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3583": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3736": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3839": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "386": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3895": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3957": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3961": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3967": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4025": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4031": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4032": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4045": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4051": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4063": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4079": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4087": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4091": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4093": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4094": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4095": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "49": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "512": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "529": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "545": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "641": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "655": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "669": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "800": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "832": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "870": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "946": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "deltablue/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1024": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1048576": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1073741824": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1075840002": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1230270464": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "128": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "12892258332": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "131072": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "134217728": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16384": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16777216": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17174216698": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17179869184": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17179873320": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17318281232": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2048": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2097152": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2147483648": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "21780168960": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "22615822657": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "24411692418": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "25498380": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "256": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "25757085434": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262144": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "26503440461": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "26503721856": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "26784808895": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "268435456": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "29257366475": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "31121076991": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32768": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "33554432": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "33806090238": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34342830047": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34356785005": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34359738367": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34359738368": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34363999232": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "40545120009": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4096": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194304": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "42915485679": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "42949668799": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4294967296": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "43622862918": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "44026579584": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "44467118806": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "45624483839": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "48790395324": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "49859784605": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "512": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "51539607551": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "524288": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "536870912": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "54214515967": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "56269343548": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "56822663398": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "60129386495": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "60129542143": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "629810240": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64354254847": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64411320045": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64424509439": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65536": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66495971327": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66571993087": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66974117782": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "67108864": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "67376218111": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "67527819007": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "67645468669": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "67645734911": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68174213118": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68182597495": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68182605823": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68377115471": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68451041279": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68575821819": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68585257599": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68585259007": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68645891579": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68652367871": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68685922303": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68702699519": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68711088127": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68715282431": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68717379583": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68718428159": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68718952447": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719214591": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719345663": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719411199": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719443967": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719460351": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719468543": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719472639": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719474687": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719475711": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476223": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476479": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476607": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476671": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476703": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476719": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476727": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476731": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476733": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476734": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68719476735": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8192": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8388608": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "83919872": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8589934592": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8589955136": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8760107552": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "fannkuch/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "5": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "6": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "7": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "float/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "10": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "102": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "111": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "120": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "125": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "127": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "128": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "136": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "141": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "142": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "147": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "149": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "153": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "156": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "159": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "172": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "175": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "187": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "189": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "190": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "191": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "192": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "207": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "210": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "212": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "215": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "219": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "221": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "223": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "231": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "235": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "237": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "239": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "243": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "246": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "247": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "249": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "250": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "251": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "252": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "253": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "254": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "255": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "29": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "33": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "40": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "48": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "51": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "54": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "57": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "63": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "72": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "75": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "86": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "96": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "held_karp/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1024": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "106487": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "114159": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "114429": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "114687": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "12": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "122879": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "128": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "131069": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "131071": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "131072": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "131073": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "131076": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "132144": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "144": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "147454": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "153428": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16384": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16906": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "18562": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "18933": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "196047": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "196479": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "196607": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "197967": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2048": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "219786": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "220667": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "221183": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "222489": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "229311": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "229375": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "244735": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "245758": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "245759": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "24610": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "253421": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "253919": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "253951": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "255979": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "256": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "256943": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "257791": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "258047": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "260095": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "261119": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "261615": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "261631": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "261855": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "261887": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262007": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262015": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262078": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262079": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262111": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262127": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262135": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262139": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262141": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262142": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262143": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32768": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32800": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4096": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4104": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "50192": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "512": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "52013": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "5312": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "58321": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64383": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65536": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "70431": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "71688": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "75619": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "768": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "80": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "81667": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8192": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "92585": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
   "nbody/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1007": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1015": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1017": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1019": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1021": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1022": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1023": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "12": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "128": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "130": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "154": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpvum5nuzc/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detyped_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
     },
     "198": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpvln1t7tr/bench_module.py', 103, 0)",
@@ -14,12 +4041,54 @@
       "known": true,
       "status": "detyped_compile_failure"
     },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "20": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "223": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpyyhdxg7b/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detyped_compile_failure"
+    },
+    "230": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "248": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "255": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "256": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
     },
     "258": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp6vhdo30k/bench_module.py', 103, 0)",
@@ -42,12 +4111,26 @@
       "known": true,
       "status": "detyped_compile_failure"
     },
+    "286": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "30": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpctjn8iwq/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detyped_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
     },
     "323": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7xoht_99/bench_module.py', 103, 0)",
@@ -63,12 +4146,68 @@
       "known": true,
       "status": "detyped_compile_failure"
     },
+    "33": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "355": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "369": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "370": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "40": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "415": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3lxjumkq/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detyped_compile_failure"
+    },
+    "425": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "454": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
     },
     "471": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpe3edeii7/bench_module.py', 103, 0)",
@@ -91,6 +4230,174 @@
       "known": true,
       "status": "detyped_compile_failure"
     },
+    "495": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "509": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "510": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "511": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "512": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "514": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "520": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "542": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "544": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "555": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "566": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "589": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "6": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "611": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "617": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "653": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "666": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "696": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "703": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "710": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "737": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "75": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpns_qjb64/bench_module.py', 103, 0)",
       "granularity": "benchmark",
@@ -98,12 +4405,1873 @@
       "known": true,
       "status": "detyped_compile_failure"
     },
+    "767": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "77": {
       "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmphepx95y2/bench_module.py', 103, 0)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detyped_compile_failure"
+    },
+    "793": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "796": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "806": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "824": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "831": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "835": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "895": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "9": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "91": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "951": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "955": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "958": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "959": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "975": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "989": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "990": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "991": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "nqueens/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "10": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "102": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "103": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "107": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "108": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "109": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "111": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "114": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "115": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "116": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "117": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "118": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "119": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "12": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "121": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "123": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "125": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "126": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "127": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "18": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "20": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "24": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "29": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "31": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "33": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "34": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "40": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "45": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "47": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "5": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "51": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "53": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "55": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "59": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "6": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "60": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "63": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "68": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "71": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "72": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "75": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "77": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "78": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "79": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "83": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "85": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "86": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "87": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "9": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "91": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "92": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "93": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "94": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "95": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "96": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "99": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "pystone/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1024": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1028": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "12": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "128": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "160": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16384": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16896": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "17280": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1847": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "19035": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2048": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2304": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "256": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "257": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2820": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "30289": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3084": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32367": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32670": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32735": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32763": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32767": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32768": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32906": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "33750": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "33828": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "35068": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "35076": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "35175": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4096": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4134": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4224": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4248": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "45088": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "48639": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "49151": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "512": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "51201": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "531": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "53814": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "54438": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "54565": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "56319": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "57215": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "57327": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "57343": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "58351": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "61395": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "61418": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "61439": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "63375": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "63487": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "63682": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64474": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64511": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64959": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65019": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65023": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65279": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65407": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65439": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65471": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65503": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65519": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65526": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65527": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65531": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65533": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65534": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65535": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8192": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8196": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8468": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "9630": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "9871": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    }
+  },
+  "richards/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1024": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1048576": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1060000": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1114112": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1158068": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "128": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "131072": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "131104": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1329220": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "136": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "16384": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1800111": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1890047": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1965875": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2048": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2059133": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2070515": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2097151": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2097152": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2100548": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "22787": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2302032": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "256": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2588800": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262144": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262152": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "262176": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2656336": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2770680": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "2984402": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3037334": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3080191": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3122226": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3137535": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3145726": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3145727": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3202078": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3202480": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32768": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "327680": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "32832": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3329305": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3455625": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3669323": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3670015": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3930483": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "3932159": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "397821": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4056539": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4063231": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4086255": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4096": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4100": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4128255": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4128767": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4161535": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4164597": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4173823": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4177919": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4182015": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4186111": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4189183": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4190207": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4192255": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4193277": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4193279": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4193791": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194047": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194175": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194238": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194239": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194267": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194271": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194287": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194295": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194299": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194301": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194302": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "4194303": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "48": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "512": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "524288": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "528384": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "544": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "65536": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8192": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8193": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "927232": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
     }
   }
 }

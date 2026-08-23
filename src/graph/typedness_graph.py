@@ -13,16 +13,16 @@ class Graph(Topology):
             predicted = propagate(self, clipped.edges | selected,
                                   clipped.dynamic, bound)
             changed = {
-                Edge(self.cell(value if (predicted.types.get(value)
-                                         is not bound.dynamic
-                                         or declaration in erased)
-                               else fallback, TYPE),
-                     self.cell(target, TYPE))
-                for value, fallback, target, declaration
-                in self.narrowing_choices
+                (choice.narrowing_edge
+                 if (predicted.types.get(choice.value) is not bound.dynamic
+                     or choice.annotation in erased)
+                 else choice.declared_edge)
+                for choice in self.narrowing_choices
             }
             if changed == selected:
-                predicted.active_edges = clipped.edges
+                self.edges = clipped.edges | selected
+                self._index = None
+                predicted.active_edges = self.edges
                 predicted.selected_edges = selected
                 return predicted
             selected = changed
