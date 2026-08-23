@@ -1,5 +1,16 @@
 **/.DS_Store
+**/.coverage*
 **/__pycache__
 **/.venv
 **/.mypy_cache
 **/*.pyc
+
+/output.py
+/typedness*.png
+/typedness*_results.json
+/held_karp_main3_*.json
+/held_karp_main3_*.png
+/factorial_call_method_slots.json
+/factorial.png
+/bimodal.png
+/nbody_untyped_graph.html
