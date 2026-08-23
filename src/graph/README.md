@@ -32,7 +32,6 @@ Notation:
 - `A.context -> B.context`: the context of `A` feeds the context of `B`.
 - `A.context -> B.type`: the mediated type at `A` feeds the type of `B`.
 - `union(A, B)`: `A` and `B` are erased as one annotation unit.
-- `predicate(E, A)`: edge `E` exists when annotation `A` is erased.
 - No edge connects two cells belonging to the same AST node.
 
 ### Binder links
@@ -50,10 +49,10 @@ expression-to-expression links which the binder does not expose directly.
 - If read `R` has reaching definitions `D` which do not include its
   annotation root:
   - `D.type -> R.type`
-  - This models CinderX typing a read from its reaching assignments.
+  - The reaching definition always types the read.
 - If binder inflow for `x = value` points directly at `value`:
-  - `annotation.type -> x.type`
-  - This models the missing store-context name in the binder output.
+  - The inflow is omitted because ordinary-assignment rules route the
+    dependency through the store target.
 
 ### Functions
 
@@ -95,11 +94,10 @@ For unresolved load `R` of name `x`:
 
 - If CinderX supplies reaching definitions `D`:
   - `D.type -> R.type`
-- Otherwise, for bindings `B` in the first scope containing `x`, searching
-  the current function and then module scope:
-  - `B.type -> R.type`
-- A function, class, or imported name counts as a lexical binding, but does
-  not add a graph edge of its own.
+- If CinderX already supplies annotation outflow for the read, no additional
+  syntax edge is added.
+- A visible function, class, or imported name is definitionless in this graph:
+  it is known to exist but has no definition cell which feeds the read.
 - A load with neither a source nor a lexical binding is recorded as a missing
   read source for validation.
 
@@ -112,25 +110,31 @@ For `target = value`:
   - This models a store satisfying its slot type.
 - If `target` is a name with an annotation:
   - `target.type -> value.context`
-  - `value.type -> target.type`, predicated on the target's declaration
-  - This models the annotation demanding the stored value while present and
-    CinderX narrowing the name from the value when the annotation is erased.
+  - If the value remains typed and narrows the local:
+    - `value.type -> target.type`
+  - Otherwise:
+    - `declaration-target.type -> target.type`
+  - `target.type -> read.type` for each read reached by this assignment
+  - The annotation reaches later stores only through its own target cell.
 - Otherwise:
   - `value.type -> target.type`
 
 Apply the rule independently to every target in a chained assignment.
+Tuple and list targets apply it recursively. Matching literal shapes link
+corresponding elements; otherwise the whole value feeds every leaf target.
 
 #### Annotated assignment
 
 For `target: T = value`, with declaration `D`:
 
-- `D.type -> value.context`
+- `D.type -> target.type -> value.context`
 - `D.type -> target.type`
-- `value.type -> D.type`, predicated on `D`
+- When `D` is erased and its initializer can recover it:
+  - `value.type -> D.type`
 - Uses of `target` are fed by `target.type`.
 
-The predicated edge models CinderX inferring the declaration from its initializer
-when `T` is erased.
+The mask-dependent edge models CinderX inferring the declaration from its
+initializer when `T` is erased.
 
 For `target: T` without an initializer:
 
@@ -141,8 +145,11 @@ For `target: T` without an initializer:
 For `target op= value`:
 
 - `target.type -> value.context`
-- If `target` has no annotation:
-  - `value.type -> target.type`
+- `reaching-definition.type -> target.type`
+- `value.type -> target.type`
+
+An augmented assignment is both a read and a write, so its result depends on
+the previous target and the right operand.
 
 #### Named expression
 
@@ -177,7 +184,8 @@ For `container[index]`:
 
 For `container[lower:upper:step]`:
 
-- No subscript or slice-part links are added.
+- `container.type -> subscript.type`
+- No slice-part context links are added.
 
 This models CinderX producing a plain list for a slice even when the source is
 a checked list.
@@ -307,20 +315,24 @@ determine the result, and the expected result constrains the elements.
 
 #### `for`
 
-For `for target in iterable`, when `target` is a plain name:
+For each name target in `for target in iterable`:
 
-- `iterable.type -> target.type`
-- If `iterable` resolves to annotation `I` and `target` has annotation `T`:
-  - `union(T, I)`
+- If the iterator element narrows the local:
+  - `iterable.type -> target.type`
+- Otherwise, for a declared target:
+  - `declaration-target.type -> target.type`
+- `target.type -> read.type` for each read reached by the loop write
+- If the iterable and target both resolve to annotations, their erasure units
+  are joined.
 
-Tuple, list, attribute, and subscript loop targets receive no links from this
-rule. CinderX does not narrow names unpacked from an iterator.
+Tuple and list targets apply the rule recursively to their name elements.
+Attribute and subscript targets receive no link from this rule.
 
 The same rules apply to `async for`.
 
 #### Comprehension
 
-For generator `for target in iterable` whose target is a plain name:
+For each name target in generator `for target in iterable`:
 
 - `iterable.type -> target.type`
 
@@ -355,17 +367,14 @@ For a subclass and visible base class:
   - `union(subclass-parameter, base-parameter)` for each positional pair
   - `union(subclass-return, base-return)` when both returns are annotated
 
-### Predicates
+### Mask-dependent links
 
-Most links describe the fully annotated program and are always present. A
-predicated link describes inference which becomes available only after its
-predicate annotation has been erased.
-
-- `value.type -> declaration.type` for `target: T = value` is predicated on
-  the declaration.
-- `binding.type -> read.type` is predicated on the read's declaration when
-  the binding is not that declaration.
-- A predicated edge is included only when its predicate annotation is erased.
+Most links are fixed by the annotated program's structure. Clipping adds
+`value.type -> declaration.type` for an erased `target: T = value` when CinderX
+can infer the local definition from its initializer. A later binding selects
+either its assigned value or the declaration's target after upstream flow
+determines whether the value remains typed. `binding.type -> read.type` is
+unconditional.
 
 ### Units
 
@@ -383,21 +392,20 @@ choice when the typechecker requires their contracts to remain aligned.
 ## Clipping
 
 
-Clipping specializes the fixed topology for one erasure choice. It starts with
-the links which always exist, activates the inference links opened by erased
-annotations, and identifies the nodes which must begin propagation as dynamic.
+Clipping specializes the fixed topology for one erasure choice. It copies the
+fixed links, adds initializer-inference links opened by erased annotations, and
+identifies the cells which must begin propagation as dynamic.
 
-### Active links
+### Clipped result
 
-- Every unconditional topology edge is active for every mask.
-- An edge predicated on annotation `A` is active when `A` is erased.
+- Every fixed topology edge is active for every mask.
+- An erased recoverable declaration adds its initializer-to-definition edge.
 - Active edges targeting a type cell are indexed as:
   - `target node -> source cells feeding target.type`
 - Active edges targeting a context cell are indexed as:
   - `target node -> source cells feeding target.context`
-- The unconditional indexes are cached once.
-- Each clipping operation copies the unconditional indexes and inserts the
-  edges predicated on nodes in the current erased set.
+- Clipping also returns the type and context cells made dynamic directly by
+  erasure.
 
 ### Erased annotations
 
@@ -414,13 +422,9 @@ Only these erased nodes are classified:
 Other nodes may belong to the same erasure unit. They are settled through the
 active graph rather than classified directly.
 
-Every classified annotation belongs to exactly one set:
+Each erased annotation takes exactly one of three paths.
 
-- `rebuilt`
-- `recovers`
-- `seeds`
-
-### `rebuilt`
+### Definition remains typed
 
 An annotated assignment is `rebuilt` when the annotation remover recognizes
 its initializer as a checked-container constructor case.
@@ -429,9 +433,9 @@ This models the annotation remover replacing the initializer with an explicit
 typed constructor. The container retains its type independently of graph
 propagation.
 
-### `recovers`
+### RHS narrows
 
-An annotated assignment is `recovers` when all of these are true:
+An annotated assignment is narrowed by its RHS when all of these are true:
 
 - it has an initializer;
 - its target is a plain name;
@@ -445,13 +449,13 @@ An annotated assignment is `recovers` when all of these are true:
 This models CinderX inferring a local name from its initializer after the
 annotation is erased.
 
-A recoverable declaration remains linked to its initializer during settling.
-It becomes dynamic if the initializer becomes dynamic.
+A recoverable declaration is linked to its initializer during settling. It
+becomes dynamic if the initializer becomes dynamic.
 
-### `seeds`
+### Initially dynamic
 
-Every classified annotation which is neither `rebuilt` nor `recovers` is a
-`seed`.
+Every classified annotation which neither remains typed nor narrows from its
+RHS becomes dynamic immediately.
 
 This includes:
 
@@ -464,25 +468,25 @@ This includes:
 - assignments whose initializer does not permit narrowing;
 - assignments whose initializer or target has a machine type.
 
-A seed begins settling as dynamic.
+Its type and context cells begin settling as dynamic.
 
-For a seeded annotated assignment to a name or attribute:
+For such an annotated assignment to a name or attribute:
 
-- add the assignment target to `seeds`.
+- its assignment target's type and context cells also begin dynamic.
 
 Reads of the declaration are fed by that target, so the target begins settling
 as dynamic with the declaration.
 
 ## Flow
 
-Flow activates the unconditional topology plus every edge whose predicate
-annotation is in the erased set, indexes those active edges by target type and
-context cell, and propagates loss of typedness to a fixed point.
+Flow combines the clipped edges with the currently selected redefinition
+edges, indexes them by target type and context cell, and propagates loss of
+typedness to a fixed point.
 
-The initial dead set contains both cells of every clipping seed. Every node in
-the original type table participates in type settlement, along with recoverable
-declarations. A context participates only when an active edge feeds it and the
-original binder recorded a context for that node.
+The initial dead set is the dynamic-cell set returned by clipping. Every node
+in the original type table participates in type settlement, along with active
+type-edge targets. A context participates only when an active edge feeds it and
+the original binder recorded a context for that node.
 
 For either slot, one dead source is sufficient to make the target cell dead.
 Type and context cells settle in the same loop because context cells can depend
@@ -492,7 +496,7 @@ The result starts from copies of the binder's original type and context tables:
 
 - a dead type cell receives the binder's dynamic type;
 - a live type cell retains its original type;
-- an erased seed receives a dynamic context;
+- an initially dynamic context cell receives a dynamic context;
 - every other demanded context is dynamic exactly when one of its active feeds
   is dead.
 

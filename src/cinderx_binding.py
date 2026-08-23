@@ -50,6 +50,11 @@ def is_const(node):
 def is_primative(node):
     return isinstance(node.klass, CType)
 
+def can_narrow(declared, assigned, dynamic):
+    """Whether CinderX keeps an assigned type instead of the declaration."""
+    return (assigned is not None and assigned is not dynamic
+            and declared is not None and declared.klass.can_be_narrowed)
+
 def get_ast_data(proto_tree):
     compiler = Compiler(StaticCodeGenerator)
 

@@ -1,9 +1,237 @@
 {
   "deltablue/advanced": {
-    "1840016465666716217989232593006232845761439906392574081305": {
-      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: chklist[dynamic] cannot be assigned to chklist[bench_module.Constraint]', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp8fcus0rg/bench_module.py', 338, 0)",
+    "11870314582071965383052455675035937434433746158843809178796": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: int received for positional arg 'mark', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_c2d_6q2/bench_module.py', 314, 0)",
       "granularity": "annotation",
       "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "134217728": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: int received for positional arg 'mark', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpjbklwa40/bench_module.py', 314, 0)",
+      "granularity": "annotation",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "1840016465666716217989232593006232845761439906392574081305": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: int received for positional arg 'mark', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdwgpm_eg/bench_module.py', 314, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "197136754564283095287043937687101541965563798241539014686": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: int received for positional arg 'mark', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqdmqmyap/bench_module.py', 314, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "6248313112214436574850477398559702535585508446597154881": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: int received for positional arg 'mark', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmponq808qh/bench_module.py', 314, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "7896956256910187449469824221332063703971783132711493830817": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: int received for positional arg 'mark', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpylfhz7l7/bench_module.py', 314, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "8980020190158669484399482162271935494808968186839296": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: int received for positional arg 'mark', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwsx5wvjz/bench_module.py', 314, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "9011912065291812610221816261955890398631200020198929304888": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"type mismatch: int received for positional arg 'mark', expected int64\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpu3or16qc/bench_module.py', 314, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    }
+  },
+  "nbody/advanced": {
+    "126894575859456238407135": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpdgjzoe_f/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "131072": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp7k8tyt8m/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "18928665262910102175872": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp4wknjxdc/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "244905564642738507944332": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmppvvrmkyf/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "267220397411616569063165": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp85vhi4ei/bench_module.py', 122, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "268435761468522775799005": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: double cannot be assigned to dynamic', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp0lpoga7s/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "272585844512827648863050": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpvfb1vdxk/bench_module.py', 121, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "302122780790363311947199": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmphz9yi51p/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "302535826180942491321344": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: double cannot be assigned to dynamic', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp3sl98bg7/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "42501298416195618406658": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpae9zj20f/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "50341121225652102203145": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpqbqiowgd/bench_module.py', 122, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "576460752303423488": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsyqwah_6/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "614954698174417019618368": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: double cannot be assigned to dynamic', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpswxjx_pd/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "75853011632060111126528": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp5m0ap9po/bench_module.py', 120, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "9223512808703011330": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('type mismatch: dynamic cannot be assigned to double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpsn_5xk05/bench_module.py', 121, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    }
+  },
+  "richards/advanced": {
+    "102838813205620775208694671477313": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('Call argument cannot be a primitive', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_2ewl8xv/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "1199543455868431513433675731770368": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('Call argument cannot be a primitive', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmppovvbzu4/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "162301367404461323036469690957824": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('Call argument cannot be a primitive', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp9p2dwob7/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "185547671186941168709576071464361": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('Call argument cannot be a primitive', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwssh2zgm/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "282352008945746642984303469497749": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpu07o74sd/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "339029033705061500728045391258711": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('Call argument cannot be a primitive', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpeun0axwz/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "4611686018427387904": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('Call argument cannot be a primitive', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpj3i_wd8y/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "level",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "51003153812535034268034145788544": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('Call argument cannot be a primitive', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpwdurtx9w/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "528347857073253780348282551816218": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: (\"can't box non-primitive: dynamic\", '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp0nwtiuhi/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "fuzz",
+      "known": false,
+      "status": "detyped_compile_failure"
+    },
+    "9444732965739290427392": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('Call argument cannot be a primitive', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmp_0w1pwyw/bench_module.py', 322, 0)",
+      "granularity": "annotation",
+      "kind": "level",
       "known": false,
       "status": "detyped_compile_failure"
     }

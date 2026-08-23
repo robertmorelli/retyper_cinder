@@ -61,7 +61,7 @@ class SimpleTypeGraphTests(unittest.TestCase):
             dynamic=dynamic,
         )
         graph.add_edge(graph.cell(left, TYPE), graph.cell(right, TYPE))
-        settled = flow(graph, set(), {left}, {}, bound)
+        settled = flow(graph, graph.edges, {graph.cell(left, TYPE)}, bound)
         self.assertIs(settled.types[right], dynamic)
         self.assertIs(settled.contexts[right], static)
 
@@ -94,7 +94,12 @@ class SimpleTypeGraphTests(unittest.TestCase):
         )
         for erased in ({left}, {right}):
             with self.subTest(erased=next(iter(erased)).id):
-                settled = flow(graph, set(), erased, {}, bound)
+                initial_dynamic = {
+                    graph.cell(node, slot)
+                    for node in erased
+                    for slot in (TYPE, CONTEXT)
+                }
+                settled = flow(graph, graph.edges, initial_dynamic, bound)
                 self.assertIs(settled.types[expression], dynamic)
 
     def test_graph_absorbs_loop_and_member_reflow(self):

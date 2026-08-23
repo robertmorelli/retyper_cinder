@@ -15,10 +15,13 @@ def graph_data(source, mask=0, bench=False):
     bound = written = get_ast_data(ast.parse(source))
     graph = build_binding_graph(bound)
     placed = {}
+    active_edges = set(graph.edges)
     if mask:
         granularity = "benchmark" if bench else "annotation"
         erased = graph.nodes_for_mask(mask, granularity)
         predicted = graph.flow(bound, erased)
+        active_edges = set(predicted.active_edges)
+        active_edges.update(predicted.selected_edges)
         bound = SimpleNamespace(types=predicted.types,
                                 type_contexts=predicted.contexts,
                                 tree=bound.tree)
@@ -46,10 +49,12 @@ def graph_data(source, mask=0, bench=False):
                     pair(value, twin)
 
         pair(detyped, ast.parse(source))
+    else:
+        active_edges.update(graph.flow(bound).selected_edges)
 
     cells = {
         cell
-        for edge in graph.edges
+        for edge in active_edges
         for cell in (edge.source, edge.target)
     }
     if mask:
@@ -82,7 +87,7 @@ def graph_data(source, mask=0, bench=False):
               "values": [readable_name(value(cell))]
               if value(cell) is not None else []}
              for cell in ordered]
-    edges = [[ids[edge.source], ids[edge.target]] for edge in graph.edges
+    edges = [[ids[edge.source], ids[edge.target]] for edge in active_edges
              if edge.source in ids and edge.target in ids]
     return {"nodes": nodes, "edges": edges, "source": source.splitlines(),
             "annotation_units": len(graph.units("annotation")),
