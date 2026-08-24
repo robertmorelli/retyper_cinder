@@ -32,7 +32,7 @@ def full_set_for_node_count(node_count: Any) -> int64:
 
 @inline
 def remove_from_set(bits: Any, other: Any) -> int64:
-    return int64(bits) & int64(~other)
+    return int64(bits) & ~int64(other)
 
 @inline
 def ctz(low_bit: int64, bit_indexes: Array[int64]) -> int64:

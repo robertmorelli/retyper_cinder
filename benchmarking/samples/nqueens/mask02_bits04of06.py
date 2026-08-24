@@ -16,7 +16,7 @@ cinderx.jit.compile_after_n_calls(0)
 
 def static_abs(v: Any) -> int64:
     if int64(v) < 0:
-        return int64(-v)
+        return -int64(v)
     return int64(v)
 
 def create_array(start: Any, end: Any, step: Any) -> Array[int64]:

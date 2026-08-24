@@ -132,11 +132,11 @@ class TaskState(object):
 
     @inline
     def isTaskHoldingOrWaiting(self) -> cbool:
-        return cbool(self.task_holding) or (cbool(not self.packet_pending) and cbool(self.task_waiting))
+        return cbool(self.task_holding) or (not cbool(self.packet_pending) and cbool(self.task_waiting))
 
     @inline
     def isWaitingWithPacket(self) -> cbool:
-        return cbool(self.packet_pending) and cbool(self.task_waiting) and cbool(not self.task_holding)
+        return cbool(self.packet_pending) and cbool(self.task_waiting) and (not cbool(self.task_holding))
 tracing: bool = False
 layout = 0
 
