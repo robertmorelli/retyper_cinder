@@ -32,7 +32,7 @@ cinderx.jit.compile_after_n_calls(0)
 
 @inline
 def stronger(s1: Any, s2: Any) -> cbool:
-    return int64(s1.strength) < int64(s2.strength)
+    return cbool(s1.strength < s2.strength)
 
 @inline
 def weaker(s1: Strength, s2: Strength) -> cbool:
@@ -481,7 +481,7 @@ def projection_test(n: Any) -> None:
     dests: Any = CheckedList[Variable]([])
     i: Any = 0
     dst = Variable('dst%s' % 0, 0)
-    while int64(i) < int64(n):
+    while i < n:
         bi: Any = i
         src = Variable('src%s' % bi, int64(i))
         dst = Variable('dst%s' % bi, int64(i))
@@ -498,13 +498,13 @@ def projection_test(n: Any) -> None:
         print('Projection 2 failed')
     change(scale, 5)
     i = 0
-    while int64(i) < int64(n) - 1:
+    while i < n - 1:
         if dests[i].value != int64(i) * 5 + 1000:
             print('Projection 3 failed')
         i = i + 1
     change(offset, 2000)
     i = 0
-    while int64(i) < int64(n) - 1:
+    while i < n - 1:
         if dests[i].value != int64(i) * 5 + 2000:
             print('Projection 4 failed')
         i = i + 1

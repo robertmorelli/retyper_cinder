@@ -14,7 +14,7 @@ import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
 
 def static_abs(v: Any) -> Any:
-    if int64(v) < 0:
+    if v < 0:
         return -v
     return v
 
@@ -26,11 +26,11 @@ def create_array(start: Any, end: Any, step: Any) -> Any:
     """
     c: Any = start
     i: Any = 0
-    if (int64(end) - int64(start)) * int64(step) <= 0:
+    if (end - start) * step <= 0:
         return Array[int64](0)
-    size: Any = box((int64(static_abs(end - start)) - 1) // int64(static_abs(step)) + 1)
+    size: Any = box(int64((static_abs(end - start) - 1) // static_abs(step)) + 1)
     a: Any = Array[int64](size)
-    while int64(i) < int64(size):
+    while i < size:
         a[i] = int64(c)
         c = c + step
         i = i + 1
@@ -38,14 +38,14 @@ def create_array(start: Any, end: Any, step: Any) -> Any:
 
 def permutations(pool: Any, r: Any=-1) -> Any:
     n: Any = len(pool)
-    if int64(r) == -1:
+    if r == -1:
         r = n
     rb: Any = r
     indices: Any = create_array(0, n, 1)
     cycles: Any = create_array(n, n - r, -1)
     per: Any = Array[int64](rb)
     idx: Any = 0
-    while int64(idx) < int64(r):
+    while idx < r:
         per[idx] = int64(pool[indices[idx]])
         idx += 1
     yield per
@@ -53,7 +53,7 @@ def permutations(pool: Any, r: Any=-1) -> Any:
         i: Any = rb - 1
         while i >= 0:
             cycles[i] -= 1
-            if int64(cycles[i]) == 0:
+            if cycles[i] == 0:
                 lastN: Any = indices[i]
                 for ii in range(i + 1, len(indices)):
                     indices[ii - 1] = indices[ii]
@@ -65,7 +65,7 @@ def permutations(pool: Any, r: Any=-1) -> Any:
                 indices[-j] = indices[i]
                 indices[i] = tmp
                 idx = 0
-                while int64(idx) < int64(r):
+                while idx < r:
                     per[idx] = int64(pool[indices[idx]])
                     idx += 1
                 yield per

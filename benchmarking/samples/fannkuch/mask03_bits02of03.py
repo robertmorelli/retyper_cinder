@@ -20,7 +20,7 @@ def fannkuch(nb: Any) -> int:
     n: Any = nb
     count: Any = Array[int64](nb)
     i: Any = 0
-    while int64(i) < int64(n):
+    while i < n:
         count[i] = int64(i) + 1
         i += 1
     max_flips: Any = 0
@@ -29,40 +29,40 @@ def fannkuch(nb: Any) -> int:
     perm1: Any = Array[int64](nb)
     perm: Any = Array[int64](nb)
     i = 0
-    while int64(i) < int64(n):
+    while i < n:
         perm1[i] = int64(i)
         perm[i] = int64(i)
         i += 1
     perm0: Any = Array[int64](nb)
     while 1:
-        while int64(r) != 1:
-            count[int64(r) - 1] = int64(r)
+        while r != 1:
+            count[r - 1] = int64(r)
             r -= 1
         if perm1[0] != 0 and perm1[m] != int64(m):
             i = 0
-            while int64(i) < int64(n):
+            while i < n:
                 perm[i] = perm1[i]
                 i += 1
             flips_count: Any = 0
             k: Any = box(perm[0])
             while k:
                 i = k
-                while int64(i) >= 0:
-                    perm0[i] = perm[int64(k) - int64(i)]
+                while i >= 0:
+                    perm0[i] = perm[k - i]
                     i -= 1
                 i = k
-                while int64(i) >= 0:
+                while i >= 0:
                     perm[i] = perm0[i]
                     i -= 1
                 flips_count += 1
                 k = box(perm[0])
-            if int64(flips_count) > int64(max_flips):
+            if flips_count > max_flips:
                 max_flips = flips_count
-        while int64(r) != int64(n):
+        while r != n:
             first: Any = box(perm1[0])
             i = 1
-            while int64(i) <= int64(r):
-                perm1[int64(i) - 1] = perm1[i]
+            while i <= r:
+                perm1[i - 1] = perm1[i]
                 i += 1
             perm1[r] = int64(first)
             count[r] -= 1

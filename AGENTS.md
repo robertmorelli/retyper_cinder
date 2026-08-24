@@ -1,3 +1,0 @@
-you are never allowed to revert a change i directed you to make unless you are given explicit and specific direction to do so and even when you are you must ask for a confirmation of each specific reverted piece
-
-every time you mention test failures as a bad thing or test passes as a good thing or iterate on a design to improve test pass rate instead of asking what changes ought to be made i blow up one old folks home and two orphanages. test passes come as a result of correct code. not all code that passes tests is correct. jamming fucked up code in to test maxxx is disgusting.

@@ -24,7 +24,7 @@ from __future__ import annotations
 import __static__
 from typing import Any
 from enum import IntEnum
-from __static__ import CheckedList, box, cast, cbool, clen, int64, inline
+from __static__ import CheckedList, box, cast, clen, int64, inline
 from typing import final
 import time
 import cinderx.jit
@@ -32,15 +32,15 @@ cinderx.jit.compile_after_n_calls(0)
 
 @inline
 def stronger(s1: Any, s2: Any) -> Any:
-    return box(int64(s1.strength) < int64(s2.strength))
+    return s1.strength < s2.strength
 
 @inline
 def weaker(s1: Any, s2: Any) -> Any:
-    return box(int64(s1.strength) > int64(s2.strength))
+    return s1.strength > s2.strength
 
 @inline
 def weakest_of(s1: Any, s2: Any) -> Any:
-    return s1 if int64(s1.strength) > int64(s2.strength) else s2
+    return s1 if s1.strength > s2.strength else s2
 
 @final
 class Strength:
@@ -126,7 +126,7 @@ class UrnaryConstraint(Constraint):
         self.satisfied = False
 
     def choose_method(self, mark: int64) -> Any:
-        if int64(self.my_output.mark) != mark and cbool(stronger(self.strength, self.my_output.walk_strength)):
+        if self.my_output.mark != box(mark) and stronger(self.strength, self.my_output.walk_strength):
             self.satisfied = True
         else:
             self.satisfied = False
@@ -178,12 +178,12 @@ class BinaryConstraint(Constraint):
 
     def choose_method(self, mark: int64) -> Any:
         if int64(self.v1.mark) == mark:
-            if int64(self.v2.mark) != mark and cbool(stronger(self.strength, self.v2.walk_strength)):
+            if self.v2.mark != box(mark) and stronger(self.strength, self.v2.walk_strength):
                 self.direction = Direction.FORWARD
             else:
                 self.direction = Direction.BACKWARD
         if int64(self.v2.mark) == mark:
-            if int64(self.v1.mark) != mark and cbool(stronger(self.strength, self.v1.walk_strength)):
+            if self.v1.mark != box(mark) and stronger(self.strength, self.v1.walk_strength):
                 self.direction = Direction.BACKWARD
             else:
                 self.direction = Direction.NONE
@@ -229,7 +229,7 @@ class BinaryConstraint(Constraint):
 
     def inputs_known(self, mark: Any) -> Any:
         i: Any = self.input()
-        return box(int64(i.mark) == int64(mark) or cbool(i.stay) or cbool(i.determined_by is None))
+        return i.mark == mark or i.stay or i.determined_by is None
 
     def remove_from_graph(self) -> Any:
         if self.v1 is not None:
@@ -274,7 +274,7 @@ class ScaleConstraint(BinaryConstraint):
         ihn: Variable = self.input()
         out: Variable = self.output()
         out.walk_strength = weakest_of(self.strength, ihn.walk_strength)
-        out.stay = box(cbool(ihn.stay) and cbool(self.scale.stay) and cbool(self.offset.stay))
+        out.stay = ihn.stay and self.scale.stay and self.offset.stay
         if out.stay:
             self.execute()
 
@@ -341,7 +341,7 @@ class Planner(object):
         todo: CheckedList[Constraint] = [s for s in sources]
         while clen(todo):
             c: Constraint = todo.pop(0)
-            if int64(c.output().mark) != mark and cbool(c.inputs_known(box(mark))):
+            if c.output().mark != box(mark) and c.inputs_known(box(mark)):
                 plan.add_constraint(c)
                 c.output().mark = box(mark)
                 self.add_constraints_consuming_to(c.output(), todo)
@@ -350,7 +350,7 @@ class Planner(object):
     def extract_plan_from_constraints(self, constraints: CheckedList[UrnaryConstraint]) -> Any:
         sources: CheckedList[UrnaryConstraint] = []
         for c in constraints:
-            if cbool(c.is_input()) and cbool(c.is_satisfied()):
+            if c.is_input() and c.is_satisfied():
                 sources.append(c)
         return self.make_plan(sources)
 
@@ -491,10 +491,10 @@ def projection_test(n: int64) -> Any:
         i = i + 1
     src = cast(Variable, src)
     change(src, 17)
-    if int64(dst.value) != 1170:
+    if dst.value != 1170:
         print('Projection 1 failed')
     change(dst, 1050)
-    if int64(src.value) != 5:
+    if src.value != 5:
         print('Projection 2 failed')
     change(scale, 5)
     i = 0
@@ -516,7 +516,7 @@ def change(v: Any, new_value: Any) -> Any:
     edits.append(edit)
     plan: Any = planner.extract_plan_from_constraints(edits)
     i: Any = 0
-    while int64(i) < 10:
+    while i < 10:
         v.value = new_value
         plan.execute()
         i = i + 1

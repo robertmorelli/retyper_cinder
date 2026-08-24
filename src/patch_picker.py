@@ -1,16 +1,13 @@
-from ast import If, IfExp, Name, Load, Attribute, Call, copy_location, walk
-from ast import NodeTransformer, Not, Slice, Subscript, UnaryOp
-from ast import While, unparse
+from ast import BinOp, BoolOp, Call, Compare, Load, Name, NodeTransformer, Not
+from ast import Slice, Subscript, UnaryOp, copy_location
+from copy import copy
 from dataclasses import dataclass, replace
 
 from .cinderx_binding import get_ctx, is_primative, is_const
-
-def _type_expr(name):
-    parts = name.split(".")
-    node = Name(id=parts[0], ctx=Load())
-    for attr in parts[1:]:
-        node = Attribute(value=node, attr=attr, ctx=Load())
-    return node
+from .edits import (BoxEdit, CastEdit, ClenEdit, ConstrEdit,
+                    DiscardIndexNarrowing, DiscardTestConversion, LenEdit,
+                    MultiOpEdit, NoEdit, is_option_of, operands,
+                    readable_name)
 
 
 def simple_call_name(node):
@@ -30,131 +27,14 @@ def is_simple_call(names, node):
     return True
 
 
-# cbool is a CIntType, but its boxed representation is bool.
-def boxed_instance(t):
-    env = t.klass.type_env
-    return env.bool.instance if t.klass is env.cbool else t.klass.boxed.instance
-
 # Only these primitive types have writable constructor names.
 PRIMITIVE_NAMES = {"double", "cbool", "int8", "int16", "int32", "int64",
                    "uint8", "uint16", "uint32", "uint64"}
 
-def readable_name(t):
-    if (inner := option_of(t)) is not None:
-        # cinder rejects `Optional[X]`, accepts `X | None`
-        return f"{readable_name(inner)} | None"
-    name: str = t.klass.type_name.readable_name
-    for k,v in {"chklist": "CheckedList", "chkdict": "CheckedDict", "chkset": "CheckedSet"}.items():
-        name = name.replace(k, v)
-    return name
-
-
-def option_of(t):
-    """Return CinderX's canonical Optional member type, if present."""
-    inner = getattr(t.klass, "opt_type", None) if t is not None else None
-    return None if inner is None else inner.instance
-
-
-def is_option_of(maybe, inner):
-    """Is `maybe` exactly `inner`, or None?"""
-    assert maybe is not None and inner is not None
-    return (held := option_of(maybe)) is not None and held.klass is inner.klass
-
-class Edit:
-    T = None
-
-    def __init__(self, request):
-        self.request = request
-        self.node = self.next_root = request.node
-
-    def run(self):
-        return self.next_root
-
-class NoEdit(Edit):
-    """An explicit decision to leave this expression unchanged."""
-
-class BoxEdit(Edit):
-    def __init__(self, request, exact=False):
-        super().__init__(request)
-        node, t = request.node, request.type
-        self.T = boxed_instance(t)
-        value = (copy_location(Call(_type_expr(readable_name(t)), [node], []), node)
-                 if exact else node)
-        self.next_root = copy_location(Call(Name("box", Load()), [value], []), node)
-
-class ConstrEdit(Edit):
-    def __init__(self, request, T):
-        super().__init__(request)
-        self.T = T
-
-    def run(self):
-        operand = self.request.tower[-1]
-        converted = copy_location(
-            Call(_type_expr(readable_name(self.T)), [operand], []), operand)
-        if len(self.request.tower) == 1:
-            return converted
-        self.request.tower[-2].operand = converted
-        return self.request.tower[0]
-
-DONT_CAST = ('int',)
 # These boxed scalars convert values; cast only asserts a type.
 CONVERTIBLE = ('float', 'int', 'bool')
 # containers whose slice comes back as a plain list
 CHECKED_NAMES = ('chklist', 'CheckedList', 'chkdict', 'CheckedDict')
-class CastEdit(Edit):
-    def __init__(self, request, T):
-        super().__init__(request)
-        node = request.node
-        if readable_name(T) in DONT_CAST:
-            # An inexact int is accepted directly, so this records no edit.
-            return
-        self.T = T
-        self.next_root = copy_location(
-            Call(Name("cast", Load()), [_type_expr(readable_name(T)), node], []), node)
-
-
-class LenEdit(Edit):
-    def __init__(self, edit, types, dyn):
-        super().__init__(edit.request)
-        self.edit, self.call = edit, edit.request.node
-        self.types, self.dyn = types, dyn
-
-    def run(self):
-        self.call.func.id = "len"
-        self.types[self.call] = self.dyn
-        return self.edit.run()
-
-class ClenEdit(Edit):
-    def __init__(self, edit, types, dyn):
-        super().__init__(edit.request)
-        self.edit, self.call = edit, edit.request.node
-        self.types, self.dyn = types, dyn
-
-    def run(self):
-        self.call.func.id = "clen"
-        self.types[self.call] = self.dyn.klass.type_env.int64.instance
-        return self.edit.run()
-
-class DiscardTestConversion(Edit):
-    def __init__(self, edit):
-        super().__init__(edit.request)
-        self.edit = edit
-
-    def run(self):
-        return self.request.node
-
-
-class DiscardIndexNarrowing(Edit):
-    def __init__(self, edit):
-        super().__init__(edit.request)
-        self.edit = edit
-
-    def run(self):
-        if (isinstance(self.edit, ConstrEdit)
-                and readable_name(self.edit.T) == "int64"):
-            return self.request.node
-        return self.edit.run()
-
 def _still_required(produced, held, type_ctx, readers, dyn):
     """Return the type that must be restored after stripping a coercion tower.
 
@@ -201,6 +81,7 @@ class EditRequest:
     readers: tuple = ()
     sits_on_len: bool = False
     asked_for: str | None = None
+    inner: object = None
 
     @property
     def dynamic(self):
@@ -208,7 +89,7 @@ class EditRequest:
 
     @property
     def node(self):
-        return self.tower[0]
+        return self.inner.node if self.inner is not None else self.tower[0]
 
     @property
     def operand(self):
@@ -239,9 +120,9 @@ def _choose_len(request):
                 if primitive else request.dynamic)
     inner = _choose_core(replace(request, type=produced, sits_on_len=False,
                                  asked_for=None))
-    return (ClenEdit(inner, request.mediation.types, request.dynamic)
+    return (ClenEdit(inner, request.dynamic)
             if primitive
-            else LenEdit(inner, request.mediation.types, request.dynamic))
+            else LenEdit(inner, request.dynamic))
 
 
 def _restore_stripped_representation(request):
@@ -275,9 +156,10 @@ def _restore_optional_narrowing(request):
 
 def _box_for_dynamic_context(request):
     if (request.dynamic is not None and request.type_ctx is request.dynamic
-            and is_primative(request.type) and not is_const(request.node)):
-        # Machine values must box in dynamic slots; literals box implicitly.
-        return BoxEdit(request, request.inline_arg)
+            and is_primative(request.type)):
+        # Literals box implicitly; other machine values require an edit.
+        return (NoEdit(request, request.dynamic) if is_const(request.node)
+                else BoxEdit(request, request.inline_arg))
     return None
 
 
@@ -324,7 +206,8 @@ def _choose_core(request):
     return _satisfy_context(request)
 
 
-def _choose(request):
+def _unop_choose(request):
+    """Choose the lazy edit for one expression position."""
     edit = _choose_core(request)
     if request.mediation.is_test:
         return DiscardTestConversion(edit)
@@ -340,7 +223,10 @@ class Tower(NodeTransformer):
     """Strip coercion calls without descending into unrelated positions."""
 
     def __init__(self, types=None, env=None):
-        self.types, self.env = types, env
+        self.types, self.env, self.derived = types, env, {}
+
+    def type_of(self, node):
+        return self.derived.get(node, self.types.get(node))
 
     def peel(self, node):
         """What a single coercion holds, or None if it is not a coercion."""
@@ -372,48 +258,62 @@ class Tower(NodeTransformer):
         if operand is node.operand:
             return node
         result = copy_location(UnaryOp(op=node.op, operand=operand), node)
-        produced = self.types.get(operand)
+        produced = self.type_of(operand)
         if isinstance(node.op, Not):
-            self.types[result] = (self.env.cbool.instance
-                                  if produced is not None
-                                  and is_primative(produced)
-                                  else self.env.bool.instance)
+            self.derived[result] = (self.env.cbool.instance
+                                    if produced is not None
+                                    and is_primative(produced)
+                                    else self.env.bool.instance)
         elif produced is not None:
-            self.types[result] = produced
+            self.derived[result] = produced
         return result
 
     def generic_visit(self, node):
         return node
 
 
-def mediate(mediation):
-    """Choose and apply the edit required at one expression position.
-
-    Towers are stripped before comparing their underlying type with the
-    position's demand. Position flags come from the parent-aware walk.
-    """
+def plan_mediation(mediation, inner=None, type_ctx=None,
+                   request_for=None, prepare=None):
+    """Choose an edit without changing the AST or binding tables."""
     node = mediation.node
+    if inner is None and request_for is not None:
+        if operands(node):
+            return multiop_choose(mediation, request_for, prepare, type_ctx)
+        prepare(node)
     types = mediation.types
     dyn = mediation.dynamic
     ctx = get_ctx(node)
     if isinstance(node, Slice) or (ctx is not None
                                    and not isinstance(ctx, Load)):
         # Stores, deletions, and slice objects are not value positions.
-        return node
+        request = EditRequest(mediation, (node,), types.get(node),
+                              type_ctx if type_ctx is not None
+                              else mediation.type_contexts.get(node),
+                              inner=inner)
+        return NoEdit(request)
 
-    tower, sits_on_len = Tower(types, dyn.klass.type_env).ends(node)
-    target = tower[0]
-    asked_for = (node.func.id if target is not node
-                 and isinstance(node, Call) and isinstance(node.func, Name)
-                 else None)
+    stripped = Tower(types, dyn.klass.type_env)
+    if inner is None:
+        tower, sits_on_len = stripped.ends(node)
+        target = tower[0]
+        t = stripped.type_of(target)
+        produced = None if target is node else types.get(node)
+        asked_for = (node.func.id if target is not node
+                     and isinstance(node, Call) and isinstance(node.func, Name)
+                     else None)
+    else:
+        tower, target = (inner.node,), inner.node
+        sits_on_len = simple_call_name(target) in ("clen", "len")
+        t, produced, asked_for = inner.type, None, None
     # Tower records the stripped type, including the effect of unary operators.
-    t, tc = types.get(target), mediation.type_contexts.get(node)
+    tc = (mediation.type_contexts.get(node)
+          if type_ctx is None else type_ctx)
     request = EditRequest(
         mediation=mediation,
         tower=tower,
         type=t,
         type_ctx=tc,
-        produced=None if target is node else types.get(node),
+        produced=produced,
         readers=tuple(
             types.get(where) for where, slot in
             mediation.graph.outgoing().get(
@@ -421,5 +321,90 @@ def mediate(mediation):
             if slot == "type"),
         sits_on_len=sits_on_len,
         asked_for=asked_for,
+        inner=inner,
     )
-    return _choose(request).run()
+    edit = _unop_choose(request)
+    for derived, type in stripped.derived.items():
+        edit.bind(derived, type, type)
+    edit.bind(edit.node, edit.type, tc)
+    return edit
+
+
+def _common(values):
+    first = values[0] if values else None
+    return (first if first is not None
+            and all(value is first for value in values) else None)
+
+
+def _multiop_type(mediation, node, edits, contexts, assumed, original):
+    """Derive the type produced by a complete multi-operator plan."""
+    produced = tuple(edit.type for edit in edits)
+    dynamic = mediation.dynamic
+    context = _common(contexts)
+    if context is None:
+        return assumed
+    aligned = all(
+        type is not None and mediation.valid_pair(type, context, edit.node)
+        for type, edit in zip(produced, edits))
+    if contexts != original and not aligned:
+        return None
+    if context is dynamic:
+        return dynamic
+    if isinstance(node, BoolOp):
+        return context
+    return mediation.graph.types.get(node, assumed)
+
+
+def _multiop_plan(mediation, contexts, outer_context, request_for, prepare):
+    node = mediation.node
+    original = tuple(mediation.type_contexts.get(operand)
+                     for operand in operands(node))
+    edits = tuple(plan_mediation(
+                      request_for(operand), type_ctx=context,
+                      request_for=request_for, prepare=prepare)
+                  for operand, context in zip(operands(node), contexts))
+    produced = _multiop_type(
+        mediation, node, edits, contexts, mediation.types.get(node), original)
+    if produced is None and contexts == original:
+        produced = mediation.dynamic
+    if produced is None:
+        return None
+    seed = EditRequest(mediation, (node,), produced, outer_context)
+    operation = MultiOpEdit(seed, node, edits, produced)
+    return plan_mediation(mediation, operation, outer_context)
+
+
+def _representations(mediation, node):
+    """Enumerate distinct operand representations worth backtracking over."""
+    values = operands(node)
+    original = tuple(mediation.type_contexts.get(value) for value in values)
+    yield original
+
+    candidates = [mediation.dynamic]
+    candidates.extend(mediation.types.get(value) for value in values)
+    candidates.extend(original)
+    seen = set(original) if _common(original) is not None else set()
+    for candidate in candidates:
+        if (candidate is not None and candidate not in seen
+                and (candidate is mediation.dynamic
+                     or is_primative(candidate))):
+            seen.add(candidate)
+            yield (candidate,) * len(values)
+
+
+def multiop_choose(mediation, request_for, prepare, outer_context=None):
+    """Backtrack over shared representations and return the cheapest plan."""
+    node = mediation.node
+    if outer_context is None:
+        outer_context = mediation.type_contexts.get(node)
+    plans = (_multiop_plan(mediation, representation, outer_context,
+                           request_for, prepare)
+             for representation in _representations(mediation, node))
+    return min((plan for plan in plans if plan is not None),
+               key=lambda edit: edit.cost)
+
+
+def mediate(mediation, request_for, prepare):
+    """Choose and materialize the edit for one expression position."""
+    return plan_mediation(
+        mediation, request_for=request_for, prepare=prepare).run()

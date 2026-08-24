@@ -40,8 +40,10 @@ class Coercer(NodeTransformer):
         )
         self.types, self.inline_calls = types, inline_calls
         self.tests, self.indices, self.inlined = set(), {}, set()
+        self.prepared = set()
 
-    def visit(self, node):
+    def _register(self, node):
+        """Record position facts before planning or descending into a node."""
         if isinstance(node, (If, IfExp, While)):
             self.tests.add(node.test)
         elif isinstance(node, Subscript):
@@ -54,15 +56,28 @@ class Coercer(NodeTransformer):
                 self.indices[node.slice] = node.value
         elif isinstance(node, Call) and node in self.inline_calls:
             self.inlined.update(inline_args(node, self.types))
-        self.generic_visit(node)
-        return mediate(replace(
+
+    def _request(self, node):
+        self._register(node)
+        return replace(
             self.request,
             node=node,
             is_test=node in self.tests,
             is_index=node in self.indices,
             is_inline_arg=node in self.inlined,
             index_container=self.indices.get(node),
-        ))
+        )
+
+    def _prepare(self, node):
+        """Mediate context-independent descendants exactly once."""
+        if node not in self.prepared:
+            self._register(node)
+            self.generic_visit(node)
+            self.prepared.add(node)
+
+    def visit(self, node):
+        self._register(node)
+        return mediate(self._request(node), self._request, self._prepare)
 
 
 def coerce_tree(tree, types, type_ctxs, dyn, valid_pair, inline_calls,

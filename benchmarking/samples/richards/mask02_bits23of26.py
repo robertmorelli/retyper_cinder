@@ -15,7 +15,7 @@ from __future__ import annotations
 import __static__
 from typing import Any
 import sys
-from __static__ import cast, cbool, int64, box, inline
+from __static__ import cast, inline
 from typing import Optional
 import time
 import cinderx.jit
@@ -132,11 +132,11 @@ class TaskState(object):
 
     @inline
     def isTaskHoldingOrWaiting(self) -> Any:
-        return box(cbool(self.task_holding) or (not cbool(self.packet_pending) and cbool(self.task_waiting)))
+        return self.task_holding or (not self.packet_pending and self.task_waiting)
 
     @inline
     def isWaitingWithPacket(self) -> Any:
-        return box(cbool(self.packet_pending) and cbool(self.task_waiting) and (not cbool(self.task_holding)))
+        return self.packet_pending and self.task_waiting and (not self.task_holding)
 tracing: Any = False
 layout = 0
 
@@ -180,7 +180,7 @@ class Task(TaskState):
         if self.input is None:
             self.input = p
             self.packet_pending = True
-            if int64(self.priority) > int64(old.priority):
+            if self.priority > old.priority:
                 return self
         else:
             p.append_to(self.input)
@@ -211,7 +211,7 @@ class Task(TaskState):
     def release(self, i: Any) -> Any:
         t: Any = Task.findtcb(self, i)
         t.task_holding = False
-        if int64(t.priority) > int64(self.priority):
+        if t.priority > self.priority:
             return t
         else:
             return self
@@ -255,7 +255,7 @@ class HandlerTask(Task):
     def fn(self, pkt: Any, r: Any) -> Any:
         h: Any = cast(HandlerTaskRec, r)
         if pkt is not None:
-            if int64(pkt.kind) == int64(K_WORK):
+            if pkt.kind == K_WORK:
                 h.workInAdd(pkt)
             else:
                 h.deviceInAdd(pkt)
@@ -282,9 +282,9 @@ class IdleTask(Task):
     def fn(self, pkt: Any, r: Any) -> Any:
         i: Any = cast(IdleTaskRec, r)
         i.count -= 1
-        if int64(i.count) == 0:
+        if i.count == 0:
             return self.hold()
-        elif int64(i.control) & 1 == 0:
+        elif i.control & 1 == 0:
             i.control //= 2
             return Task.release(self, I_DEVA)
         else:
@@ -301,7 +301,7 @@ class WorkTask(Task):
         w: Any = cast(WorkerTaskRec, r)
         if pkt is None:
             return self.waitTask()
-        if int64(w.destination) == int64(I_HANDLERA):
+        if w.destination == I_HANDLERA:
             dest: Any = I_HANDLERB
         else:
             dest = I_HANDLERA
@@ -312,7 +312,7 @@ class WorkTask(Task):
         while i < BUFSIZE:
             x: Any = w.count + 1
             w.count = x
-            if int64(w.count) > 26:
+            if w.count > 26:
                 w.count = 1
             pkt.data[i] = A + w.count - 1
             i = i + 1
@@ -352,7 +352,7 @@ class Richards(object):
             DeviceTask(I_DEVA, 4000, wkq, TaskState().waiting(), DeviceTaskRec())
             DeviceTask(I_DEVB, 5000, wkq, TaskState().waiting(), DeviceTaskRec())
             schedule()
-            if int64(taskWorkArea.holdCount) == 9297 and int64(taskWorkArea.qpktCount) == 23246:
+            if taskWorkArea.holdCount == 9297 and taskWorkArea.qpktCount == 23246:
                 pass
             else:
                 print('err')

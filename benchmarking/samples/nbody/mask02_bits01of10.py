@@ -102,7 +102,7 @@ def report_energy(bodies: CheckedList[Body]=SYSTEM, pairs: list[tuple[Body, Body
         dx: double = pos1.x - pos2.x
         dy: double = pos1.y - pos2.y
         dz: double = pos1.z - pos2.z
-        e -= double(b1.mass) * double(b2.mass) / (dx * dx + dy * dy + dz * dz) ** 0.5
+        e -= double(b1.mass * b2.mass) / (dx * dx + dy * dy + dz * dz) ** 0.5
     for body in bodies:
         v: Vector = body.v
         e1 = v.x * v.x + v.y * v.y + v.z * v.z

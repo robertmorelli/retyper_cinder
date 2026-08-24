@@ -47,7 +47,7 @@ def next_set_of_same_size(bits: Any, bit_indexes: Any) -> Any:
 def fill_set_members(bits: Any, scratch: Any, bit_indexes: Any) -> Any:
     count: Any = 0
     remaining: Any = bits
-    while int64(remaining) != 0:
+    while remaining != 0:
         low_bit: Any = remaining & -remaining
         index: Any = ctz(int64(low_bit), cast(Array[int64], bit_indexes))
         scratch[count] = index
@@ -76,12 +76,12 @@ class DistanceMatrix:
 def fill_reference_values(matrix: Any) -> Any:
     values: Any = (0, 3, 4, 2, 7, 3, 0, 4, 6, 3, 4, 4, 0, 5, 8, 2, 6, 5, 0, 6, 7, 3, 8, 6, 0)
     row: Any = 0
-    while int64(row) < int64(matrix.node_count):
+    while row < matrix.node_count:
         column: Any = 0
-        while int64(column) < int64(matrix.node_count):
+        while column < matrix.node_count:
             offset: Any = matrix.offset(row, column)
             value: Any = values[offset]
-            if int64(row) == int64(column):
+            if row == column:
                 matrix.set(row, column, infinity())
             else:
                 matrix.set(row, column, value)
@@ -90,10 +90,10 @@ def fill_reference_values(matrix: Any) -> Any:
 
 def fill_random_values(matrix: Any) -> Any:
     row: Any = 0
-    while int64(row) < int64(matrix.node_count):
+    while row < matrix.node_count:
         column: Any = 0
-        while int64(column) < int64(matrix.node_count):
-            if int64(row) == int64(column):
+        while column < matrix.node_count:
+            if row == column:
                 matrix.set(row, column, infinity())
             else:
                 matrix.set(row, column, random.randint(1, 100))
@@ -109,50 +109,50 @@ def held_karp(node_count: Any, distances: Any) -> Any:
     members: Any = Array[int64](node_count)
     bit_indexes: Any = Array[int64](subset_capacity)
     bit_index: Any = 0
-    while int64(bit_index) < int64(n):
-        bit_indexes[1 << int64(bit_index)] = int64(bit_index)
+    while bit_index < n:
+        bit_indexes[1 << bit_index] = int64(bit_index)
         bit_index += 1
     slot: Any = 0
     machine_slots: Any = total_slots
-    while int64(slot) < int64(machine_slots):
+    while slot < machine_slots:
         g[slot] = int64(infinity())
         slot += 1
     city: Any = 1
-    while int64(city) < int64(n):
+    while city < n:
         singleton: Any = set_from_city(city)
-        g[int64(singleton) * int64(n) + int64(city)] = int64(distances.get(start_city, city))
+        g[singleton * n + city] = int64(distances.get(start_city, city))
         city += 1
     subset_size: Any = 2
     subset_limit: Any = 1 << n
-    while int64(subset_size) < int64(n):
+    while subset_size < n:
         subset: Any = first_set_of_size(int64(subset_size))
-        while int64(subset) < int64(subset_limit):
+        while subset < subset_limit:
             member_count: Any = fill_set_members(subset, members, bit_indexes)
             city_index: Any = 0
-            while int64(city_index) < int64(member_count):
+            while city_index < member_count:
                 city = box(members[city_index])
                 city_set: Any = set_from_city(city)
                 subset_without_city: Any = remove_from_set(subset, city_set)
                 previous_offset: Any = subset_without_city * n
                 best: Any = infinity()
                 previous_index: Any = 0
-                while int64(previous_index) < int64(member_count):
+                while previous_index < member_count:
                     previous_city: Any = box(members[previous_index])
-                    if int64(previous_city) != int64(city):
-                        current: Any = box(g[int64(previous_offset) + int64(previous_city)]) + distances.get(previous_city, city)
-                        if int64(current) < int64(best):
+                    if previous_city != city:
+                        current: Any = box(g[previous_offset + previous_city]) + distances.get(previous_city, city)
+                        if current < best:
                             best = current
                     previous_index += 1
-                g[int64(subset) * int64(n) + int64(city)] = int64(best)
+                g[subset * n + city] = int64(best)
                 city_index += 1
             subset = next_set_of_same_size(subset, bit_indexes)
         subset_size += 1
     full: Any = full_set_for_node_count(n)
     best = infinity()
     city = 1
-    while int64(city) < int64(n):
-        current = box(g[int64(full) * int64(n) + int64(city)]) + distances.get(city, start_city)
-        if int64(current) < int64(best):
+    while city < n:
+        current = box(g[full * n + city]) + distances.get(city, start_city)
+        if current < best:
             best = current
         city += 1
     return best

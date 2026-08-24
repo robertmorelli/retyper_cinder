@@ -39,14 +39,14 @@ def create_array(start: int64, end: int64, step: int64) -> Array[int64]:
 
 def permutations(pool: Any, r: Any=-1) -> Iterator[Array[int64]]:
     n: Any = len(pool)
-    if int64(r) == -1:
+    if r == -1:
         r = n
     rb: Any = r
     indices: Any = create_array(0, int64(n), 1)
-    cycles: Any = create_array(int64(n), int64(n) - int64(r), -1)
+    cycles: Any = create_array(int64(n), int64(n - r), -1)
     per: Any = Array[int64](rb)
     idx: Any = 0
-    while int64(idx) < int64(r):
+    while idx < r:
         per[idx] = int64(pool[box(indices[idx])])
         idx += 1
     yield per
@@ -59,14 +59,14 @@ def permutations(pool: Any, r: Any=-1) -> Iterator[Array[int64]]:
                 for ii in range(i + 1, len(indices)):
                     indices[ii - 1] = indices[ii]
                 indices[len(indices) - 1] = int64(lastN)
-                cycles[i] = int64(n) - int64(i)
+                cycles[i] = int64(n - i)
             else:
                 j: Any = box(cycles[i])
                 tmp: Any = box(indices[-j])
                 indices[-j] = indices[i]
                 indices[i] = int64(tmp)
                 idx = 0
-                while int64(idx) < int64(r):
+                while idx < r:
                     per[idx] = int64(pool[box(indices[idx])])
                     idx += 1
                 yield per

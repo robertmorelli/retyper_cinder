@@ -18,7 +18,7 @@ Modified by Tupteq, Fredrik Johansson, and Daniel Nanz.
 """
 import __static__
 from typing import Any
-from __static__ import double, CheckedList, CheckedDict, box
+from __static__ import double, CheckedList, CheckedDict
 import time
 import sys
 import cinderx.jit
@@ -73,7 +73,7 @@ def advance(dt: Any, n: Any, bodies: Any=SYSTEM, pairs: Any=PAIRS):
             dx: Any = pos1.x - pos2.x
             dy: Any = pos1.y - pos2.y
             dz: Any = pos1.z - pos2.z
-            mag: Any = dt * box((double(dx) * double(dx) + double(dy) * double(dy) + double(dz) * double(dz)) ** -1.5)
+            mag: Any = dt * (dx * dx + dy * dy + dz * dz) ** -1.5
             b1m: Any = b1.mass * mag
             b2m: Any = b2.mass * mag
             v1: Any = b1.v
@@ -102,7 +102,7 @@ def report_energy(bodies: Any=SYSTEM, pairs: Any=PAIRS, e: Any=0.0) -> double:
         dx: Any = pos1.x - pos2.x
         dy: Any = pos1.y - pos2.y
         dz: Any = pos1.z - pos2.z
-        e -= b1.mass * b2.mass / box((double(dx) * double(dx) + double(dy) * double(dy) + double(dz) * double(dz)) ** 0.5)
+        e -= b1.mass * b2.mass / (dx * dx + dy * dy + dz * dz) ** 0.5
     for body in bodies:
         v: Any = body.v
         e1 = v.x * v.x + v.y * v.y + v.z * v.z
