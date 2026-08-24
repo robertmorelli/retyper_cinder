@@ -7,13 +7,13 @@ from .graph_topology import CONTEXT, TYPE
 
 
 
-def decide_type(graph, node, feeds, dead, bound):
+def decide_type(node, feeds, dead, bound):
     """Return the expression type unless one of its feeds is dead."""
     if any(part in dead for part in feeds):
         return bound.dynamic
     return bound.types.get(node)
 
-def decide_context(graph, node, feeds, dead, bound):
+def decide_context(node, feeds, dead, bound):
     """Return the expected type unless one of its feeds is dead."""
     if any(feed in dead for feed in feeds):
         return bound.dynamic
@@ -52,7 +52,7 @@ def flow(graph, edges, initial_dynamic, bound):
             cell = graph.cell(node, TYPE)
             if cell in dead:
                 continue
-            if decide_type(graph, node, by_type.get(node, ()), dead,
+            if decide_type(node, by_type.get(node, ()), dead,
                            bound) is bound.dynamic:
                 dead.add(cell)
                 pending = True
@@ -60,7 +60,7 @@ def flow(graph, edges, initial_dynamic, bound):
             cell = graph.cell(node, CONTEXT)
             if cell in dead:
                 continue
-            if decide_context(graph, node, by_context.get(node, ()), dead,
+            if decide_context(node, by_context.get(node, ()), dead,
                               bound) is bound.dynamic:
                 dead.add(cell)
                 pending = True
@@ -70,7 +70,7 @@ def flow(graph, edges, initial_dynamic, bound):
              for node, value in bound.types.items()}
     for node in decided_nodes:
         if graph.cell(node, TYPE) not in dead:
-            decided = decide_type(graph, node, by_type.get(node, ()), dead,
+            decided = decide_type(node, by_type.get(node, ()), dead,
                                   bound)
             if decided is not None:
                 types[node] = decided
@@ -82,6 +82,6 @@ def flow(graph, edges, initial_dynamic, bound):
         if slot == CONTEXT:
             contexts[node] = bound.dynamic
     for node in context_nodes:
-        contexts[node] = decide_context(graph, node, by_context[node], dead,
+        contexts[node] = decide_context(node, by_context[node], dead,
                                         bound)
     return SimpleNamespace(types=types, contexts=contexts)

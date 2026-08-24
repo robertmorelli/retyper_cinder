@@ -250,12 +250,13 @@ class Topology(ast.NodeVisitor):
             return self.called_name(func.value)
         return None
 
-    DESCEND_FIRST = frozenset(['AnnAssign', 'Assign', 'Attribute', 'AugAssign', 'BinOp', 'BoolOp', 'Call', 'Compare', 'Dict', 'For', 'FormattedValue', 'IfExp', 'List', 'NamedExpr', 'Return', 'Set', 'Subscript', 'Tuple', 'UnaryOp'])
-
     def visit(self, node):
-        if type(node).__name__ in self.DESCEND_FIRST:
-            self.generic_visit(node)
-        return super().visit(node)
+        if type(node) in BINDING_STATEMENTS:
+            return super().visit(node)
+        self.generic_visit(node)
+        visitor = getattr(self, f"visit_{type(node).__name__}", None)
+        if visitor is not None:
+            return visitor(node)
 
     def generic_visit(self, node):
         annotation = getattr(node, "annotation", None) or getattr(
@@ -432,7 +433,6 @@ class Topology(ast.NodeVisitor):
                 yield from self.loop_targets(element)
 
     def visit_comprehension_expr(self, node, elements):
-        self.generic_visit(node)
         for generator in node.generators:
             for target in self.loop_targets(generator.target):
                 self.link(generator.iter, target)
