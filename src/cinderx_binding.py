@@ -1,9 +1,10 @@
-from ast import (AnnAssign, AsyncFunctionDef, Attribute, Constant, FunctionDef,
-                 List, Name, Starred, Subscript, Tuple, arg)
+import ast
+from ast import (AnnAssign, AsyncFunctionDef, Attribute, Call, Constant,
+                 FunctionDef, List, Name, Starred, Subscript, Tuple, arg)
 from dataclasses import dataclass
 from pathlib import Path
 from sys import path as import_path
-from typing import Any
+from typing import Any, Optional
 
 PYTHON_LIB = str(Path(__file__).resolve().parents[1] /
                  "_cinderx" / "cinderx" / "PythonLib")
@@ -12,7 +13,7 @@ if PYTHON_LIB not in import_path:
 
 from cinderx.compiler.static.compiler import Compiler
 from cinderx.compiler.static import StaticCodeGenerator
-from cinderx.compiler.static.types import CType
+from cinderx.compiler.static.types import CType, DecoratedMethod, Function, InlinedCall
 from cinderx.compiler.static.type_binder import TypeBinder
 
 
@@ -37,6 +38,9 @@ class BoundData:
     annotation_roots: list
     benchmark_roots: list
     resolved_from: dict
+    assignment_declarations: dict
+    inline_functions: set
+    inline_calls: set
 
 
 def get_ctx(node):
@@ -81,6 +85,15 @@ def get_ast_data(proto_tree):
     inflow = module.inflow
     constructors = module.constructors
     reverse_outflow = module.reverse_outflow
+    inline_functions = set()
+    for node, value in module.types.items():
+        function = value.real_function if isinstance(value, DecoratedMethod) else value
+        if isinstance(function, Function) and function.inline:
+            inline_functions.add(node)
+    inline_calls = {
+        node for node in ast.walk(tree) if isinstance(node, Call)
+        and module.get_opt_node_data(node, Optional[InlinedCall]) is not None
+    }
 
     # Replace contexts CinderX itself rejects with dynamic.
     for node in types.keys():
@@ -118,4 +131,7 @@ def get_ast_data(proto_tree):
         annotation_roots=anno_roots,
         benchmark_roots=bench_roots,
         resolved_from=module.resolved_from,
+        assignment_declarations=module.assignment_declarations,
+        inline_functions=inline_functions,
+        inline_calls=inline_calls,
     )

@@ -74,8 +74,8 @@ For `return value` inside function `F`:
 
 - `F.type -> value.context`
 
-An annotated `@inline` function with exactly one value-returning `return` is a
-narrowing choice:
+When CinderX identifies an annotated function as inline, its value-returning
+`return` is a narrowing choice:
 
 - while `value` narrows the return declaration:
   - `value.type -> F.type`
@@ -172,10 +172,8 @@ flow in the opposite direction as demands on the value being stored.
 For `receiver.member`:
 
 - `receiver.type -> attribute.type`
-- When the receiver class is known, for each declaration `D` of `member`
-  compatible with that class:
-  - `D.type -> attribute.type`
-- When the receiver class is unknown, no declaration edge is added.
+- CinderX outflow supplies `D.type -> attribute.type` when it resolves a member
+  declaration `D`.
 
 This models member access depending on the receiver and declared slot.
 
@@ -355,7 +353,7 @@ An override cannot be erased independently of the contract it overrides, so
 matching annotations across visible base and subclass definitions share a
 unit.
 
-For a subclass and visible base class:
+From CinderX's override components:
 
 - Same-named annotated attributes `A`, `B`:
   - `union(A, B)`
@@ -377,7 +375,8 @@ unconditional.
 Units are the choices exposed to an erasure mask. Unions make annotations one
 choice when the typechecker requires their contracts to remain aligned.
 
-- Binder component unions and inheritance unions form annotation units.
+- Binder component unions form annotation units, including CinderX-resolved
+  overrides.
 - Roots not unioned with another root form one-member units.
 - Units are ordered by their first root's source position.
 - Benchmark granularity combines annotation units owned by the same function.

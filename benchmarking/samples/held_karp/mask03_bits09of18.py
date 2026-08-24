@@ -72,7 +72,7 @@ class DistanceMatrix:
         return int64(self.values[box(self.offset(row, column))])
 
     def set(self, row: int64, column: int64, value: int64):
-        self.values[box(self.offset(box(int64(row)), box(int64(column))))] = box(value)
+        self.values[box(self.offset(box(row), box(column)))] = box(value)
 
 def fill_reference_values(matrix: DistanceMatrix) -> None:
     values: Tuple[int, ...] = (0, 3, 4, 2, 7, 3, 0, 4, 6, 3, 4, 4, 0, 5, 8, 2, 6, 5, 0, 6, 7, 3, 8, 6, 0)
@@ -80,7 +80,7 @@ def fill_reference_values(matrix: DistanceMatrix) -> None:
     while row < int64(matrix.node_count):
         column: int64 = 0
         while column < int64(matrix.node_count):
-            offset: int64 = matrix.offset(box(int64(row)), box(int64(column)))
+            offset: int64 = matrix.offset(box(row), box(column))
             value: int64 = int64(values[box(offset)])
             if row == column:
                 matrix.set(row, column, infinity())

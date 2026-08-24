@@ -1,5 +1,5 @@
 # richards/advanced  granularity=benchmark
-# mask=4055039  (20/22 units erased)
+# mask=67108863  (26/26 units erased)
 
 """
 based on a Java version:
@@ -16,7 +16,6 @@ import __static__
 from typing import Any
 import sys
 from __static__ import cast, cbool, int64, box, inline
-from typing import Optional
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
@@ -89,7 +88,7 @@ class WorkerTaskRec(TaskRec):
 
 class TaskState(object):
 
-    def __init__(self) -> Any:
+    def __init__(self) -> None:
         self.packet_pending: Any = True
         self.task_waiting: Any = False
         self.task_holding: Any = False
@@ -173,7 +172,7 @@ class Task(TaskState):
         wa.taskList = self
         wa.taskTab[i] = self
 
-    def fn(self, pkt: Optional[Packet], r: TaskRec) -> Any:
+    def fn(self, pkt: Any, r: Any) -> Any:
         raise NotImplementedError
 
     def addPacket(self, p: Any, old: Any) -> Any:
@@ -216,8 +215,8 @@ class Task(TaskState):
         else:
             return self
 
-    def qpkt(self, pkt: Packet) -> Any:
-        t: Task = Task.findtcb(self, pkt.ident)
+    def qpkt(self, pkt: Any) -> Any:
+        t: Any = Task.findtcb(self, pkt.ident)
         taskWorkArea.qpktCount += 1
         pkt.link = None
         pkt.ident = self.ident
@@ -229,11 +228,11 @@ class Task(TaskState):
 
 class DeviceTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> Any:
+    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
         Task.__init__(self, i, p, w, s, r)
 
-    def fn(self, pkt: Optional[Packet], r: TaskRec) -> Any:
-        d: DeviceTaskRec = cast(DeviceTaskRec, r)
+    def fn(self, pkt: Any, r: Any) -> Any:
+        d: Any = cast(DeviceTaskRec, r)
         if pkt is None:
             pkt = d.pending
             if pkt is None:
@@ -249,24 +248,24 @@ class DeviceTask(Task):
 
 class HandlerTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> Any:
+    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
         Task.__init__(self, i, p, w, s, r)
 
-    def fn(self, pkt: Optional[Packet], r: TaskRec) -> Any:
-        h: HandlerTaskRec = cast(HandlerTaskRec, r)
+    def fn(self, pkt: Any, r: Any) -> Any:
+        h: Any = cast(HandlerTaskRec, r)
         if pkt is not None:
             if int64(pkt.kind) == int64(K_WORK):
                 h.workInAdd(pkt)
             else:
                 h.deviceInAdd(pkt)
-        work: Optional[Packet] = h.work_in
+        work: Any = h.work_in
         if work is None:
             return self.waitTask()
-        count: int = work.datum
+        count: Any = work.datum
         if count >= BUFSIZE:
             h.work_in = work.link
             return self.qpkt(work)
-        dev: Optional[Packet] = h.device_in
+        dev: Any = h.device_in
         if dev is None:
             return self.waitTask()
         h.device_in = dev.link
@@ -276,11 +275,11 @@ class HandlerTask(Task):
 
 class IdleTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> Any:
+    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
         Task.__init__(self, i, 0, None, s, r)
 
-    def fn(self, pkt: Optional[Packet], r: TaskRec) -> Any:
-        i: IdleTaskRec = cast(IdleTaskRec, r)
+    def fn(self, pkt: Any, r: Any) -> Any:
+        i: Any = cast(IdleTaskRec, r)
         i.count -= 1
         if int64(i.count) == 0:
             return self.hold()
@@ -294,24 +293,24 @@ A: Any = 65
 
 class WorkTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> Any:
+    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
         Task.__init__(self, i, p, w, s, r)
 
-    def fn(self, pkt: Optional[Packet], r: TaskRec) -> Any:
-        w: WorkerTaskRec = cast(WorkerTaskRec, r)
+    def fn(self, pkt: Any, r: Any) -> Any:
+        w: Any = cast(WorkerTaskRec, r)
         if pkt is None:
             return self.waitTask()
         if int64(w.destination) == int64(I_HANDLERA):
-            dest: int64 = int64(I_HANDLERB)
+            dest: Any = I_HANDLERB
         else:
-            dest = int64(I_HANDLERA)
-        w.destination = box(dest)
-        pkt.ident = box(dest)
+            dest = I_HANDLERA
+        w.destination = dest
+        pkt.ident = dest
         pkt.datum = 0
         i = 0
         while i < BUFSIZE:
-            x: int64 = int64(w.count) + 1
-            w.count = box(x)
+            x: Any = w.count + 1
+            w.count = x
             if int64(w.count) > 26:
                 w.count = 1
             pkt.data[i] = A + w.count - 1

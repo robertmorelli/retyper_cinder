@@ -1,5 +1,5 @@
 # nqueens/advanced  granularity=benchmark
-# mask=107  (5/7 units erased)
+# mask=30  (4/6 units erased)
 
 """
 Simple, brute-force N-Queens solver. Using static python
@@ -9,65 +9,65 @@ from __future__ import annotations
 import __static__
 from typing import Any
 from __static__ import int64, box, Array
-from typing import Iterator
+from typing import List, Iterator
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
 
-def static_abs(v: Any) -> Any:
+def static_abs(v: Any) -> int64:
     if int64(v) < 0:
-        return -v
-    return v
+        return int64(-v)
+    return int64(v)
 
-def create_array(start: int64, end: int64, step: int64) -> Any:
+def create_array(start: Any, end: Any, step: Any) -> Array[int64]:
     """
     Function that creates an array that contains elements from start (inclusive) to end (non-inclusve) increasing the given steps
     Note: if It is not possible to go from start to end, an empty array will be returned.
     For example: create_array(2,7,2) -> (2,4,6) ; create_array(1,4,1)->(1,2,3)
     """
-    c: int64 = start
-    i: int64 = 0
-    if (end - start) * step <= 0:
+    c: Any = start
+    i: Any = 0
+    if (int64(end) - int64(start)) * int64(step) <= 0:
         return Array[int64](0)
-    size: int64 = (int64(static_abs(box(end) - box(start))) - 1) // int64(static_abs(box(step))) + 1
-    a: Array[int64] = Array[int64](box(size))
-    while i < size:
-        a[i] = c
+    size: Any = box((static_abs(end - start) - 1) // static_abs(step) + 1)
+    a: Any = Array[int64](size)
+    while int64(i) < int64(size):
+        a[i] = int64(c)
         c = c + step
         i = i + 1
     return a
 
-def permutations(pool: Any, r: Any=-1) -> Any:
+def permutations(pool: Any, r: Any=-1) -> Iterator[Array[int64]]:
     n: Any = len(pool)
     if int64(r) == -1:
         r = n
     rb: Any = r
-    indices: Any = create_array(0, int64(n), 1)
-    cycles: Any = create_array(int64(n), int64(n) - int64(r), -1)
+    indices: Any = create_array(0, n, 1)
+    cycles: Any = create_array(n, n - r, -1)
     per: Any = Array[int64](rb)
     idx: Any = 0
     while int64(idx) < int64(r):
-        per[idx] = int64(pool[indices[idx]])
+        per[idx] = int64(pool[box(indices[idx])])
         idx += 1
     yield per
     while n:
         i: Any = rb - 1
         while i >= 0:
             cycles[i] -= 1
-            if int64(cycles[i]) == 0:
-                lastN: Any = indices[i]
+            if cycles[i] == 0:
+                lastN: Any = box(indices[i])
                 for ii in range(i + 1, len(indices)):
                     indices[ii - 1] = indices[ii]
-                indices[len(indices) - 1] = lastN
-                cycles[i] = n - i
+                indices[len(indices) - 1] = int64(lastN)
+                cycles[i] = int64(n) - int64(i)
             else:
-                j: Any = cycles[i]
-                tmp: Any = indices[-j]
+                j: Any = box(cycles[i])
+                tmp: Any = box(indices[-j])
                 indices[-j] = indices[i]
-                indices[i] = tmp
+                indices[i] = int64(tmp)
                 idx = 0
                 while int64(idx) < int64(r):
-                    per[idx] = int64(pool[indices[idx]])
+                    per[idx] = int64(pool[box(indices[idx])])
                     idx += 1
                 yield per
                 break
@@ -75,7 +75,7 @@ def permutations(pool: Any, r: Any=-1) -> Any:
         if i == -1:
             return
 
-def solve(queen_count: int) -> Any:
+def solve(queen_count: int) -> Iterator[Array[int64]]:
     """N-Queens solver.
 
     Args:
@@ -88,12 +88,12 @@ def solve(queen_count: int) -> Any:
         queen, and the index into the tuple indicates the row.
     """
     cols: Iterator[int] = range(queen_count)
-    static_cols: Array[int64] = create_array(0, int64(queen_count), 1)
+    static_cols: Array[int64] = create_array(0, queen_count, 1)
     for vec in permutations(static_cols):
         if queen_count == len(set((vec[i] + i for i in cols))) == len(set((vec[i] - i for i in cols))):
             yield vec
 
-def bench_n_queens(queen_count: Any) -> Any:
+def bench_n_queens(queen_count: Any) -> List[Array[int64]]:
     """
     Return all the possible valid configurations of the queens
     in a board of size queen_count.
@@ -101,15 +101,15 @@ def bench_n_queens(queen_count: Any) -> Any:
     """
     return list(solve(queen_count))
 
-def main() -> Any:
+def main():
     import sys
     num_iterations = 1
     if len(sys.argv) > 1:
         num_iterations = int(sys.argv[1])
-    queen_count: Any = 8
+    queen_count: int = 8
     startTime = time.time()
     for _ in range(num_iterations):
-        res: Any = bench_n_queens(queen_count)
+        res: list = bench_n_queens(queen_count)
     endTime = time.time()
     runtime = endTime - startTime
     print(runtime)

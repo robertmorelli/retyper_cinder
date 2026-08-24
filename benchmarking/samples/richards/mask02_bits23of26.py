@@ -1,5 +1,5 @@
 # richards/advanced  granularity=benchmark
-# mask=4194303  (22/22 units erased)
+# mask=33505279  (23/26 units erased)
 
 """
 based on a Java version:
@@ -16,6 +16,7 @@ import __static__
 from typing import Any
 import sys
 from __static__ import cast, cbool, int64, box, inline
+from typing import Optional
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
@@ -88,7 +89,7 @@ class WorkerTaskRec(TaskRec):
 
 class TaskState(object):
 
-    def __init__(self) -> Any:
+    def __init__(self) -> None:
         self.packet_pending: Any = True
         self.task_waiting: Any = False
         self.task_holding: Any = False
@@ -175,7 +176,7 @@ class Task(TaskState):
     def fn(self, pkt: Any, r: Any) -> Any:
         raise NotImplementedError
 
-    def addPacket(self, p: Any, old: Any) -> Any:
+    def addPacket(self, p: Packet, old: Task) -> Any:
         if self.input is None:
             self.input = p
             self.packet_pending = True
@@ -187,7 +188,7 @@ class Task(TaskState):
 
     def runTask(self) -> Any:
         if TaskState.isWaitingWithPacket(cast(TaskState, self)):
-            msg: Any = self.input
+            msg: Optional[Packet] = self.input
             if msg is not None:
                 self.input = msg.link
                 if self.input is None:
@@ -228,7 +229,7 @@ class Task(TaskState):
 
 class DeviceTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> Any:
+    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
         Task.__init__(self, i, p, w, s, r)
 
     def fn(self, pkt: Any, r: Any) -> Any:
@@ -248,7 +249,7 @@ class DeviceTask(Task):
 
 class HandlerTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> Any:
+    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
         Task.__init__(self, i, p, w, s, r)
 
     def fn(self, pkt: Any, r: Any) -> Any:
@@ -275,7 +276,7 @@ class HandlerTask(Task):
 
 class IdleTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> Any:
+    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
         Task.__init__(self, i, 0, None, s, r)
 
     def fn(self, pkt: Any, r: Any) -> Any:
@@ -293,7 +294,7 @@ A: Any = 65
 
 class WorkTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> Any:
+    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
         Task.__init__(self, i, p, w, s, r)
 
     def fn(self, pkt: Any, r: Any) -> Any:

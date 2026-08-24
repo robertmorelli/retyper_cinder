@@ -1,5 +1,5 @@
 # deltablue/advanced  granularity=benchmark
-# mask=68719476735  (36/36 units erased)
+# mask=137438953471  (37/37 units erased)
 
 """
 main.py
@@ -115,7 +115,7 @@ class Constraint(object):
 
 class UrnaryConstraint(Constraint):
 
-    def __init__(self, v: Any, strength: Any) -> Any:
+    def __init__(self, v: Any, strength: Any) -> None:
         Constraint.__init__(self, strength)
         self.my_output: Any = v
         self.satisfied: Any = False
@@ -241,7 +241,7 @@ class BinaryConstraint(Constraint):
 @final
 class ScaleConstraint(BinaryConstraint):
 
-    def __init__(self, src: Any, scale: Any, offset: Any, dest: Any, strength: Any) -> Any:
+    def __init__(self, src: Any, scale: Any, offset: Any, dest: Any, strength: Any) -> None:
         self.direction: Any = Direction.NONE
         self.scale: Any = scale
         self.offset: Any = offset

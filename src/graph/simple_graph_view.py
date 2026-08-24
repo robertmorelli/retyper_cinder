@@ -29,7 +29,7 @@ def graph_data(source, mask=0, bench=False):
                                      predicted.contexts)
         detyped = coerce_tree(detyped, predicted.types, predicted.contexts,
                               written.dynamic, written.valid_pair,
-                              written.reverse_outflow, graph)
+                              written.inline_calls, graph)
         detyped = ast.fix_missing_locations(add_imports(detyped))
         source = ast.unparse(detyped)
 

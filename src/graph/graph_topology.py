@@ -80,11 +80,10 @@ class Topology(ast.NodeVisitor):
         self.function = None
         self.owners = {}
         self.groups = UnionFind()
-        self.bindings = {}
         self.definitionless_names = {}
         self.resolved = {}
-        self.classes = {}
-        self.slots = {}
+        self.declarations = {}
+        self.inline_functions = set()
         self.types = {}
         self._index = None
         self.reaching = {}
@@ -151,6 +150,8 @@ class Topology(ast.NodeVisitor):
                          if isinstance(defs, frozenset)}
         self.dynamic = bound.dynamic
         self.resolved = bound.reverse_outflow
+        self.declarations = bound.assignment_declarations
+        self.inline_functions = bound.inline_functions
         self.types = bound.types
         self.definitionless_names = collect_definitionless_names(bound.tree)
         self.index(bound.tree)
@@ -177,7 +178,6 @@ class Topology(ast.NodeVisitor):
 
         self.tree = bound.tree
         self.visit(bound.tree)
-        self.link_overrides()
         self.read_through_targets()
 
         ordered = sorted(roots, key=lambda node: (node.lineno, node.col_offset))
@@ -229,70 +229,17 @@ class Topology(ast.NodeVisitor):
         self.owners.setdefault(node, scope)
         if type(node) in BINDING_STATEMENTS:
             return self.index_function(node, scope)
-        if type(node) is ast.ClassDef:
-            return self.index_class(node, scope)
-        self.index_binding(node, scope)
         for child in ast.iter_child_nodes(node):
             self.index_node(child, scope)
 
     def index_function(self, node, scope):
         for parameter in self.parameters_of(node):
-            self.bind(node, parameter.arg, parameter)
             self.owners.setdefault(parameter, node)
         for child in node.body:
             self.index_node(child, node)
 
-    def index_class(self, node, scope):
-        """Index a class and its body and instance attribute declarations."""
-        self.classes.setdefault(node.name, []).append(node)
-        for statement in node.body:
-            if type(statement) in BINDING_STATEMENTS:
-                for inner in ast.walk(statement):
-                    if (type(inner) is ast.AnnAssign
-                            and type(inner.target) is ast.Attribute):
-                        self.slots.setdefault(
-                            inner.target.attr, []).append((node, inner))
-                self.index_node(statement, scope)
-            elif (type(statement) is ast.AnnAssign
-                    and type(statement.target) is ast.Name):
-                self.slots.setdefault(
-                    statement.target.id, []).append((node, statement))
-                self.owners.setdefault(statement, scope)
-            else:
-                self.index_node(statement, scope)
-
-    def index_binding(self, node, scope):
-        """Every place a name is given a value in this scope."""
-        if type(node) is ast.AnnAssign and type(node.target) is ast.Name:
-            self.bind(scope, node.target.id, node)
-        elif type(node) is ast.Assign:
-            for target in node.targets:
-                self.bind_targets(scope, target)
-        elif type(node) in (ast.For, ast.AsyncFor):
-            self.bind_targets(scope, node.target)
-        elif type(node) is ast.NamedExpr and type(node.target) is ast.Name:
-            self.bind(scope, node.target.id, node.target)
-
-    def bind_targets(self, scope, target):
-        """Index every name store inside an assignment target."""
-        if type(target) is ast.Name:
-            self.bind(scope, target.id, target)
-        elif type(target) in (ast.Tuple, ast.List):
-            for element in target.elts:
-                self.bind_targets(scope, element)
-
-    def bind(self, scope, name, node):
-        self.bindings.setdefault((scope, name), []).append(node)
-
     def parameters_of(self, target):
         return target.args.posonlyargs + target.args.args
-
-    def annotated(self, scope, name):
-        for node in self.bindings.get((scope, name), ()):
-            if type(node) in (ast.AnnAssign, ast.arg):
-                return node
-        return None
-
 
     def called_name(self, func):
         if type(func) is ast.Name:
@@ -302,35 +249,6 @@ class Topology(ast.NodeVisitor):
         if type(func) is ast.Subscript:
             return self.called_name(func.value)
         return None
-
-    def receiver_class(self, func):
-        """Return the receiver's class name when it can be resolved."""
-        if type(func) is not ast.Attribute:
-            return None
-        if type(func.value) is ast.Name and func.value.id in self.classes:
-            return func.value.id
-        name = self.klass_name(self.types.get(func.value))
-        return name.rsplit(".", 1)[-1] if name else None
-
-    def klass_name(self, value):
-        try:
-            return value.klass.type_name.qualname
-        except Exception:
-            return None
-
-    def related(self, klass, target):
-        """Is `target` this class, or one it inherits from?"""
-        seen, pending = set(), [klass]
-        while pending:
-            current = pending.pop()
-            if current.name == target:
-                return True
-            seen.add(current.name)
-            for base in current.bases:
-                name = base.id if type(base) is ast.Name else None
-                if name and name not in seen:
-                    pending.extend(self.classes.get(name, ()))
-        return False
 
     DESCEND_FIRST = frozenset(['AnnAssign', 'Assign', 'Attribute', 'AugAssign', 'BinOp', 'BoolOp', 'Call', 'Compare', 'Dict', 'For', 'FormattedValue', 'IfExp', 'List', 'NamedExpr', 'Return', 'Set', 'Subscript', 'Tuple', 'UnaryOp'])
 
@@ -387,10 +305,8 @@ class Topology(ast.NodeVisitor):
                                    values[index] if values is not None else value)
         elif type(target) in (ast.Attribute, ast.Subscript):
             self.link(target, value, CONTEXT)
-        elif self.annotated_target(target):
+        elif (declaration := self.declarations.get(target)) is not None:
             self.link(target, value, CONTEXT)
-            declaration = (self.resolved.get(target)
-                           or self.annotated(self.function, target.id))
             self.narrowing_choice(value, declaration, target)
         else:
             self.link(value, target)
@@ -404,24 +320,13 @@ class Topology(ast.NodeVisitor):
         if node.value is not None:
             self.link(node.target, node.value, CONTEXT)
 
-    def annotated_target(self, target):
-        """Does this target have a declaration that fixes its type?"""
-        declaration = self.resolved.get(target)
-        if declaration is None and type(target) is ast.Name:
-            declaration = self.annotated(self.function, target.id)
-        if declaration is None:
-            return False
-        return (getattr(declaration, "annotation", None) is not None
-                or getattr(declaration, "returns", None) is not None)
-
     def visit_AugAssign(self, node):
         self.link(node.target, node.value, CONTEXT)
         reaching = self.reaching.get(node.target, ())
         for source in reaching:
             self.link(source, node.target)
-        if not reaching and self.annotated_target(node.target):
-            declaration = (self.resolved.get(node.target)
-                           or self.annotated(self.function, node.target.id))
+        if (not reaching
+                and (declaration := self.declarations.get(node.target)) is not None):
             self.link(self.stored_target(declaration), node.target)
         self.result_link(node.value, node.target)
 
@@ -431,12 +336,6 @@ class Topology(ast.NodeVisitor):
 
     def visit_Attribute(self, node):
         self.link(node.value, node)
-        owner = self.receiver_class(node)
-        if owner is None:
-            return
-        for klass, slot in self.slots.get(node.attr, ()):
-            if self.related(klass, owner):
-                self.link(slot, node)
 
     def visit_Subscript(self, node):
         self.link(node.value, node)
@@ -480,14 +379,10 @@ class Topology(ast.NodeVisitor):
 
     def inlined_result(self, target):
         """Return the sole value expression of an inline function, if any."""
-        if not isinstance(target, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        if target not in self.inline_functions:
             return None
-        if "inline" not in {ast.unparse(d) for d in target.decorator_list}:
-            return None
-        returns = [n for n in ast.walk(target) if type(n) is ast.Return]
-        if len(returns) != 1 or returns[0].value is None:
-            return None
-        return returns[0].value
+        returned = target.body[0]
+        return returned.value if isinstance(returned, ast.Return) else None
 
     def visit_Call(self, node):
         self.link(node.func, node)
@@ -518,8 +413,7 @@ class Topology(ast.NodeVisitor):
     def visit_For(self, node):
         iterable = self.resolved.get(node.iter)
         for target in self.loop_targets(node.target):
-            declaration = (self.resolved.get(target)
-                           or self.annotated(self.function, target.id))
+            declaration = self.declarations.get(target)
             if declaration is None:
                 self.link(node.iter, target)
             else:
@@ -566,54 +460,6 @@ class Topology(ast.NodeVisitor):
         for item in [*(key for key in node.keys if key is not None),
                      *node.values]:
             self.link(item, node)
-
-
-    def link_overrides(self):
-        """Unions across a class and the bases we can see in this module."""
-        for classes in self.classes.values():
-            for klass in classes:
-                self.merge_class(klass)
-
-    def inherited_member(self, klass, name, seen=None):
-        """Find the first visible inherited member with this name."""
-        seen = set() if seen is None else seen
-        for base in klass.bases:
-            base_name = base.id if type(base) is ast.Name else None
-            for parent in self.classes.get(base_name, ()):
-                if parent in seen:
-                    continue
-                seen.add(parent)
-                member = self.members(parent).get(name)
-                if member is not None:
-                    return member
-                member = self.inherited_member(parent, name, seen)
-                if member is not None:
-                    return member
-        return None
-
-    def merge_class(self, klass):
-        for name, slot in self.members(klass).items():
-            other = self.inherited_member(klass, name)
-            if other is None:
-                continue
-            if type(slot) is ast.AnnAssign and type(other) is ast.AnnAssign:
-                self.groups.union(slot, other)
-            elif type(slot) in BINDING_STATEMENTS and type(other) in BINDING_STATEMENTS:
-                for mine, theirs in zip(self.parameters_of(slot),
-                                        self.parameters_of(other)):
-                    self.groups.union(mine, theirs)
-                if slot.returns is not None and other.returns is not None:
-                    self.groups.union(slot, other)
-
-    def members(self, klass):
-        found = {}
-        for statement in klass.body:
-            if type(statement) in BINDING_STATEMENTS:
-                found[statement.name] = statement
-            elif (type(statement) is ast.AnnAssign
-                    and type(statement.target) is ast.Name):
-                found[statement.target.id] = statement
-        return found
 
 
     def group_functions(self):

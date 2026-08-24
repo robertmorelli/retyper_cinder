@@ -1,17 +1,9 @@
 """Walk the tree bottom-up and mediate each expression position."""
-from ast import (Call, DictComp, FunctionDef, GeneratorExp, If, IfExp,
-                 ListComp, NodeTransformer, SetComp, Slice, Subscript, While,
-                 unparse, walk)
+from ast import (Call, DictComp, GeneratorExp, If, IfExp, ListComp,
+                 NodeTransformer, SetComp, Slice, Subscript, While, walk)
 from dataclasses import replace
 
 from .patch_picker import MediationRequest, mediate
-
-
-def is_inline_call(call, reverse_outflow):
-    """Whether a call resolves to an `@inline` function."""
-    source = reverse_outflow.get(call)
-    return (isinstance(source, FunctionDef)
-            and "inline" in {unparse(d) for d in source.decorator_list})
 
 
 def inline_args(call, types):
@@ -35,7 +27,7 @@ def _payloads(tree):
 class Coercer(NodeTransformer):
     """Walk bottom-up and pass parent-known position flags to `mediate`."""
 
-    def __init__(self, types, type_ctxs, dyn, valid_pair, reverse_outflow,
+    def __init__(self, types, type_ctxs, dyn, valid_pair, inline_calls,
                  graph, payloads):
         self.request = MediationRequest(
             node=None,
@@ -46,7 +38,7 @@ class Coercer(NodeTransformer):
             graph=graph,
             payloads=payloads,
         )
-        self.types, self.reverse_outflow = types, reverse_outflow
+        self.types, self.inline_calls = types, inline_calls
         self.tests, self.indices, self.inlined = set(), {}, set()
 
     def visit(self, node):
@@ -60,8 +52,7 @@ class Coercer(NodeTransformer):
                         self.indices[part] = node.value
             else:
                 self.indices[node.slice] = node.value
-        elif isinstance(node, Call) and is_inline_call(node,
-                                                       self.reverse_outflow):
+        elif isinstance(node, Call) and node in self.inline_calls:
             self.inlined.update(inline_args(node, self.types))
         self.generic_visit(node)
         return mediate(replace(
@@ -74,8 +65,8 @@ class Coercer(NodeTransformer):
         ))
 
 
-def coerce_tree(tree, types, type_ctxs, dyn, valid_pair, reverse_outflow,
+def coerce_tree(tree, types, type_ctxs, dyn, valid_pair, inline_calls,
                 graph):
-    Coercer(types, type_ctxs, dyn, valid_pair, reverse_outflow, graph,
+    Coercer(types, type_ctxs, dyn, valid_pair, inline_calls, graph,
             _payloads(tree)).visit(tree)
     return tree

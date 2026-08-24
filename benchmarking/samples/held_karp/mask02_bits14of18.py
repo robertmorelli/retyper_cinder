@@ -68,7 +68,7 @@ class DistanceMatrix:
 
     @inline
     def get(self, row: int64, column: int64) -> Any:
-        return self.values[self.offset(box(int64(row)), box(int64(column)))]
+        return self.values[self.offset(box(row), box(column))]
 
     def set(self, row: Any, column: Any, value: Any) -> Any:
         self.values[self.offset(row, column)] = value

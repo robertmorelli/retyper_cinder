@@ -21,6 +21,6 @@ def detype(source, mask=-1, bench=False):
                               predicted.contexts)
     tree = coerce_tree(tree, predicted.types, predicted.contexts,
                        written.dynamic, written.valid_pair,
-                       written.reverse_outflow, graph)
+                       written.inline_calls, graph)
     tree = add_imports(tree)
     return fix_missing_locations(tree)
