@@ -555,6 +555,62 @@
     }
   },
   "nbody/advanced": {
+    "0": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1007": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1015": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1019": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1021": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1022": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "1023": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "105": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 97)",
       "granularity": "benchmark",
@@ -562,12 +618,26 @@
       "known": true,
       "status": "detype_failure"
     },
+    "128": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "153": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detype_failure"
+    },
+    "16": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
     },
     "172": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 97)",
@@ -583,12 +653,47 @@
       "known": true,
       "status": "detype_failure"
     },
+    "2": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "20": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "216": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detype_failure"
+    },
+    "255": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "256": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "286": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
     },
     "297": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 97)",
@@ -604,12 +709,26 @@
       "known": true,
       "status": "detype_failure"
     },
+    "32": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "368": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detype_failure"
+    },
+    "4": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
     },
     "432": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
@@ -624,6 +743,13 @@
       "kind": "fuzz",
       "known": true,
       "status": "detype_failure"
+    },
+    "479": {
+      "error": "cinderx.compiler.strict.common.StrictModuleError: ('cannot divide dynamic and double', '/var/folders/z5/4xclvs3x7w3gccl9590jgyrm0000gn/T/tmpuery282b/bench_module.py', 103, 0)",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": true,
+      "status": "detyped_compile_failure"
     },
     "48": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
@@ -646,6 +772,48 @@
       "known": true,
       "status": "detype_failure"
     },
+    "510": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "511": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "512": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "514": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "520": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "566": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "57": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
       "granularity": "benchmark",
@@ -653,12 +821,89 @@
       "known": true,
       "status": "detype_failure"
     },
+    "617": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "64": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "66": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "703": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "767": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "8": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "831": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
     "89": {
       "error": "TypedSyntaxError: can't box non-primitive: dynamic (, line 69)",
       "granularity": "benchmark",
       "kind": "fuzz",
       "known": true,
       "status": "detype_failure"
+    },
+    "895": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "9": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "fuzz",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "959": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
+    },
+    "991": {
+      "error": "ModuleNotFoundError: No module named 'cinderx'",
+      "granularity": "benchmark",
+      "kind": "level",
+      "known": false,
+      "status": "typed_compile_failure"
     }
   },
   "nqueens/advanced": {

@@ -3,6 +3,10 @@ from ast import (Attribute, BinOp, BoolOp, Call, Compare, Load, Name, UnaryOp,
                  copy_location, walk)
 from copy import copy
 
+from .cinderx_binding import is_primative
+
+PRIMITIVE_WRAP_COST = 0.99
+
 
 def _type_expr(name):
     parts = name.split(".")
@@ -63,9 +67,10 @@ def _replace_expr(root, target, replacement):
     return root
 
 
-def _rename_call(root, call, name):
+def _rename_call(root, call, name, primitive_wrap=False):
     renamed = copy(call)
     renamed.func = Name(name, Load())
+    renamed._primitive_wrap = primitive_wrap
     return _replace_expr(root, call, renamed)
 
 
@@ -95,7 +100,9 @@ class Edit:
 
     @property
     def cost(self):
-        return sum(1 for _ in walk(self.node))
+        return sum(PRIMITIVE_WRAP_COST
+                   if getattr(node, "_primitive_wrap", False) else 1
+                   for node in walk(self.node))
 
     def bind(self, node, type, context=None):
         self.bindings.append((node, type,
@@ -143,6 +150,7 @@ class ConstrEdit(Edit):
         context = request.type_ctx if planned or len(request.tower) == 1 else type
         converted = copy_location(
             Call(_type_expr(readable_name(type)), [operand], []), operand)
+        converted._primitive_wrap = is_primative(type)
         node = (converted if planned or len(request.tower) == 1
                 else _tower_with_operand(request.tower, converted))
         super().__init__(request, inner, node, type)
@@ -172,7 +180,8 @@ class LenEdit(Edit):
 
 class ClenEdit(Edit):
     def __init__(self, edit, dynamic):
-        node = _rename_call(edit.node, edit.request.node, "clen")
+        node = _rename_call(
+            edit.node, edit.request.node, "clen", primitive_wrap=True)
         super().__init__(edit.request, edit, node, edit.type)
         self.bind(node, dynamic.klass.type_env.int64.instance)
 

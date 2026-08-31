@@ -336,60 +336,76 @@ def _common(values):
             and all(value is first for value in values) else None)
 
 
-def _multiop_type(mediation, node, edits, contexts, assumed, original):
-    """Derive the type produced by a complete multi-operator plan."""
-    produced = tuple(edit.type for edit in edits)
-    dynamic = mediation.dynamic
-    context = _common(contexts)
-    if context is None:
-        return assumed
-    aligned = all(
-        type is not None and mediation.valid_pair(type, context, edit.node)
-        for type, edit in zip(produced, edits))
-    if contexts != original and not aligned:
-        return None
-    if context is dynamic:
-        return dynamic
-    if isinstance(node, BoolOp):
-        return context
-    return mediation.graph.types.get(node, assumed)
+def _original_multiop_candidate(mediation):
+    return tuple(mediation.type_contexts.get(operand)
+                 for operand in operands(mediation.node))
 
 
-def _multiop_plan(mediation, contexts, outer_context, request_for, prepare):
+def candidate_compatible(mediation, candidate, operand_plans):
+    """Whether planned operands can inhabit a candidate representation."""
+    context = _common(candidate)
+    if context is None or candidate == _original_multiop_candidate(mediation):
+        return True
+    return all(
+        plan.type is not None
+        and mediation.valid_pair(plan.type, context, plan.node)
+        for plan in operand_plans)
+
+
+def own_type_from_candidate(mediation, candidate):
+    """Derive the multi-operator's type from an operand representation."""
     node = mediation.node
-    original = tuple(mediation.type_contexts.get(operand)
-                     for operand in operands(node))
-    edits = tuple(plan_mediation(
-                      request_for(operand), type_ctx=context,
-                      request_for=request_for, prepare=prepare)
-                  for operand, context in zip(operands(node), contexts))
-    produced = _multiop_type(
-        mediation, node, edits, contexts, mediation.types.get(node), original)
-    if produced is None and contexts == original:
-        produced = mediation.dynamic
+    context = _common(candidate)
+    if context is None:
+        own_type = mediation.types.get(node)
+    elif context is mediation.dynamic:
+        own_type = mediation.dynamic
+    elif isinstance(node, BoolOp):
+        own_type = context
+    else:
+        own_type = mediation.graph.types.get(node, mediation.types.get(node))
+    if (own_type is None
+            and candidate == _original_multiop_candidate(mediation)):
+        return mediation.dynamic
+    return own_type
+
+
+def plan_multiop_candidate(
+        mediation, candidate, outer_context, request_for, prepare):
+    node = mediation.node
+    operand_plans = tuple(
+        plan_mediation(request_for(operand), type_ctx=context,
+                       request_for=request_for, prepare=prepare)
+        for operand, context in zip(operands(node), candidate))
+    if not candidate_compatible(mediation, candidate, operand_plans):
+        return None
+    produced = own_type_from_candidate(mediation, candidate)
     if produced is None:
         return None
     seed = EditRequest(mediation, (node,), produced, outer_context)
-    operation = MultiOpEdit(seed, node, edits, produced)
+    operation = MultiOpEdit(seed, node, operand_plans, produced)
     return plan_mediation(mediation, operation, outer_context)
 
 
-def _representations(mediation, node):
+def all_multiop_candidates(mediation, node):
     """Enumerate distinct operand representations worth backtracking over."""
     values = operands(node)
-    original = tuple(mediation.type_contexts.get(value) for value in values)
+    original = _original_multiop_candidate(mediation)
     yield original
 
-    candidates = [mediation.dynamic]
-    candidates.extend(mediation.types.get(value) for value in values)
-    candidates.extend(original)
-    seen = set(original) if _common(original) is not None else set()
-    for candidate in candidates:
-        if (candidate is not None and candidate not in seen
-                and (candidate is mediation.dynamic
-                     or is_primative(candidate))):
-            seen.add(candidate)
-            yield (candidate,) * len(values)
+    candidate_types = {
+        mediation.types.get(value) for value in values
+    } | set(original)
+    candidate_types = {
+        candidate_type for candidate_type in candidate_types
+        if candidate_type is not None and is_primative(candidate_type)
+    }
+    candidate_types.discard(_common(original))
+    for candidate_type in candidate_types:
+        yield (candidate_type,) * len(values)
+
+    if _common(original) is not mediation.dynamic:
+        yield (mediation.dynamic,) * len(values)
 
 
 def multiop_choose(mediation, request_for, prepare, outer_context=None):
@@ -397,9 +413,9 @@ def multiop_choose(mediation, request_for, prepare, outer_context=None):
     node = mediation.node
     if outer_context is None:
         outer_context = mediation.type_contexts.get(node)
-    plans = (_multiop_plan(mediation, representation, outer_context,
-                           request_for, prepare)
-             for representation in _representations(mediation, node))
+    plans = (plan_multiop_candidate(
+                 mediation, candidate, outer_context, request_for, prepare)
+             for candidate in all_multiop_candidates(mediation, node))
     return min((plan for plan in plans if plan is not None),
                key=lambda edit: edit.cost)
 
