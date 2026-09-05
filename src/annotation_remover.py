@@ -21,15 +21,15 @@ def _checked_ctor(annotation, value):
 
 
 class AnnoRemover(NodeTransformer):
-    def __init__(self, targets, types, type_ctxs):
+    def __init__(self, targets, types, type_constraints):
         self.targets = targets
         self.types = types
-        self.type_ctxs = type_ctxs
+        self.type_constraints = type_constraints
         self.receivers = set()
 
     def _record(self, node, of):
         """The synthesized call carries the type the annotation used to supply."""
-        for table in (self.types, self.type_ctxs):
+        for table in (self.types, self.type_constraints):
             if table is not None and of in table:
                 table[node] = table[of]
 
@@ -66,6 +66,6 @@ class AnnoRemover(NodeTransformer):
         return node
 
 
-def remove_annotations(tree, node_set, types, type_ctxs):
-    AnnoRemover(node_set, types, type_ctxs).visit(tree)
+def remove_annotations(tree, node_set, types, type_constraints):
+    AnnoRemover(node_set, types, type_constraints).visit(tree)
     return tree

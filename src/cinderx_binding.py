@@ -1,6 +1,5 @@
 import ast
-from ast import (AnnAssign, AsyncFunctionDef, Attribute, Call, Constant,
-                 FunctionDef, List, Name, Starred, Subscript, Tuple, arg)
+from ast import Call
 from dataclasses import dataclass
 from pathlib import Path
 from sys import path as import_path
@@ -13,7 +12,7 @@ if PYTHON_LIB not in import_path:
 
 from cinderx.compiler.static.compiler import Compiler
 from cinderx.compiler.static import StaticCodeGenerator
-from cinderx.compiler.static.types import CType, DecoratedMethod, Function, InlinedCall
+from cinderx.compiler.static.types import DecoratedMethod, Function, InlinedCall
 from cinderx.compiler.static.type_binder import TypeBinder
 
 
@@ -21,115 +20,94 @@ from cinderx.compiler.static.type_binder import TypeBinder
 class BoundData:
     """Named tables and metadata produced by one CinderX bind."""
 
-    roots: list
     types: dict
-    type_contexts: dict
-    constructors: Any
+    type_constraints: dict
     components: dict
     outflow: dict
     inflow: dict
     valid_pair: Any
     tree: Any
     dynamic: Any
-    declared_types: dict
-    declaration_types: dict
-    iteration_types: dict
     reverse_outflow: dict
-    annotation_roots: list
-    benchmark_roots: list
     resolved_from: dict
     assignment_declarations: dict
     inline_functions: set
     inline_calls: set
 
 
-def get_ctx(node):
-    if isinstance(node, (Name, Attribute, Subscript, Starred, List, Tuple)):
-        return node.ctx
-    return None
-
-def is_const(node):
-    return isinstance(node, Constant)
-
-def is_primative(node):
-    return isinstance(node.klass, CType)
-
-def can_narrow(declared, assigned, dynamic):
-    """Whether CinderX keeps an assigned type instead of the declaration."""
-    return (assigned is not None and assigned is not dynamic
-            and declared is not None and declared.klass.can_be_narrowed)
-
-def get_ast_data(proto_tree):
+def bind_tree(proto_tree):
     compiler = Compiler(StaticCodeGenerator)
-
-    # The tree is also the hashable cache key.
     compiler.bind("", "", proto_tree, proto_tree, optimize=0)
     tree = compiler.ast_cache.get(proto_tree)
     symbols = StaticCodeGenerator._SymbolVisitor(0)
     symbols.visit(tree)
     module = compiler.modules[""]
     binder = TypeBinder(symbols, "", compiler, "", optimize=0)
-    dyn = compiler.type_env.DYNAMIC
+    return tree, module, binder, compiler.type_env.DYNAMIC
 
-    def valid_pair(t, tc, node):
+
+def assignment_validator(binder):
+    def valid_pair(value_type, type_constraint, node):
         try:
-            binder.check_can_assign_from(tc.klass, t.klass, node)
+            binder.check_can_assign_from(
+                type_constraint.klass, value_type.klass, node
+            )
             return True
         except Exception:
             return False
 
-    types = module.expr_types
-    type_ctxs = module.expr_ctx_types
-    components = module.components
-    outflow = module.outflow
-    inflow = module.inflow
-    constructors = module.constructors
-    reverse_outflow = module.reverse_outflow
-    inline_functions = set()
+    return valid_pair
+
+
+def accepted_type_constraints(types, constraints, dynamic, valid_pair):
+    for node, value_type in types.items():
+        if not valid_pair(value_type, constraints[node], node):
+            constraints[node] = dynamic
+    return constraints
+
+
+def find_inline_functions(module):
+    found = set()
     for node, value in module.types.items():
-        function = value.real_function if isinstance(value, DecoratedMethod) else value
+        function = (
+            value.real_function if isinstance(value, DecoratedMethod) else value
+        )
         if isinstance(function, Function) and function.inline:
-            inline_functions.add(node)
-    inline_calls = {
-        node for node in ast.walk(tree) if isinstance(node, Call)
+            found.add(node)
+    return found
+
+
+def find_inline_calls(tree, module):
+    return {
+        node
+        for node in ast.walk(tree)
+        if isinstance(node, Call)
         and module.get_opt_node_data(node, Optional[InlinedCall]) is not None
     }
 
-    # Replace contexts CinderX itself rejects with dynamic.
-    for node in types.keys():
-        if not valid_pair(types[node], type_ctxs[node], node):
-            type_ctxs[node] = dyn
 
-    roots = sorted(
-        {node for node in {*outflow, *inflow, *components} if node is not None},
-        key=lambda node: (node.lineno, node.col_offset),
+def get_ast_data(proto_tree):
+    tree, module, binder, dynamic = bind_tree(proto_tree)
+    valid_pair = assignment_validator(binder)
+    type_constraints = accepted_type_constraints(
+        module.expr_types,
+        module.expr_ctx_types,
+        dynamic,
+        valid_pair,
     )
-    # Only linked annotations are safe roots; unlinked erasure cannot propagate.
-    anno_roots = [
-        root for root in roots
-        if (isinstance(root, (AnnAssign, arg)) and root.annotation is not None)
-        or (isinstance(root, (FunctionDef, AsyncFunctionDef))
-            and root.returns is not None)
-    ]
-    bench_roots = []
+    inline_functions = find_inline_functions(module)
+    inline_calls = find_inline_calls(tree, module)
 
     return BoundData(
-        roots=roots,
-        types=types,
-        type_contexts=type_ctxs,
-        constructors=constructors,
-        components=components,
-        outflow=outflow,
-        inflow=inflow,
+        types=module.expr_types,
+        type_constraints=type_constraints,
+        components=module.components,
+        outflow=module.outflow,
+        inflow=module.inflow,
         valid_pair=valid_pair,
         tree=tree,
-        dynamic=dyn,
-        declared_types=module.declared_types,
-        declaration_types=module.declaration_types,
-        iteration_types=module.iteration_types,
-        reverse_outflow=reverse_outflow,
-        annotation_roots=anno_roots,
-        benchmark_roots=bench_roots,
+        dynamic=dynamic,
+        reverse_outflow=module.reverse_outflow,
         resolved_from=module.resolved_from,
         assignment_declarations=module.assignment_declarations,
         inline_functions=inline_functions,

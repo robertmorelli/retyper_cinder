@@ -8,7 +8,7 @@ for directory in (str(Path(ROOT) / "src"), ROOT):
     if directory not in import_path:
         import_path.insert(0, directory)
 
-from benchmarking.utilities.load_source import load_bench
+from utilities.load_source import load_bench
 from src import detype
 
 args = argv[1:]

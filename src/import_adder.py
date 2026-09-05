@@ -20,7 +20,7 @@ def _insert_point(body):
     return i
 
 
-def find_names_read(tree):
+def analyze_import_usage(tree):
     """Return every bare name the transformed module may read."""
     read = {node.id for node in walk(tree)
             if isinstance(node, Name) and isinstance(node.ctx, Load)}
@@ -31,48 +31,63 @@ def find_names_read(tree):
     return read
 
 
-def _already_imported(tree, module, name):
-    return any(isinstance(stmt, ImportFrom) and stmt.module == module
-               and any(a.name == name for a in stmt.names)
-               for stmt in walk(tree))
+def required_imports(usage):
+    requirements = {
+        "__static__": tuple(name for name in STATIC_NAMES if name in usage),
+        "typing": ("Any",) if "Any" in usage else (),
+    }
+    return {module: names for module, names in requirements.items() if names}
 
 
-class StaticImports(NodeTransformer):
-    """Synchronize named static and typing imports without touching the flag."""
+class ManagedImports(NodeTransformer):
+    """Prune managed imports and add their required bare names."""
 
-    PRUNED = ('__static__', 'typing')
+    MODULES = ("__static__", "typing")
 
-    def __init__(self, needed, read):
-        self.needed = needed
-        self.read = read
-        self.found = False
+    def __init__(self, usage, requirements):
+        self.usage = usage
+        self.requirements = requirements
+        self.found = set()
 
     def visit_ImportFrom(self, node):
-        if node.module not in self.PRUNED:
+        if node.module not in self.MODULES:
             return node
-        keep = [a for a in node.names if a.name in self.read or a.asname]
-        if node.module == '__static__':
-            self.found = True
-            have = {a.name for a in keep}
-            keep += [alias(name=n) for n in self.needed if n not in have]
+        keep = [a for a in node.names if a.name in self.usage or a.asname]
+        have = {a.name for a in keep if a.asname is None}
+        keep += [
+            alias(name=name)
+            for name in self.requirements.get(node.module, ())
+            if name not in have
+        ]
+        self.found.add(node.module)
         if not keep:
             return None
         node.names = keep
         return node
 
 
+def synchronize_existing_imports(tree, usage, requirements):
+    synchronizer = ManagedImports(usage, requirements)
+    synchronizer.visit(tree)
+    return synchronizer.found
+
+
+def insert_missing_imports(tree, requirements, found_modules):
+    for module, names in requirements.items():
+        if module not in found_modules:
+            tree.body.insert(
+                _insert_point(tree.body),
+                ImportFrom(
+                    module=module,
+                    names=[alias(name=name) for name in names],
+                    level=0,
+                ),
+            )
+
+
 def add_imports(tree):
-    read = find_names_read(tree)
-    needed = tuple(n for n in STATIC_NAMES if n in read)
-    adder = StaticImports(needed, read)
-    adder.visit(tree)
-    if needed and not adder.found:
-        tree.body.insert(_insert_point(tree.body),
-                         ImportFrom(module='__static__',
-                                    names=[alias(name=n) for n in needed],
-                                    level=0))
-    if 'Any' in read and not _already_imported(tree, 'typing', 'Any'):
-        tree.body.insert(_insert_point(tree.body),
-                         ImportFrom(module='typing',
-                                    names=[alias(name='Any')], level=0))
+    usage = analyze_import_usage(tree)
+    requirements = required_imports(usage)
+    found_modules = synchronize_existing_imports(tree, usage, requirements)
+    insert_missing_imports(tree, requirements, found_modules)
     return tree

@@ -12,7 +12,6 @@ now pass move to fixed_problem_masks_<mode>.json, so the pair is a running
 record of what broke and what got repaired. A mask that comes back after being
 fixed is a regression and fails the run.
 """
-from ast import parse, unparse
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from json import dump, dumps, load
 from os import cpu_count, path
@@ -24,7 +23,6 @@ from dataclasses import asdict, dataclass
 from statistics import median
 from subprocess import run
 from sys import executable
-from tempfile import TemporaryDirectory
 from time import perf_counter_ns
 
 ROOT = path.dirname(path.dirname(path.abspath(__file__)))
@@ -33,11 +31,13 @@ for directory in (SRC, ROOT):
     if directory not in import_path:
         import_path.insert(0, directory)
 
-from benchmarking.utilities.list_benchmarks import get_bench_list
-from benchmarking.utilities.load_source import load_bench
-from src import detype
-from src.cinderx_binding import get_ast_data
-from src.graph.typedness_graph import build_binding_graph
+from utilities.graph import count_benchmark_units
+from utilities.list_benchmarks import get_bench_list
+from utilities.load_source import (
+    detyped_source,
+    load_bench,
+    temporary_module,
+)
 
 RUNNER = path.join(path.dirname(path.abspath(__file__)), "static_runner.py")
 MODES = ("compile", "runtime")
@@ -51,7 +51,7 @@ SUFFIX = "_annotation" if GRANULARITY == "annotation" else ""
 LEVELS = "--no-levels" not in argv
 WORKERS = cpu_count() or 1
 HERE = path.dirname(path.abspath(__file__))
-DATA = path.join(HERE, "data")
+DATA = path.join(ROOT, "data")
 BAR = 28
 
 
@@ -71,11 +71,8 @@ def _error(exc):
 
 
 def _run_module(source, compile_only=False):
-    with TemporaryDirectory() as tmp:
-        module_path = path.join(tmp, "bench_module.py")
-        with open(module_path, "w") as f:
-            f.write(source)
-        cmd = [executable, RUNNER, module_path, "--require-static"]
+    with temporary_module(source) as module_path:
+        cmd = [executable, RUNNER, str(module_path), "--require-static"]
         if compile_only:
             cmd.append("--compile-only")
         start = perf_counter_ns()
@@ -99,8 +96,7 @@ def compile_original(source, repetitions):
 def compile_case(case, source, repetitions, original):
     start = perf_counter_ns()
     try:
-        output = source if case.mask == 0 else unparse(detype(
-            source, mask=case.mask, bench=case.granularity == "benchmark"))
+        output = detyped_source(source, case.mask, case.granularity)
     except Exception as exc:
         return {"status": "detype_failure", "error": _error(exc),
                 "metrics": {}}
@@ -129,14 +125,12 @@ def compile_case(case, source, repetitions, original):
 
 def runtime_case(case, source, repetitions):
     try:
-        output = source if case.mask == 0 else unparse(detype(
-            source, mask=case.mask, bench=case.granularity == "benchmark"))
+        output = detyped_source(source, case.mask, case.granularity)
     except Exception as exc:
         return {"status": "detype_failure", "error": _error(exc), "metrics": {}}
     # Correctness and timing are paired in each worker. These are cold-process
     # samples; steady-state benchmark-specific loops can use the same schema.
     typed_samples, detyped_samples = [], []
-    expected = None
     for i in range(repetitions):
         order = (("typed", source, typed_samples),
                  ("detyped", output, detyped_samples))
@@ -158,7 +152,6 @@ def runtime_case(case, source, repetitions):
             if again.returncode == 0 and again.stdout == observed["typed"]:
                 return {"status": "semantic_failure",
                         "error": "typed and detyped stdout differ", "metrics": {}}
-        expected = observed["typed"]
     typed_med, detyped_med = median(typed_samples), median(detyped_samples)
     return {"status": "ok", "metrics": {
         "typed_runtime_ns_median": int(typed_med),
@@ -181,16 +174,6 @@ def execute(payload):
     result.update(case=asdict(case), phase=mode,
                   elapsed_ns=perf_counter_ns() - started)
     return result
-
-
-def unit_count(bench, variant):
-    # A benchmark whose original source will not bind has no units, and the
-    # single mask=0 case is what keeps that failure visible in the results.
-    try:
-        data = get_ast_data(parse(load_bench(bench, variant)))
-        return len(build_binding_graph(data).units(GRANULARITY))
-    except Exception:
-        return 0
 
 
 def level_masks(n):
@@ -223,7 +206,7 @@ def plan_cases():
     for index, (bench, variant, _) in enumerate(get_bench_list()):
         if bench in SKIP or variant != VARIANT:
             continue
-        n = unit_count(bench, variant)
+        n = count_benchmark_units(bench, variant, GRANULARITY)
         seed = SEED + index
         levels = level_masks(n)
         fuzzed = fuzz_masks(n, seed, levels)
