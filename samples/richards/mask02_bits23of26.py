@@ -1,5 +1,5 @@
-# richards/advanced  granularity=benchmark
-# mask=33505279  (23/26 units erased)
+# richards/advanced  granularity=function
+# mask=12582911  (23/26 units erased)
 
 """
 based on a Java version:
@@ -13,10 +13,9 @@ based on a Java version:
 """
 from __future__ import annotations
 import __static__
-from typing import Any
 import sys
-from __static__ import cast, inline
-from typing import Optional
+from __static__ import cast, int64, box, inline
+from typing import Optional, Any
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
@@ -176,7 +175,7 @@ class Task(TaskState):
     def fn(self, pkt: Any, r: Any) -> Any:
         raise NotImplementedError
 
-    def addPacket(self, p: Packet, old: Task) -> Any:
+    def addPacket(self, p: Any, old: Any) -> Any:
         if self.input is None:
             self.input = p
             self.packet_pending = True
@@ -188,7 +187,7 @@ class Task(TaskState):
 
     def runTask(self) -> Any:
         if TaskState.isWaitingWithPacket(cast(TaskState, self)):
-            msg: Optional[Packet] = self.input
+            msg: Any = self.input
             if msg is not None:
                 self.input = msg.link
                 if self.input is None:
@@ -294,8 +293,8 @@ A: Any = 65
 
 class WorkTask(Task):
 
-    def __init__(self, i: Any, p: Any, w: Any, s: Any, r: Any) -> None:
-        Task.__init__(self, i, p, w, s, r)
+    def __init__(self, i: int64, p: int64, w: Packet, s: TaskState, r: WorkerTaskRec) -> None:
+        Task.__init__(self, box(i), box(p), w, s, r)
 
     def fn(self, pkt: Any, r: Any) -> Any:
         w: Any = cast(WorkerTaskRec, r)
@@ -332,14 +331,14 @@ def schedule() -> Any:
 
 class Richards(object):
 
-    def run(self, iterations: Any) -> Any:
+    def run(self, iterations: int) -> Any:
         for i in range(iterations):
             taskWorkArea.holdCount = 0
             taskWorkArea.qpktCount = 0
             IdleTask(I_IDLE, 1, 10000, TaskState().running(), IdleTaskRec())
-            wkq: Any = Packet(None, 0, K_WORK)
+            wkq: Optional[Packet] = Packet(None, 0, K_WORK)
             wkq = Packet(wkq, 0, K_WORK)
-            WorkTask(I_WORK, 1000, wkq, TaskState().waitingWithPacket(), WorkerTaskRec())
+            WorkTask(int64(I_WORK), 1000, wkq, TaskState().waitingWithPacket(), WorkerTaskRec())
             wkq = Packet(None, I_DEVA, K_DEV)
             wkq = Packet(wkq, I_DEVA, K_DEV)
             wkq = Packet(wkq, I_DEVA, K_DEV)

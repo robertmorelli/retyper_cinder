@@ -1,4 +1,12 @@
-"""Collect parent-defined expression roles before mediation."""
+"""
+Collect parent-defined expression roles before mediation
+
+This collects info on the following:
+- tests: the expressions at the top of if and while statements. like `e` in `if e:` or `while e:`
+- indices: like `i` in `a[i]`
+- inline args: suppose the definition of some function `f` were marked with `@inline` then it would be like `e` in `f(e)`
+- comprehension payloads: like `e + 1` in `[e + 1 for e in a]`
+"""
 
 from ast import NodeVisitor, Slice
 

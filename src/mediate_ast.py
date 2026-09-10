@@ -3,7 +3,7 @@
 from ast import Load, NodeTransformer, Slice
 from dataclasses import replace
 
-from utilities.ast_nodes import ast_position, operands
+from utilities.ast_nodes import ast_position
 
 from .mediation_request import EditRequest, MediationRequest
 from .structural_info import StructuralInfo
@@ -40,55 +40,15 @@ class Mediator(NodeTransformer):
                 ),
             )
 
-    def _mediate_candidate(self, mediation, candidate, outer_constraint):
-        """Mediate all operands and then mediate the result for a given candidate"""
-        return EditRequest.resolve(
-            mediation,
-            inner=EditRequest.resolve_multiop(
-                mediation,
-                candidate,
-                tuple(
-                    self._mediate(
-                        self._request_for(operand),
-                        type_constraint=constraint,
-                    )
-                    for operand, constraint in candidate
-                ),
-                outer_constraint,
-            ),
-            type_constraint=outer_constraint,
-        )
-
-    def _mediate_multiop(self, mediation, outer_constraint=None):
-        """Return the cheapest complete edit among plausible mediations."""
-        if not (expr_operands := operands(mediation.node)):
-            return None
-        candidates = tuple(dict.fromkeys(mediation.generate_candidates(expr_operands)))
-        candidate_edits = [
-            self._mediate_candidate(
-                mediation,
-                candidate,
-                outer_constraint or mediation.type_constraints[mediation.node]
-            )
-            for candidate in candidates
-        ]
-        return min(candidate_edits, key=lambda edit: edit.cost)
-
-    def _mediate(self, mediation, type_constraint=None):
-        """Compose a deferred edit for one raw expression position."""
-        if edit := self._mediate_multiop(mediation, type_constraint):
-            return edit
-        if mediation.node not in self.prepared:
-            self.generic_visit(mediation.node)
-            self.prepared.add(mediation.node)
-        return EditRequest.resolve(
-            mediation,
-            type_constraint=type_constraint,
-        )
+    def _prepare(self, node):
+        """Walk an expression's children once before mediation resolves it."""
+        if node not in self.prepared:
+            self.generic_visit(node)
+            self.prepared.add(node)
 
     def visit(self, node):
         if request := self._request_for(node):
-            return self._mediate(request).run()
+            return EditRequest.plan(request, self).run()
         return self.generic_visit(node)
 
 

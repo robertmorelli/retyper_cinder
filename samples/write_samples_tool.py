@@ -35,7 +35,7 @@ for directory in (path.join(ROOT, "src"), ROOT):
 from testing.mask_harness import _run_module, _error
 from utilities.graph import count_benchmark_units
 from utilities.list_benchmarks import get_bench_list
-from utilities.load_source import detyped_source, load_bench
+from utilities.load_source import detyped_source, load_bench, resolve_granularity
 
 GRANULARITY = "benchmark"
 VARIANT = "advanced"
@@ -72,12 +72,13 @@ def name_for(index, mask, n):
     return f"{stem}_bits{bits:02d}of{n:02d}.py"
 
 
-def render(bench, mask, n):
+def render(bench, mask, n, granularity=GRANULARITY):
     """The detyped source, with a header saying what produced it."""
     source = load_bench(bench, VARIANT)
-    body = detyped_source(source, mask, GRANULARITY)
+    granularity = resolve_granularity(granularity, bench)
+    body = detyped_source(source, mask, granularity)
     bits = bin(mask).count("1")
-    return (f"# {bench}/{VARIANT}  granularity={GRANULARITY}\n"
+    return (f"# {bench}/{VARIANT}  granularity={granularity}\n"
             f"# mask={mask}  ({bits}/{n} units erased)\n\n{body}\n")
 
 
@@ -102,10 +103,10 @@ def verdict(source, run_it):
 
 
 def one_sample(job):
-    bench, index, mask, n, check, run_it = job
+    bench, index, mask, n, check, run_it, granularity = job
     filename = name_for(index, mask, n)
     try:
-        text = render(bench, mask, n)
+        text = render(bench, mask, n, granularity)
     except Exception as exc:
         return bench, filename, mask, n, "detype_failure", _error(exc), None
     status, error = verdict(text, run_it) if check else ("unchecked", "")
@@ -115,16 +116,20 @@ def one_sample(job):
 def jobs_for(bench, count, seed, check, run_it):
     n = count_benchmark_units(bench, VARIANT, GRANULARITY)
     masks = sample_masks(n, count, seed)
-    out = [(bench, i, mask, n, check, run_it)
+    out = [(bench, i, mask, n, check, run_it, GRANULARITY)
            for i, mask in enumerate(masks, 1)]
     if n:
         # index 0 is the max file: everything erased, always worth seeing
-        out.append((bench, 0, (1 << n) - 1, n, check, run_it))
+        out.append((bench, 0, (1 << n) - 1, n, check, run_it, GRANULARITY))
     return n, out
 
 
 def main():
+    global GRANULARITY
     parser = ArgumentParser()
+    parser.add_argument("--granularity", choices=("benchmark", "annotation", "function"),
+                        default="benchmark",
+                        help="benchmark uses data/benchmark_granularity.json")
     parser.add_argument("--out")
     parser.add_argument("--count", type=int, default=3,
                         help="masks per benchmark, on top of the max mask")
@@ -138,6 +143,7 @@ def main():
                         help="also execute each sample; slow, these are "
                              "benchmarks and one mask can hang until timeout")
     args = parser.parse_args()
+    GRANULARITY = args.granularity
 
     out_dir = args.out or path.join(ROOT, "samples")
     wanted = set(args.benchmark)

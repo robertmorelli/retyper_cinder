@@ -1,4 +1,4 @@
-# chaos/advanced  granularity=benchmark
+# chaos/advanced  granularity=function
 # mask=4095  (12/12 units erased)
 
 """create chaosgame-like fractals
@@ -25,8 +25,7 @@ bg:
 """
 from __future__ import annotations
 import __static__
-from typing import Any
-from typing import List
+from typing import List, Any
 from __static__ import CheckedList
 import random
 import time

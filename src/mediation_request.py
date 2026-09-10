@@ -1,11 +1,13 @@
 """Requests that carry and resolve mediation state."""
 
-from ast import BoolOp, Slice, Subscript
+from ast import BoolOp, Slice, Subscript, UnaryOp, copy_location
 from dataclasses import dataclass, replace
 
+from utilities.ast_nodes import operands
 from utilities.iterables import first
 
 from .edits import (
+    Edit,
     BoxEdit,
     CastEdit,
     ConstrEdit,
@@ -20,6 +22,7 @@ from .type_rules import (
     is_optional_of,
     is_primitive,
     readable_type_name,
+    unop_result_type,
 )
 from .unop_spine import UnopSpine
 
@@ -116,9 +119,64 @@ class EditRequest:
     sits_on_len: bool = False
     asked_for: str | None = None
     inner: object = None
+    walker: object = None
+
+    def _mediate_candidate(self, mediation, candidate):
+        """Plan operands, rebuild the unary spine, and resolve its result."""
+        inner = self.resolve_multiop(
+            mediation,
+            candidate,
+            tuple(
+                self.plan(
+                    self.walker._request_for(operand),
+                    self.walker,
+                    type_constraint=constraint,
+                )
+                for operand, constraint in candidate
+            ),
+            self.type_constraint,
+        )
+        for unary in reversed(self.spine.nodes[:-1]):
+            node = copy_location(UnaryOp(op=unary.op, operand=inner.node), unary)
+            value_type = unop_result_type(
+                unary.op, inner.type, self.dynamic.klass.type_env,
+            )
+            inner = Edit(self, inner=inner, node=node, type=value_type)
+            inner.bind(node, value_type)
+        # An inner edit marks a completed operator plan: unary resolution must
+        # finish this candidate rather than enumerate the same operator again.
+        return replace(self, inner=inner, type=inner.type)._resolve_edit()
+
+    def _mediate_multiop(self):
+        if self.inner is not None or self.walker is None:
+            return None
+        if not (expr_operands := operands(self.operand)):
+            return None
+        mediation = self.walker._request_for(self.operand)
+        candidates = dict.fromkeys(mediation.generate_candidates(expr_operands))
+        return min(
+            (self._mediate_candidate(mediation, candidate)
+             for candidate in candidates),
+            key=lambda edit: edit.cost,
+        )
 
     @staticmethod
-    def resolve(mediation, inner=None, type_constraint=None):
+    def plan(mediation, walker, type_constraint=None):
+        """Plan an expression before committing edits inside its unary spine."""
+        spine = UnopSpine.analyze(
+            mediation.node, mediation.types, mediation.dynamic.klass.type_env,
+        )
+        if not operands(spine.operand):
+            walker._prepare(mediation.node)
+        return EditRequest.resolve(
+            mediation,
+            type_constraint=type_constraint,
+            walker=walker,
+        )
+
+    @staticmethod
+    def resolve(mediation, inner=None, type_constraint=None,
+                walker=None):
         node = mediation.node
         spine = UnopSpine.analyze(
             inner.node if inner is not None else node,
@@ -139,20 +197,29 @@ class EditRequest:
             sits_on_len=spine.sits_on_len,
             asked_for=spine.removed_call_name,
             inner=inner,
+            walker=walker,
         )
-        edit = request._mediate_unop()
-        if mediation.is_test:
+        return request._resolve_edit()
+
+    def _resolve_edit(self):
+        if edit := self._mediate_multiop():
+            return edit
+        return self._finalize(self._mediate_unop())
+
+    def _finalize(self, edit):
+        """Apply position-specific cleanup before a candidate is costed."""
+        if self.mediation.is_test:
             edit = DiscardTestConversion(edit)
-        elif mediation.is_index:
+        elif self.mediation.is_index:
             if (
                 isinstance(edit, ConstrEdit)
                 and readable_type_name(edit.type) == "int64"
             ):
                 edit = edit.inner or NoEdit(edit.request)
             edit = DiscardIndexNarrowing(edit)
-        for derived, value_type in spine.derived_types.items():
+        for derived, value_type in self.spine.derived_types.items():
             edit.bind(derived, value_type, value_type)
-        edit.bind(edit.node, edit.type, type_constraint)
+        edit.bind(edit.node, edit.type, self.type_constraint)
         return edit
 
     @staticmethod

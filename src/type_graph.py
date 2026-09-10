@@ -1,4 +1,17 @@
-"""Build and activate the type graph for one annotation mask."""
+"""
+This is a dependency graph for the "typedness" of types and type constraints.
+We make the assumption that in a partially detyped program, the type and type constraint is either exactly the type in the full program or dynamic. This file sets up dependencies of typedness as a graph so that typedness of individual expressions can quickly be determined even when the program fails to typecheck.
+
+In addition it handles mask specific topology for 2 cases where edges depend on actual types:
+Narrowing of variables: on reassignment, if the rhs narrows the lhs the typedness of the lhs depends on the rhs rather than a previous type of that identifier
+"Narrowing" of inline decorated function return values: in the case that the expression returned from a function marked inline is more specific than its annotation on that function, then return annotation (and consequently the call sites) is "narrowed" to the more specific type. In the case it is less specific, the return annotation is linked to the type constraint of the returned expression (like all other functions).
+
+The assumption that a type is dynamic or the same as the type in the fully annotated program can be seen in the functions decide_type and decide_constraint.
+
+Flow and _propogate execute a fixed point iteration
+"""
+
+
 import ast
 from dataclasses import dataclass
 from types import SimpleNamespace

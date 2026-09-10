@@ -5,6 +5,7 @@ Made by sebastiancr@fb.com(Sebastian Chaves) based on main.py made by collinwint
 from __future__ import annotations
 import __static__
 from __static__ import int64, box, Array, clen
+import sys
 from typing import List, Iterator
 import time
 
@@ -113,8 +114,6 @@ def bench_n_queens(queen_count: int) -> List[Array[int64]]:
 
 
 def main():
-    import sys
-
     num_iterations = 1
     if len(sys.argv) > 1:
         num_iterations = int(sys.argv[1])

@@ -21,7 +21,6 @@ import __static__
 from __static__ import double, CheckedList, CheckedDict, box
 import time
 
-import sys
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
 __contact__: str = "collinwinter@google.com (Collin Winter)"
@@ -140,7 +139,6 @@ def report_energy(bodies: CheckedList[Body] = SYSTEM, pairs: list[tuple[Body,Bod
     b1: Body
     b2: Body
     body: Body
-    e1: double
     for (b1, b2) in pairs:  # noqa: B007
         pos1: Vector = b1.pos
         pos2: Vector = b2.pos
@@ -150,9 +148,7 @@ def report_energy(bodies: CheckedList[Body] = SYSTEM, pairs: list[tuple[Body,Bod
         e -= (b1.mass * b2.mass) / ((dx * dx + dy * dy + dz * dz) ** 0.5)
     for body in bodies:  # noqa: B007
         v: Vector = body.v
-        e1 = (v.x * v.x + v.y * v.y + v.z * v.z)
-        e1 *= 0.5
-        e += body.mass * e1
+        e += body.mass * (v.x * v.x + v.y * v.y + v.z * v.z) / 2.0
     return e
 
 
@@ -190,8 +186,6 @@ def run():
 
 def main():
     num_loops: int = 5
-    #    if len(sys.argv) > 1:
-    #        num_loops = int(sys.argv[1])
     startTime = time.time()
 
     bench_nbody(num_loops, DEFAULT_REFERENCE, DEFAULT_ITERATIONS)
@@ -199,5 +193,6 @@ def main():
     endTime = time.time()
     runtime = endTime - startTime
     print(runtime)
+
 if __name__ == "__main__":
     main()

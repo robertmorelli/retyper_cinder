@@ -49,6 +49,7 @@ from __future__ import annotations
 import __static__
 from __static__ import CheckedList
 from typing import Final
+import sys
 import time
 
 import cinderx.jit
@@ -303,7 +304,6 @@ def run() -> None:
     pystones(loops)
 
 def main():
-    import sys
 
     num_iterations = 2
     if len(sys.argv) > 1:

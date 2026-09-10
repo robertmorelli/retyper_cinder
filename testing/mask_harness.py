@@ -96,7 +96,7 @@ def compile_original(source, repetitions):
 def compile_case(case, source, repetitions, original):
     start = perf_counter_ns()
     try:
-        output = detyped_source(source, case.mask, case.granularity)
+        output = detyped_source(source, case.mask, case.granularity, case.benchmark)
     except Exception as exc:
         return {"status": "detype_failure", "error": _error(exc),
                 "metrics": {}}
@@ -125,7 +125,7 @@ def compile_case(case, source, repetitions, original):
 
 def runtime_case(case, source, repetitions):
     try:
-        output = detyped_source(source, case.mask, case.granularity)
+        output = detyped_source(source, case.mask, case.granularity, case.benchmark)
     except Exception as exc:
         return {"status": "detype_failure", "error": _error(exc), "metrics": {}}
     # Correctness and timing are paired in each worker. These are cold-process

@@ -1,7 +1,7 @@
 from ast import parse
 from src.cinderx_binding import get_ast_data
 from src.type_graph import TypeGraph
-from utilities.load_source import load_bench
+from utilities.load_source import load_bench, resolve_granularity
 
 def graph(source):
     return TypeGraph(get_ast_data(parse(source)))
@@ -12,8 +12,9 @@ def count_units(source, granularity="annotation"):
 
 def count_benchmark_units(benchmark, variant, granularity):
     """Count selectable units, returning zero when a source cannot bind."""
+    granularity = resolve_granularity(granularity, benchmark)
     graph_granularity = (
-        "benchmark" if granularity in {"function", "benchmark"}
+        "benchmark" if granularity == "function"
         else "annotation"
     )
     try:

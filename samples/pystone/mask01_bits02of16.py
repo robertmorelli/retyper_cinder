@@ -1,5 +1,5 @@
-# pystone/advanced  granularity=benchmark
-# mask=16400  (2/16 units erased)
+# pystone/advanced  granularity=function
+# mask=1536  (2/16 units erased)
 
 """
 "PYSTONE" Benchmark Program
@@ -48,9 +48,9 @@ Version History:
 """
 from __future__ import annotations
 import __static__
-from typing import Any
 from __static__ import CheckedList, int64
-from typing import Final
+from typing import Final, Any
+import sys
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
@@ -136,7 +136,7 @@ def Proc0(loops=LOOPS):
         IntLoc2 = 7 * (IntLoc3 - IntLoc2) - IntLoc1
         IntLoc1 = Proc2(IntLoc1)
 
-def Proc1(PtrParIn: Any) -> Record:
+def Proc1(PtrParIn: Record) -> Record:
     local_PtrGlb = PtrGlb
     assert local_PtrGlb is not None
     PtrParIn.PtrComp = NextRecord = local_PtrGlb.copy()
@@ -210,12 +210,12 @@ def Proc6(EnumParIn: int) -> int:
         EnumParOut = Ident3
     return EnumParOut
 
-def Proc7(IntParI1: int, IntParI2: int) -> int:
-    IntLoc: int = IntParI1 + 2
-    IntParOut: int = IntParI2 + IntLoc
+def Proc7(IntParI1: Any, IntParI2: Any) -> int:
+    IntLoc: Any = IntParI1 + 2
+    IntParOut: Any = IntParI2 + IntLoc
     return IntParOut
 
-def Proc8(Array1Par: CheckedList[int], Array2Par: CheckedList[CheckedList[int]], IntParI1: int, IntParI2: int) -> None:
+def Proc8(Array1Par: Any, Array2Par: Any, IntParI1: Any, IntParI2: Any) -> None:
     global IntGlob
     IntLoc = IntParI1 + 5
     Array1Par[IntLoc] = IntParI2
@@ -259,11 +259,10 @@ def Func3(EnumParIn: int) -> bool:
     return FALSE
 
 def run() -> None:
-    loops: Any = LOOPS
+    loops: int = LOOPS
     pystones(loops)
 
 def main():
-    import sys
     num_iterations = 2
     if len(sys.argv) > 1:
         num_iterations = int(sys.argv[1])

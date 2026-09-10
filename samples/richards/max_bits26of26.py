@@ -1,4 +1,4 @@
-# richards/advanced  granularity=benchmark
+# richards/advanced  granularity=function
 # mask=67108863  (26/26 units erased)
 
 """
@@ -13,9 +13,9 @@ based on a Java version:
 """
 from __future__ import annotations
 import __static__
-from typing import Any
 import sys
 from __static__ import cast, inline
+from typing import Any
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)

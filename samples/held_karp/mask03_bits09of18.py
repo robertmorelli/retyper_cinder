@@ -1,13 +1,12 @@
-# held_karp/advanced  granularity=benchmark
+# held_karp/advanced  granularity=function
 # mask=157592  (9/18 units erased)
 
 from __future__ import annotations
 import __static__
-from typing import Any
 from __static__ import Array, box, inline, int64, cast
 import random
 import time
-from typing import Tuple
+from typing import Tuple, Any
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
 INF_WEIGHT: int = 1152921504606846976

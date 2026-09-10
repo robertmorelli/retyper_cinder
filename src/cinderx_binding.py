@@ -1,3 +1,21 @@
+"""
+This file is the connector to the modified cinderx (_cinderx) used for analysis.
+It collects the following:
+- types: a table from ast node -> type
+- type constraints: a table from ast node -> type constraints
+- components: a table of necessarily tied type annotations
+- outflow: a table from a declaration/annotation to all outflow. outflow usually means reads from a var or param but also means locations of call sites for a return annotation
+- inflow: a table from a declaration/annotation to all inflow. inflow usually means writes to a variable but also arguments to a parameter and returned expressions to a return annotation
+- valid pair: exported logic from the cinderx type checker which answers the question "does this type satisfy this type constraint"
+- tree: the ast. this needs to be returned because cinderx mutates the tree in order to handle less syntactic constructions
+- dynamic: the type dynamic according to the type checker. Needs to be exported for comparison by object id
+- reverse outflow: the inverse table to the outflow table
+- resolved from: a table that tracks the last update to an identifiers type such as narrowing or promotion locations
+- assignment declarations: the difference between assignment and re-assignment is relevant to setting up the conditional edges in the graph
+- inline functions: a set of all functions that are decorated as inline. they have weird type checking behavior and need special handling
+- inline calls: the locations of all call sites of inline functions. they have weird type checking behavior and need special handling
+"""
+
 import ast
 from ast import Call
 from dataclasses import dataclass

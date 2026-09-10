@@ -1,4 +1,4 @@
-# pystone/advanced  granularity=benchmark
+# pystone/advanced  granularity=function
 # mask=65535  (16/16 units erased)
 
 """
@@ -48,8 +48,9 @@ Version History:
 """
 from __future__ import annotations
 import __static__
-from typing import Any
 from __static__ import CheckedList, int64
+from typing import Any
+import sys
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
@@ -262,7 +263,6 @@ def run() -> Any:
     pystones(loops)
 
 def main() -> Any:
-    import sys
     num_iterations = 2
     if len(sys.argv) > 1:
         num_iterations = int(sys.argv[1])

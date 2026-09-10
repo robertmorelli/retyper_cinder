@@ -1,4 +1,4 @@
-# deltablue/advanced  granularity=benchmark
+# deltablue/advanced  granularity=function
 # mask=137438953471  (37/37 units erased)
 
 """
@@ -22,10 +22,9 @@ the layout & logic from the original. (Ugh.)
 """
 from __future__ import annotations
 import __static__
-from typing import Any
 from enum import IntEnum
 from __static__ import CheckedList, cast, clen, inline
-from typing import final
+from typing import final, Any
 import time
 import cinderx.jit
 cinderx.jit.compile_after_n_calls(0)
