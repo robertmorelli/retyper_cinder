@@ -1,5 +1,8 @@
+#!/bin/sh
+set -eu
+
+cd "$(dirname "$0")"
 git submodule update --init -- cinderx
-python3.14 -m venv .venv
-. .venv/bin/activate
-python -m pip install ./cinderx
-python -m pip install scipy
+uv python install 3.14
+uv venv --clear --python 3.14 .venv
+uv pip install --python .venv/bin/python ./cinderx scipy

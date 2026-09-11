@@ -6,7 +6,7 @@ Usage:
 N is the maximum number of masks sampled at each detype level, matching the
 argument accepted by ``benchmarking/exp_maker.py``.  The estimate assumes each
 mask becomes stable after its first batch of eight tests and each test takes
-five seconds.
+two seconds.
 """
 
 from argparse import ArgumentParser
@@ -20,7 +20,7 @@ from benchmarking.exp_maker import (
 
 
 BATCH_SIZE = 8
-SECONDS_PER_TEST = 5
+SECONDS_PER_TEST = 2
 SECONDS_PER_HOUR = 60 * 60
 
 

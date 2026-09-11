@@ -1,12 +1,14 @@
-"""Run a capped set of masks for one benchmark in the latest experiment.
+"""Run masks by their 1-based position within each detype level.
 
 Usage:
+    python benchmarking/run_exp.py --which START END [--timestamp TIMESTAMP]
     python benchmarking/run_exp.py BENCHMARK MAX_MASKS
 
-MAX_MASKS limits the masks run for each of the advanced, shallow, and untyped
-variants; it does not limit timing repetitions. Masks are spread across the
-experiment plan's detype levels. Each mask is sampled in batches until its 95%
-BCa bootstrap interval fits within 10% of its mean, or 160 samples are reached.
+--which selects an inclusive range at every level of every benchmark/variant.
+BENCHMARK MAX_MASKS selects the first MAX_MASKS masks at every level of that
+benchmark. Positions follow plan insertion order and remain stable after growth.
+Levels with fewer masks contribute only positions that exist. Each mask is
+sampled until stable or until 160 samples are reached. Run one benchmark process per machine and combine results through Git.
 """
 
 from argparse import ArgumentParser
@@ -46,6 +48,7 @@ except ModuleNotFoundError as exception:
     ) from exception
 
 from utilities.experiments import (
+    experiment_for,
     load_experiment,
     validate_experiment as validate_experiment_data,
 )
@@ -67,15 +70,13 @@ def load_latest_experiment():
     return load_experiment(include_typechecks=False)
 
 
-def select_representative_masks(values, limit):
-    """Choose at most limit ordered values while retaining both endpoints."""
-    if len(values) <= limit:
-        return list(values)
-    if limit == 1:
-        return [values[0]]
-    indexes = [round(i * (len(values) - 1) / (limit - 1))
-               for i in range(limit)]
-    return [values[index] for index in indexes]
+def select_level_masks(values, start, end):
+    """Select an inclusive, 1-based range separately within every level."""
+    levels = {}
+    for mask in values:
+        levels.setdefault(bin(mask).count("1"), []).append(mask)
+    return [mask for level in sorted(levels)
+            for mask in levels[level][start - 1:end]]
 
 
 def confidence_interval(samples):
@@ -217,14 +218,14 @@ def sample_until_stable(experiment, benchmark, variant, mask, samples):
     return analysis, was_stable
 
 
-def run_benchmark(benchmark, max_masks):
-    experiment = load_latest_experiment()
+def run_benchmark(benchmark, max_masks, *, start=1, experiment=None):
+    experiment = experiment if experiment is not None else load_latest_experiment()
     validate_experiment(experiment, benchmark)
 
     total = 0
     for variant in VARIANTS:
         planned_masks = find_planned_masks(experiment, benchmark, variant)
-        selected_masks = select_representative_masks(planned_masks, max_masks)
+        selected_masks = select_level_masks(planned_masks, start, max_masks)
         total += len(selected_masks)
 
         if not selected_masks:
@@ -252,21 +253,35 @@ def run_benchmark(benchmark, max_masks):
 
 def main():
     parser = ArgumentParser(description=__doc__)
-    parser.add_argument("benchmark", help="benchmark name from sample_plan.json")
-    parser.add_argument(
-        "max_masks",
-        metavar="MAX_MASKS",
-        type=int,
-        help="maximum planned masks to run for each variant",
-    )
+    parser.add_argument("benchmark", nargs="?", help="benchmark (default: all)")
+    parser.add_argument("max_masks", nargs="?", type=int,
+                        help="number of masks to run per level")
+    parser.add_argument("--which", nargs=2, type=int, metavar=("START", "END"),
+                        help="inclusive 1-based mask positions within each level")
+    parser.add_argument("--timestamp", help="experiment timestamp or directory name")
     args = parser.parse_args()
-    if args.max_masks < 1:
-        parser.error("MAX_MASKS must be at least 1")
+    if args.which is not None:
+        if args.max_masks is not None:
+            parser.error("use either MAX_MASKS or --which START END")
+        start, end = args.which
+    else:
+        if args.max_masks is None:
+            parser.error("specify --which START END or BENCHMARK MAX_MASKS")
+        start, end = 1, args.max_masks
+    if start < 1 or end < start:
+        parser.error("mask positions must satisfy 1 <= START <= END")
     try:
-        experiment, total = run_benchmark(args.benchmark, args.max_masks)
-    except (FileNotFoundError, RuntimeError, ValueError) as exception:
+        experiment = load_experiment(experiment_for(args.timestamp),
+                                     include_typechecks=False)
+        validate_experiment(experiment, args.benchmark)
+        benchmarks = [args.benchmark] if args.benchmark else list(experiment.plan)
+        total = 0
+        for benchmark in benchmarks:
+            _, count = run_benchmark(benchmark, end, start=start, experiment=experiment)
+            total += count
+    except (OSError, RuntimeError, ValueError) as exception:
         parser.error(str(exception))
-    print(f"{experiment}: processed {total} masks for {args.benchmark}")
+    print(f"{experiment.path}: processed {total} masks across {len(benchmarks)} benchmarks")
 
 
 if __name__ == "__main__":
