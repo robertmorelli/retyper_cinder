@@ -4,6 +4,7 @@
 python benchmarking/detype.py BENCHMARK VARIANT [MASK]
 python benchmarking/exp_maker.py MAX_MASKS_PER_LEVEL
 python benchmarking/grow_exp.py MAX_MASKS_PER_LEVEL [TIMESTAMP]
+python benchmarking/reset_exp.py TIMESTAMP
 python benchmarking/sample_tc.py [TIMESTAMP]
 python benchmarking/run_exp.py BENCHMARK MAX_MASKS
 python benchmarking/run_exp.py --which START END [--timestamp TIMESTAMP]

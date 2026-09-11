@@ -1,7 +1,7 @@
 {
   "call_method": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -3251,7 +3251,7 @@
       "2097148": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -6501,7 +6501,7 @@
       "2097148": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -9753,7 +9753,7 @@
   },
   "call_method_slots": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -13183,7 +13183,7 @@
       "4194300": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -16613,7 +16613,7 @@
       "4194297": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -20045,7 +20045,7 @@
   },
   "call_simple": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -23115,7 +23115,7 @@
       "1048572": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -26185,7 +26185,7 @@
       "1048570": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -29257,7 +29257,7 @@
   },
   "chaos": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -30663,7 +30663,7 @@
       "4090": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -32069,7 +32069,7 @@
       "4090": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -33477,7 +33477,7 @@
   },
   "deltablue": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "8": false,
@@ -39607,7 +39607,7 @@
       "137438953469": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -46997,12 +46997,12 @@
       "17592186044411": false
     },
     "untyped": {
-      "0": true
+      "0": false
     }
   },
   "fannkuch": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -50432,7 +50432,7 @@
       "4194300": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -53502,7 +53502,7 @@
       "1048572": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -56574,7 +56574,7 @@
   },
   "float": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -60724,7 +60724,7 @@
       "67108858": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -64334,7 +64334,7 @@
       "8388604": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -67946,7 +67946,7 @@
   },
   "held_karp": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -73266,7 +73266,7 @@
       "262140": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -75928,7 +75928,7 @@
   },
   "nbody": {
     "advanced": {
-      "0": true,
+      "0": false,
       "2": false,
       "128": false,
       "256": false,
@@ -88898,7 +88898,7 @@
       "37778931862957161709566": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "4": false,
       "16": false,
@@ -97908,7 +97908,7 @@
       "9007199254740990": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "16": false,
       "32": false,
       "64": false,
@@ -106560,7 +106560,7 @@
   },
   "nqueens": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -113230,7 +113230,7 @@
       "1099511627774": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -117380,7 +117380,7 @@
       "67108858": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -121892,7 +121892,7 @@
   },
   "pidigits": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -127302,7 +127302,7 @@
       "8589934527": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "4": false,
       "8": false,
@@ -132712,7 +132712,7 @@
       "8589934463": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -138124,7 +138124,7 @@
   },
   "pystone": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -140358,7 +140358,7 @@
       "65530": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -142592,12 +142592,12 @@
       "65530": false
     },
     "untyped": {
-      "0": true
+      "0": false
     }
   },
   "richards": {
     "advanced": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -146747,7 +146747,7 @@
       "67108858": false
     },
     "shallow": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
@@ -150717,7 +150717,7 @@
       "33554428": false
     },
     "untyped": {
-      "0": true,
+      "0": false,
       "1": false,
       "2": false,
       "4": false,
