@@ -17,6 +17,7 @@ python benchmarking/cloudlab.py prepare
 python benchmarking/cloudlab.py check
 python benchmarking/cloudlab.py submit exp_TIMESTAMP --which START END
 python benchmarking/cloudlab.py status JOB_ID
+python benchmarking/cloudlab.py verify JOB_ID
 python benchmarking/cloudlab.py collect JOB_ID
 python benchmarking/cloudlab.py cancel JOB_ID
 ```
@@ -94,3 +95,5 @@ obtains `sample_tc.json` from the dedicated typechecker. Use `--partial` to
 recover incremental results from workers that have not completed successfully.
 `cancel` terminates a job and verifies its saved process, process group, state,
 exit marker, and remote working directory are inactive.
+`verify` checks every clone's exact commit, modified `_cinderx` source, worker
+state, produced-result count, and absence of the known instrumentation error.

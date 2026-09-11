@@ -251,6 +251,54 @@ def status(args):
         print(f"{host} [{worker['kind']}]: {state}{suffix} — {work}")
 
 
+def verify(args):
+    _, manifest = job_manifest(args.job_id)
+    expected = manifest["revision"]
+
+    def inspect(item):
+        host, worker = item
+        job = remote_job_dir(args.job_id)
+        filename = "sample_tc.json" if worker["kind"] == "typecheck" else "sample_results.json"
+        expression = (
+            "sum(bool(x) for v in data.values() for m in v.values() for x in m.values())"
+        )
+        python = (
+            "import json; data=json.load(open(" + repr(
+                f"{manifest['experiment']}/{filename}"
+            ) + f")); print({expression})"
+        )
+        script = (
+            f"cd \"$HOME/{job}/repo\"; "
+            "printf '%s ' \"$(cat ../state 2>/dev/null || echo missing)\"; "
+            "printf '%s ' \"$(git rev-parse HEAD)\"; "
+            "if grep -q 'self.expr_types' _cinderx/cinderx/PythonLib/cinderx/compiler/static/module_table.py; "
+            "then printf 'instrumented '; else printf 'UNINSTRUMENTED '; fi; "
+            f"printf '%s ' \"$($HOME/.one_true_detyper/runtime/bin/python -c {quote(python)})\"; "
+            "grep -c \"ModuleTable.*expr_types\" ../worker.log 2>/dev/null || true"
+        )
+        result = ssh(host, script, check=False)
+        return host, worker, result
+
+    failed = []
+    workers = manifest["workers"].items()
+    with ThreadPoolExecutor(max_workers=min(12, len(manifest["workers"]))) as pool:
+        for host, worker, result in pool.map(inspect, workers):
+            fields = result.stdout.decode().split()
+            valid = (
+                result.returncode == 0 and len(fields) == 5
+                and fields[1] == expected and fields[2] == "instrumented"
+                and fields[4] == "0" and fields[0] in {"running", "succeeded"}
+            )
+            if not valid:
+                failed.append(host)
+            label = "typechecks" if worker["kind"] == "typecheck" else "timed masks"
+            detail = " ".join(fields) if fields else result.stderr.decode().strip()
+            count = fields[3] if len(fields) >= 4 else "?"
+            print(f"{host}: {'verified' if valid else 'FAILED'}; {label}={count}; {detail}")
+    if failed:
+        raise SystemExit(1)
+
+
 def download_result(host, job_id, experiment, filename, destination):
     remote = f"{host}:{remote_job_dir(job_id)}/repo/{experiment}/{filename}"
     execute(["scp", *SSH_OPTIONS, remote, str(destination)])
@@ -451,6 +499,9 @@ def parser():
     status_parser = commands.add_parser("status")
     status_parser.add_argument("job_id")
     status_parser.set_defaults(function=status)
+    verify_parser = commands.add_parser("verify")
+    verify_parser.add_argument("job_id")
+    verify_parser.set_defaults(function=verify)
     collect_parser = commands.add_parser("collect")
     collect_parser.add_argument("job_id")
     collect_parser.add_argument("--partial", action="store_true")
