@@ -222,7 +222,7 @@ def run_benchmark(benchmark, max_masks, *, start=1, experiment=None):
     experiment = experiment if experiment is not None else load_latest_experiment()
     validate_experiment(experiment, benchmark)
 
-    total = 0
+    total = failures = 0
     for variant in VARIANTS:
         planned_masks = find_planned_masks(experiment, benchmark, variant)
         selected_masks = select_level_masks(planned_masks, start, max_masks)
@@ -245,10 +245,11 @@ def run_benchmark(benchmark, max_masks, *, start=1, experiment=None):
                     benchmark, variant, mask, samples, analysis, was_stable
                 )
             except Exception as exception:
+                failures += 1
                 save_samples(experiment)
                 report_failure(benchmark, variant, mask, exception)
 
-    return experiment.path, total
+    return experiment.path, total, failures
 
 
 def main():
@@ -275,13 +276,18 @@ def main():
                                      include_typechecks=False)
         validate_experiment(experiment, args.benchmark)
         benchmarks = [args.benchmark] if args.benchmark else list(experiment.plan)
-        total = 0
+        total = failures = 0
         for benchmark in benchmarks:
-            _, count = run_benchmark(benchmark, end, start=start, experiment=experiment)
+            _, count, failed = run_benchmark(
+                benchmark, end, start=start, experiment=experiment
+            )
             total += count
+            failures += failed
     except (OSError, RuntimeError, ValueError) as exception:
         parser.error(str(exception))
     print(f"{experiment.path}: processed {total} masks across {len(benchmarks)} benchmarks")
+    if failures:
+        raise SystemExit(f"{failures}/{total} masks failed")
 
 
 if __name__ == "__main__":

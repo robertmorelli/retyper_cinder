@@ -1,22 +1,17 @@
 """Run a benchmark experiment durably across hosts in ``data/cloudlab.json``.
 
-The controller has no server component.  ``submit`` uploads an immutable source
-snapshot to each selected host and starts a detached worker.  ``status`` and
+The controller has no server component.  ``submit`` clones an exact Git commit
+on each selected host and starts a detached worker.  ``status`` and
 ``collect`` reconnect later using the local manifest in ``.cloudlab/jobs``.
 """
 
 from argparse import ArgumentParser
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
-from fnmatch import fnmatch
-from hashlib import sha256
 from json import dump, load
 from pathlib import Path
 from shlex import quote
 from subprocess import PIPE, run
-from tempfile import TemporaryDirectory
-import os
-import tarfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,10 +21,6 @@ REMOTE_ROOT = ".one_true_detyper/jobs"
 SSH_OPTIONS = (
     "-o", "BatchMode=yes", "-o", "ConnectTimeout=10",
     "-o", "StrictHostKeyChecking=accept-new",
-)
-EXCLUDES = (
-    ".git", ".cloudlab", ".venv", "__pycache__", ".mypy_cache",
-    ".pytest_cache", ".ruff_cache", "scratch", "_cinderx",
 )
 
 
@@ -76,25 +67,6 @@ def save_json(path, value):
     temporary.replace(path)
 
 
-def excluded(relative, experiment_name):
-    parts = relative.parts
-    if relative == Path("data/cloudlab.json"):
-        return True
-    if any(part in EXCLUDES for part in parts):
-        return True
-    return parts and fnmatch(parts[0], "exp_*") and parts[0] != experiment_name
-
-
-def make_snapshot(destination, experiment):
-    """Archive the working tree, including uncommitted source changes."""
-    with tarfile.open(destination, "w:gz", compresslevel=6) as archive:
-        for path in ROOT.rglob("*"):
-            relative = path.relative_to(ROOT)
-            if excluded(relative, experiment.name):
-                continue
-            archive.add(path, arcname=relative, recursive=False)
-
-
 def execute(command, *, input_bytes=None, check=True):
     completed = run(command, input=input_bytes, stdout=PIPE, stderr=PIPE)
     if check and completed.returncode:
@@ -105,10 +77,6 @@ def execute(command, *, input_bytes=None, check=True):
 
 def ssh(host, script, *, check=True):
     return execute(["ssh", *SSH_OPTIONS, host, script], check=check)
-
-
-def upload(host, local, remote):
-    execute(["scp", *SSH_OPTIONS, str(local), f"{host}:{remote}"])
 
 
 def split_range(start, end, hosts):
@@ -154,16 +122,20 @@ def worker_script(job_id, experiment, start, end, kind="timing"):
     )
 
 
-def deploy_worker(host, archive, job_id, experiment, start, end,
+def deploy_worker(host, repository, revision, job_id, experiment, start, end,
                   kind="timing"):
     job = remote_job_dir(job_id)
-    remote_archive = f"{job_id}.tar.gz"
-    ssh(host, f"mkdir -p \"$HOME/{job}/repo\"")
-    upload(host, archive, remote_archive)
-    ssh(host, (
-        f"tar -xzf {quote(remote_archive)} -C \"$HOME/{job}/repo\" && "
-        f"rm -f {quote(remote_archive)}"
-    ))
+    clone = (
+        f"mkdir -p \"$HOME/{job}\"; "
+        f"git clone --quiet --recurse-submodules --jobs 8 {quote(repository)} "
+        f"\"$HOME/{job}/repo\"; "
+        f"cd \"$HOME/{job}/repo\"; git checkout --quiet {quote(revision)}; "
+        "git submodule update --init --recursive --jobs 8; "
+        "test -f _cinderx/cinderx/PythonLib/cinderx/compiler/static/module_table.py; "
+        "grep -q 'self.expr_types' "
+        "_cinderx/cinderx/PythonLib/cinderx/compiler/static/module_table.py"
+    )
+    ssh(host, clone)
     script = worker_script(job_id, experiment, start, end, kind)
     launch = (
         f"nohup sh -c {quote(script)} > \"$HOME/{job}/worker.log\" 2>&1 "
@@ -177,6 +149,12 @@ def submit(args):
     experiment = experiment_path(args.experiment)
     plan = load_json(experiment / "sample_plan.json")
     hosts = read_hosts(args.hosts)[:args.limit]
+    if execute(["git", "status", "--porcelain"]).stdout.strip():
+        raise ValueError("commit the working tree before submitting")
+    revision = execute(["git", "rev-parse", "HEAD"]).stdout.decode().strip()
+    repository = execute(["git", "remote", "get-url", "origin"]).stdout.decode().strip()
+    if repository.startswith("git@github.com:"):
+        repository = "https://github.com/" + repository.removeprefix("git@github.com:")
     if len(hosts) < 2:
         raise ValueError("submit needs at least two hosts: one typechecker and one timer")
     typecheck_host = hosts[0]
@@ -204,41 +182,38 @@ def submit(args):
     if state.exists():
         raise ValueError(f"job already exists: {job_id}")
     state.mkdir(parents=True)
-    with TemporaryDirectory() as temporary:
-        archive = Path(temporary) / "source.tar.gz"
-        make_snapshot(archive, experiment)
-        digest = sha256(archive.read_bytes()).hexdigest()
-        manifest = {
+    manifest = {
             "version": 1, "job_id": job_id,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "experiment": experiment.name, "range": [args.start, args.end],
-            "snapshot_sha256": digest,
+            "repository": repository, "revision": revision,
             "workers": workers,
+    }
+    save_json(state / "manifest.json", manifest)
+    failures = []
+    with ThreadPoolExecutor(max_workers=min(args.parallel, len(workers))) as pool:
+        futures = {
+            pool.submit(deploy_worker, host, repository, revision, job_id,
+                        experiment.name,
+                        *(worker.get("range") or [args.start, args.end]),
+                        worker["kind"]): host
+            for host, worker in workers.items()
         }
-        save_json(state / "manifest.json", manifest)
-        failures = []
-        with ThreadPoolExecutor(max_workers=min(args.parallel, len(workers))) as pool:
-            futures = {
-                pool.submit(deploy_worker, host, archive, job_id, experiment.name,
-                            *(worker.get("range") or [args.start, args.end]),
-                            worker["kind"]): host
-                for host, worker in workers.items()
-            }
-            for future in as_completed(futures):
-                host = futures[future]
-                try:
-                    manifest["workers"][host]["pid"] = future.result()
-                    worker = workers[host]
-                    work = (
-                        "all masks" if worker["kind"] == "typecheck"
-                        else f"--which {worker['range'][0]} {worker['range'][1]}"
-                    )
-                    print(f"submitted {host} [{worker['kind']}]: {work}")
-                except Exception as exception:
-                    manifest["workers"][host]["submit_error"] = str(exception)
-                    failures.append(host)
-                    print(f"FAILED {host}: {exception}")
-                save_json(state / "manifest.json", manifest)
+        for future in as_completed(futures):
+            host = futures[future]
+            try:
+                manifest["workers"][host]["pid"] = future.result()
+                worker = workers[host]
+                work = (
+                    "all masks" if worker["kind"] == "typecheck"
+                    else f"--which {worker['range'][0]} {worker['range'][1]}"
+                )
+                print(f"submitted {host} [{worker['kind']}]: {work}")
+            except Exception as exception:
+                manifest["workers"][host]["submit_error"] = str(exception)
+                failures.append(host)
+                print(f"FAILED {host}: {exception}")
+            save_json(state / "manifest.json", manifest)
     print(f"job {job_id}: {len(workers) - len(failures)}/{len(workers)} workers submitted")
     if failures:
         raise SystemExit(1)
@@ -331,6 +306,41 @@ def merge_timing_samples(merged, shard):
                 merged[benchmark][variant][mask] = samples
 
 
+def cancel(args):
+    _, manifest = job_manifest(args.job_id)
+    def stop(item):
+        host, worker = item
+        pid = worker.get("pid")
+        if not pid:
+            return host, True
+        job = remote_job_dir(args.job_id)
+        script = (
+            f"pgid=$(ps -o pgid= -p {quote(str(pid))} 2>/dev/null | tr -d ' '); "
+            "if [ -n \"$pgid\" ]; then kill -TERM -- -\"$pgid\" 2>/dev/null || true; fi; "
+            f"printf cancelled > \"$HOME/{job}/state\"; printf 143 > \"$HOME/{job}/exit_code\"; "
+            f"test \"$(cat \"$HOME/{job}/state\")\" = cancelled; "
+            f"test \"$(cat \"$HOME/{job}/exit_code\")\" = 143; "
+            f"! kill -0 {quote(str(pid))} 2>/dev/null; "
+            f"for p in /proc/[0-9]*; do cwd=$(readlink \"$p/cwd\" 2>/dev/null || true); "
+            f"case \"$cwd\" in \"$HOME/{job}/repo\"*) exit 1;; esac; done; "
+            "if [ -n \"$pgid\" ] && ps -eo pgid= | awk -v p=\"$pgid\" '$1 == p { found=1 } END { exit found ? 0 : 1 }'; then exit 1; fi"
+        )
+        result = ssh(host, script, check=False)
+        return host, result.returncode == 0
+
+    failed = []
+    workers = manifest["workers"].items()
+    with ThreadPoolExecutor(max_workers=min(12, len(manifest["workers"]))) as pool:
+        for host, verified in pool.map(stop, workers):
+            if verified:
+                print(f"stopped and verified: {host}")
+            else:
+                failed.append(host)
+                print(f"FAILED to verify stopped: {host}")
+    if failed:
+        raise SystemExit(1)
+
+
 def check(args):
     hosts = read_hosts(args.hosts)[:args.limit]
     with ThreadPoolExecutor(max_workers=min(args.parallel, len(hosts))) as pool:
@@ -358,13 +368,12 @@ def runtime_probe(host):
     return ssh(host, probe, check=False)
 
 
-def prepare_worker(host, archive):
+def prepare_worker(host, repository):
     root = ".one_true_detyper/bootstrap"
-    upload(host, archive, "one_true_detyper-bootstrap.tar.gz")
     ssh(host, (
-        f"mkdir -p \"$HOME/{root}/repo\" && "
-        f"tar -xzf one_true_detyper-bootstrap.tar.gz -C \"$HOME/{root}/repo\" && "
-        "rm -f one_true_detyper-bootstrap.tar.gz"
+        f"mkdir -p \"$HOME/{root}\"; "
+        f"if [ ! -d \"$HOME/{root}/repo/.git\" ]; then "
+        f"git clone --quiet --recurse-submodules --jobs 8 {quote(repository)} \"$HOME/{root}/repo\"; fi"
     ))
     install = (
         "set -eu; "
@@ -404,22 +413,19 @@ def prepare_worker(host, archive):
 
 def prepare(args):
     hosts = read_hosts(args.hosts)[:args.limit]
-    candidates = sorted(path for path in ROOT.glob("exp_*") if path.is_dir())
-    if not candidates:
-        raise ValueError("an experiment directory is needed to create the source snapshot")
-    with TemporaryDirectory() as temporary:
-        archive = Path(temporary) / "source.tar.gz"
-        make_snapshot(archive, candidates[-1])
-        with ThreadPoolExecutor(max_workers=min(args.parallel, len(hosts))) as pool:
-            futures = {pool.submit(prepare_worker, host, archive): host for host in hosts}
-            failed = False
-            for future in as_completed(futures):
-                host = futures[future]
-                try:
-                    print(f"preparing {host} (pid {future.result()})")
-                except Exception as exception:
-                    failed = True
-                    print(f"FAILED {host}: {exception}")
+    repository = execute(["git", "remote", "get-url", "origin"]).stdout.decode().strip()
+    if repository.startswith("git@github.com:"):
+        repository = "https://github.com/" + repository.removeprefix("git@github.com:")
+    with ThreadPoolExecutor(max_workers=min(args.parallel, len(hosts))) as pool:
+        futures = {pool.submit(prepare_worker, host, repository): host for host in hosts}
+        failed = False
+        for future in as_completed(futures):
+            host = futures[future]
+            try:
+                print(f"preparing {host} (pid {future.result()})")
+            except Exception as exception:
+                failed = True
+                print(f"FAILED {host}: {exception}")
     print("preparation continues remotely; use `cloudlab.py check` when it finishes")
     if failed:
         raise SystemExit(1)
@@ -449,6 +455,9 @@ def parser():
     collect_parser.add_argument("job_id")
     collect_parser.add_argument("--partial", action="store_true")
     collect_parser.set_defaults(function=collect)
+    cancel_parser = commands.add_parser("cancel")
+    cancel_parser.add_argument("job_id")
+    cancel_parser.set_defaults(function=cancel)
     return result
 
 

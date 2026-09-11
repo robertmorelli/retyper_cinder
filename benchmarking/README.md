@@ -17,6 +17,7 @@ python benchmarking/cloudlab.py check
 python benchmarking/cloudlab.py submit exp_TIMESTAMP --which START END
 python benchmarking/cloudlab.py status JOB_ID
 python benchmarking/cloudlab.py collect JOB_ID
+python benchmarking/cloudlab.py cancel JOB_ID
 ```
 
 The repository-level `data/` indexes benchmarks and stores test results,
@@ -55,8 +56,8 @@ python benchmarking/run_exp.py --which 21 40 --timestamp exp_TIMESTAMP
 ```
 
 Run one benchmark process per machine, assigning different ranges to different
-machines and combining results through Git. Share the grown experiment plan
-before running its new ranges so positions refer to the same masks everywhere.
+machines. Share the grown experiment plan before running its new ranges so
+positions refer to the same masks everywhere.
 
 ## CloudLab
 
@@ -71,13 +72,13 @@ before running its new ranges so positions refer to the same masks everywhere.
 }
 ```
 
-Each entry is an SSH destination without an `ssh` command prefix. The tool
-uploads an immutable
-snapshot (including local uncommitted changes), reserves the first host for
-typechecking all masks, divides the requested `--which` positions among the
-remaining hosts, and starts workers
-with `nohup`; the controller does not need to remain
-connected. Local job manifests live in `.cloudlab/jobs/`, while each remote job
+Each entry is an SSH destination without an `ssh` command prefix. Submission
+requires a clean working tree. Every worker clones the repository and all its
+submodules, checks out the exact submitted commit, verifies the modified
+`_cinderx` instrumentation, and then starts with `nohup`. The first host
+typechecks all masks; the remaining hosts divide the requested `--which`
+positions. The controller does not need to remain connected. Local job
+manifests live in `.cloudlab/jobs/`, while each remote job
 lives in `~/.one_true_detyper/jobs/` and retains its log, state, exit code, and
 result file.
 
@@ -86,7 +87,9 @@ managed Python 3.14, then builds CinderX into
 `~/.one_true_detyper/runtime/bin/python`. It must import both `cinderx` and
 `__static__`; preparation itself is detached, so verify every machine with
 `cloudlab.py check` before submission.
-`status` reconnects briefly, and `collect` downloads successful timing and
-typecheck shards. It merges the nonempty mask samples from each timing shard and
+`status` reconnects briefly. `collect` retrieves successful timing and
+typecheck shards over SSH, merges the nonempty mask samples from each shard, and
 obtains `sample_tc.json` from the dedicated typechecker. Use `--partial` to
 recover incremental results from workers that have not completed successfully.
+`cancel` terminates a job and verifies its saved process, process group, state,
+exit marker, and remote working directory are inactive.
