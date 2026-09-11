@@ -59,6 +59,12 @@ def grow_experiment(experiment_path, max_masks_per_level, rng=None):
     for benchmark, variants in experiment.plan.items():
         for variant, masks in variants.items():
             label = f"{benchmark}/{variant}"
+            if variant == "untyped":
+                if masks != [0]:
+                    raise ValueError(
+                        f"{label} must contain only mask 0; run normalize_untyped.py"
+                    )
+                continue
             if not masks or any(type(mask) is not int or mask < 0 for mask in masks):
                 raise ValueError(f"invalid masks for {label}")
             if len(set(masks)) != len(masks):

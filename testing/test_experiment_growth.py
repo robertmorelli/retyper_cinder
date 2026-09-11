@@ -22,9 +22,14 @@ class ExperimentGrowthTests(unittest.TestCase):
                            return_value={'a': 'annotation', 'b': 'annotation'})
         self.patch.start()
         self.addCleanup(self.patch.stop)
-        plan = {name: {variant: [0, 1, 3, 7, 15]
-                       for variant in ('advanced', 'shallow', 'untyped')}
-                for name in ('a', 'b')}
+        plan = {
+            name: {
+                'advanced': [0, 1, 3, 7, 15],
+                'shallow': [0, 1, 3, 7, 15],
+                'untyped': [0],
+            }
+            for name in ('a', 'b')
+        }
         state = initialize_experiment_state(plan)
         save_new_experiment(self.path, plan, state['typechecks'], state['results'])
 
@@ -63,11 +68,12 @@ class ExperimentGrowthTests(unittest.TestCase):
              patch('benchmarking.run_exp.measure_benchmark', return_value=[1.0] * 8) as measure, \
              patch('builtins.print'):
             main()
-        # 3 + 4 + 3 masks at the three interior levels, per variant/benchmark.
-        self.assertEqual(measure.call_count, 60)
+        # 3 + 4 + 3 masks at the three interior levels, for the two typed
+        # variants of each benchmark. Untyped has only position 1.
+        self.assertEqual(measure.call_count, 40)
         self.assertEqual({call.args[1] for call in measure.call_args_list}, {'a', 'b'})
         self.assertEqual({call.args[2] for call in measure.call_args_list},
-                         {'advanced', 'shallow', 'untyped'})
+                         {'advanced', 'shallow'})
 
 
 if __name__ == '__main__':

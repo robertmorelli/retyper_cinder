@@ -12,6 +12,12 @@ def count_units(source, granularity="annotation"):
 
 def count_benchmark_units(benchmark, variant, granularity):
     """Count selectable units, returning zero when a source cannot bind."""
+    # Untyped benchmarks are a single unchanged baseline. CinderX's binder
+    # synthesizes dynamic declarations for their unannotated source; those are
+    # graph implementation details, not annotations that an experiment may
+    # remove.
+    if variant == "untyped":
+        return 0
     granularity = resolve_granularity(granularity, benchmark)
     graph_granularity = (
         "benchmark" if granularity == "function"

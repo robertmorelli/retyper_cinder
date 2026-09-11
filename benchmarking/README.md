@@ -5,6 +5,7 @@ python benchmarking/detype.py BENCHMARK VARIANT [MASK]
 python benchmarking/exp_maker.py MAX_MASKS_PER_LEVEL
 python benchmarking/grow_exp.py MAX_MASKS_PER_LEVEL [TIMESTAMP]
 python benchmarking/reset_exp.py TIMESTAMP
+python benchmarking/normalize_untyped.py TIMESTAMP
 python benchmarking/sample_tc.py [TIMESTAMP]
 python benchmarking/run_exp.py BENCHMARK MAX_MASKS
 python benchmarking/run_exp.py --which START END [--timestamp TIMESTAMP]
@@ -34,6 +35,10 @@ independently: `sample_tc.py` records which masks compile, while `run_exp.py`
 times planned masks without consulting those results. `run_exp.py` selects masks per detype level
 for each variant and uses SciPy BCa bootstrap intervals to collect timing batches
 until the mean is stable within a 10% relative margin or reaches 160 samples.
+Advanced and shallow variants span their typedness lattices. Untyped variants
+contain only mask 0: the unchanged untyped baseline. Use
+`normalize_untyped.py` to migrate an older experiment that planned redundant
+untyped masks.
 
 `grow_exp.py` expands an existing experiment in place to the requested target
 number of unique masks per level (or all possible masks when fewer exist).
