@@ -1,12 +1,12 @@
 """Estimate how long a complete benchmark experiment will take.
 
 Usage:
-    python3 exp_time_tool.py N
+    python3 exp_time_tool.py N [--workers WORKERS]
 
 N is the maximum number of masks sampled at each detype level, matching the
 argument accepted by ``benchmarking/exp_maker.py``.  The estimate assumes each
-mask becomes stable after its first batch of eight tests and each test takes
-two seconds.
+mask takes 29.4 seconds of worker time, based on the first distributed
+Python 3.14+CinderX run.
 """
 
 from argparse import ArgumentParser
@@ -19,8 +19,7 @@ from benchmarking.exp_maker import (
 )
 
 
-BATCH_SIZE = 8
-SECONDS_PER_TEST = 2
+SECONDS_PER_MASK = 29.4
 SECONDS_PER_HOUR = 60 * 60
 
 
@@ -50,9 +49,9 @@ def experiment_mask_count(masks_per_level):
     return sum(benchmark_mask_counts(masks_per_level).values())
 
 
-def estimated_hours(masks_per_level):
-    tests = experiment_mask_count(masks_per_level) * BATCH_SIZE
-    return tests * SECONDS_PER_TEST / SECONDS_PER_HOUR
+def estimated_hours(masks_per_level, workers=1):
+    masks = experiment_mask_count(masks_per_level)
+    return masks * SECONDS_PER_MASK / SECONDS_PER_HOUR / workers
 
 
 def main():
@@ -62,14 +61,21 @@ def main():
         type=int,
         help="maximum number of masks sampled at each detype level",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="number of timing workers (default: 1)",
+    )
     args = parser.parse_args()
     if args.N < 1:
         parser.error("N must be at least 1")
+    if args.workers < 1:
+        parser.error("--workers must be at least 1")
 
     benchmark_counts = benchmark_mask_counts(args.N)
     masks = sum(benchmark_counts.values())
-    tests = masks * BATCH_SIZE
-    hours = tests * SECONDS_PER_TEST / SECONDS_PER_HOUR
+    hours = masks * SECONDS_PER_MASK / SECONDS_PER_HOUR / args.workers
 
     print("Masks per benchmark:")
     width = max(len(name) for name in benchmark_counts)
@@ -77,10 +83,10 @@ def main():
         print(f"  {benchmark:<{width}}  {count:,}")
     print(f"  {'TOTAL':<{width}}  {masks:,}")
     print()
-    print(f"Estimated experiment time: {hours:.2f} hours")
+    print(f"Estimated experiment time with {args.workers} worker(s): {hours:.2f} hours")
     print(
-        f"({masks:,} masks x {BATCH_SIZE} tests x "
-        f"{SECONDS_PER_TEST} seconds)"
+        f"({masks:,} masks x {SECONDS_PER_MASK:g} seconds per mask "
+        f"/ {args.workers} workers)"
     )
 
 
