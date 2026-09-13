@@ -20,21 +20,51 @@ WIDTH, HEIGHT = 960, 560
 LEFT, RIGHT, TOP, BOTTOM = 84, 28, 46, 70
 
 
-def polyline(points, color):
-    coordinates = " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
-    return f'<polyline points="{coordinates}" fill="none" stroke="{color}" stroke-width="2"/>'
+def band(points, color):
+    if len(points) == 1:
+        x, low, _, high = points[0]
+        return (
+            f'<line x1="{x:.1f}" y1="{low:.1f}" x2="{x:.1f}" y2="{high:.1f}" '
+            f'stroke="{color}" stroke-width="6" stroke-opacity="0.18"/>'
+        )
+    outline = (
+        [(x, low) for x, low, _, _ in points]
+        + [(x, high) for x, _, _, high in reversed(points)]
+    )
+    coordinates = " ".join(f"{x:.1f},{y:.1f}" for x, y in outline)
+    return f'<polygon points="{coordinates}" fill="{color}" fill-opacity="0.18"/>'
+
+
+def ribbon(points, color, half_width):
+    outline = (
+        [(x, y - half_width) for x, y in points]
+        + [(x, y + half_width) for x, y in reversed(points)]
+    )
+    coordinates = " ".join(f"{x:.1f},{y:.1f}" for x, y in outline)
+    return f'<polygon points="{coordinates}" fill="{color}"/>'
 
 
 def benchmark_series(experiment, benchmark):
     output = {}
     for variant, masks in experiment.results[benchmark].items():
+        if variant == "untyped":
+            baseline = masks.get("0", [])
+            output[variant] = (
+                [(0, min(baseline), mean(baseline), max(baseline)),
+                 (100, min(baseline), mean(baseline), max(baseline))]
+                if baseline else []
+            )
+            continue
         units = max(mask.bit_count() for mask in experiment.plan[benchmark][variant])
         levels = defaultdict(list)
         for mask, samples in masks.items():
             if samples:
                 typed = 100 * (1 - int(mask).bit_count() / units) if units else 100
                 levels[typed].append(mean(samples))
-        output[variant] = sorted((typed, mean(values)) for typed, values in levels.items())
+        output[variant] = sorted(
+            (typed, min(values), mean(values), max(values))
+            for typed, values in levels.items()
+        )
     return output
 
 
@@ -42,7 +72,9 @@ def render_benchmark(experiment, benchmark, destination, variants=None):
     series = benchmark_series(experiment, benchmark)
     if variants is not None:
         series = {name: points for name, points in series.items() if name in variants}
-    values = [runtime for points in series.values() for _, runtime in points]
+    series = {name: points for name, points in series.items() if points}
+    values = [runtime for points in series.values()
+              for _, low, _, high in points for runtime in (low, high)]
     if not values:
         return False
     low, high = min(values), max(values)
@@ -58,20 +90,24 @@ def render_benchmark(experiment, benchmark, destination, variants=None):
     ]
     for tick in range(0, 101, 20):
         x = sx(tick)
-        parts.append(f'<line x1="{x}" y1="{TOP}" x2="{x}" y2="{TOP+plot_h}" stroke="#e5e7eb"/>')
         parts.append(f'<text x="{x}" y="{HEIGHT-42}" text-anchor="middle" font-family="sans-serif" font-size="12">{tick}%</text>')
     for index in range(6):
         value = low + (high - low) * index / 5
         y = sy(value)
-        parts.append(f'<line x1="{LEFT}" y1="{y}" x2="{LEFT+plot_w}" y2="{y}" stroke="#e5e7eb"/>')
         parts.append(f'<text x="{LEFT-10}" y="{y+4}" text-anchor="end" font-family="sans-serif" font-size="12">{value:.3f}</text>')
     for index, (variant, points) in enumerate(series.items()):
         color = COLORS.get(variant, "#555")
-        screen = [(sx(typed), sy(runtime)) for typed, runtime in points]
-        parts.append(polyline(screen, color))
-        parts.extend(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="{color}"/>' for x, y in screen)
-        parts.append(f'<text x="{LEFT+index*150}" y="{HEIGHT-12}" font-family="sans-serif" font-size="13" fill="{color}">● {escape(variant)}</text>')
+        screen = [(sx(typed), sy(low), sy(average), sy(high))
+                  for typed, low, average, high in points]
+        parts.append(band(screen, color))
+        average_line = [(x, average) for x, _, average, _ in screen]
+        parts.append(ribbon(average_line, color, 1.5))
+        parts.append(f'<text x="{LEFT+index*190}" y="{HEIGHT-12}" font-family="sans-serif" font-size="13" fill="{color}">■ {escape(variant)} mean + range</text>')
     parts.extend([
+        f'<rect x="{LEFT}" y="{TOP}" width="{plot_w}" height="1" fill="#111827"/>',
+        f'<rect x="{LEFT}" y="{TOP+plot_h-1}" width="{plot_w}" height="1" fill="#111827"/>',
+        f'<rect x="{LEFT}" y="{TOP}" width="1" height="{plot_h}" fill="#111827"/>',
+        f'<rect x="{LEFT+plot_w-1}" y="{TOP}" width="1" height="{plot_h}" fill="#111827"/>',
         f'<text x="{LEFT+plot_w/2}" y="{HEIGHT-24}" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>',
         f'<text x="18" y="{TOP+plot_h/2}" transform="rotate(-90 18 {TOP+plot_h/2})" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>',
         '</svg>',
