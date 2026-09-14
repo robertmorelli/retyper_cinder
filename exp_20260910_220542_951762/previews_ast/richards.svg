@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480.0" y="28" text-anchor="middle" font-family="sans-serif" font-size="20">richards preview</text>
+<text x="84.0" y="493" text-anchor="middle" font-family="sans-serif" font-size="12">0%</text>
+<text x="242.4" y="493" text-anchor="middle" font-family="sans-serif" font-size="12">20%</text>
+<text x="400.8" y="493" text-anchor="middle" font-family="sans-serif" font-size="12">40%</text>
+<text x="559.2" y="493" text-anchor="middle" font-family="sans-serif" font-size="12">60%</text>
+<text x="717.6" y="493" text-anchor="middle" font-family="sans-serif" font-size="12">80%</text>
+<text x="876.0" y="493" text-anchor="middle" font-family="sans-serif" font-size="12">100%</text>
+<text x="74" y="474.0" text-anchor="end" font-family="sans-serif" font-size="12">0.421</text>
+<text x="886" y="474.0" text-anchor="start" font-family="sans-serif" font-size="12">1832</text>
+<text x="74" y="389.2" text-anchor="end" font-family="sans-serif" font-size="12">0.507</text>
+<text x="886" y="389.20000000000005" text-anchor="start" font-family="sans-serif" font-size="12">1965</text>
+<text x="74" y="304.4" text-anchor="end" font-family="sans-serif" font-size="12">0.593</text>
+<text x="886" y="304.4" text-anchor="start" font-family="sans-serif" font-size="12">2098</text>
+<text x="74" y="219.59999999999994" text-anchor="end" font-family="sans-serif" font-size="12">0.679</text>
+<text x="886" y="219.59999999999988" text-anchor="start" font-family="sans-serif" font-size="12">2231</text>
+<text x="74" y="134.79999999999995" text-anchor="end" font-family="sans-serif" font-size="12">0.765</text>
+<text x="886" y="134.80000000000007" text-anchor="start" font-family="sans-serif" font-size="12">2363</text>
+<text x="74" y="50.0" text-anchor="end" font-family="sans-serif" font-size="12">0.851</text>
+<text x="886" y="50.0" text-anchor="start" font-family="sans-serif" font-size="12">2496</text>
+<polygon points="84.0,229.1 114.5,226.1 144.9,224.4 175.4,218.2 205.8,228.4 236.3,234.8 266.8,226.8 297.2,237.6 327.7,233.7 358.2,231.8 388.6,242.5 419.1,253.0 449.5,254.2 480.0,274.9 510.5,289.5 540.9,293.0 571.4,306.8 601.8,311.6 632.3,335.2 662.8,345.1 693.2,355.8 723.7,374.2 754.2,386.2 784.6,406.8 815.1,422.4 845.5,439.3 876.0,437.8 876.0,440.8 845.5,442.3 815.1,425.4 784.6,409.8 754.2,389.2 723.7,377.2 693.2,358.8 662.8,348.1 632.3,338.2 601.8,314.6 571.4,309.8 540.9,296.0 510.5,292.5 480.0,277.9 449.5,257.2 419.1,256.0 388.6,245.5 358.2,234.8 327.7,236.7 297.2,240.6 266.8,229.8 236.3,237.8 205.8,231.4 175.4,221.2 144.9,227.4 114.5,229.1 84.0,232.1" fill="#2563eb"/>
+<polygon points="84.0,229.2 114.5,220.2 144.9,212.6 175.4,202.7 205.8,197.6 236.3,185.1 266.8,176.4 297.2,171.8 327.7,161.9 358.2,157.9 388.6,148.6 419.1,138.1 449.5,134.3 480.0,123.7 510.5,119.3 540.9,117.4 571.4,109.3 601.8,106.7 632.3,98.0 662.8,94.9 693.2,93.0 723.7,84.8 754.2,84.0 784.6,79.9 815.1,76.3 845.5,73.7 876.0,74.6 876.0,77.6 845.5,76.7 815.1,79.3 784.6,82.9 754.2,87.0 723.7,87.8 693.2,96.0 662.8,97.9 632.3,101.0 601.8,109.7 571.4,112.3 540.9,120.4 510.5,122.3 480.0,126.7 449.5,137.3 419.1,141.1 388.6,151.6 358.2,160.9 327.7,164.9 297.2,174.8 266.8,179.4 236.3,188.1 205.8,200.6 175.4,205.7 144.9,215.6 114.5,223.2 84.0,232.2" fill="#7c3aed"/>
+<text x="84" y="535" font-family="sans-serif" font-size="11" fill="#2563eb">■ advanced runtime</text>
+<text x="84" y="551" font-family="sans-serif" font-size="11" fill="#7c3aed">■ advanced AST nodes</text>
+<polygon points="84.0,86.3 115.7,103.5 147.4,111.5 179.0,114.7 210.7,124.2 242.4,128.6 274.1,135.3 305.8,142.8 337.4,145.2 369.1,154.7 400.8,154.1 432.5,169.5 464.2,174.4 495.8,183.2 527.5,192.6 559.2,201.6 590.9,216.2 622.6,226.4 654.2,236.9 685.9,247.3 717.6,255.8 749.3,263.9 781.0,272.4 812.6,282.5 844.3,288.1 876.0,293.2 876.0,296.2 844.3,291.1 812.6,285.5 781.0,275.4 749.3,266.9 717.6,258.8 685.9,250.3 654.2,239.9 622.6,229.4 590.9,219.2 559.2,204.6 527.5,195.6 495.8,186.2 464.2,177.4 432.5,172.5 400.8,157.1 369.1,157.7 337.4,148.2 305.8,145.8 274.1,138.3 242.4,131.6 210.7,127.2 179.0,117.7 147.4,114.5 115.7,106.5 84.0,89.3" fill="#dc2626"/>
+<polygon points="84.0,254.1 115.7,250.6 147.4,247.0 179.0,243.5 210.7,239.0 242.4,238.3 274.1,234.3 305.8,230.1 337.4,226.9 369.1,223.3 400.8,220.7 432.5,217.1 464.2,212.0 495.8,208.4 527.5,205.7 559.2,202.2 590.9,199.6 622.6,196.0 654.2,192.9 685.9,189.1 717.6,186.1 749.3,182.8 781.0,178.3 812.6,174.6 844.3,171.3 876.0,167.9 876.0,170.9 844.3,174.3 812.6,177.6 781.0,181.3 749.3,185.8 717.6,189.1 685.9,192.1 654.2,195.9 622.6,199.0 590.9,202.6 559.2,205.2 527.5,208.7 495.8,211.4 464.2,215.0 432.5,220.1 400.8,223.7 369.1,226.3 337.4,229.9 305.8,233.1 274.1,237.3 242.4,241.3 210.7,242.0 179.0,246.5 147.4,250.0 115.7,253.6 84.0,257.1" fill="#f59e0b"/>
+<text x="324" y="535" font-family="sans-serif" font-size="11" fill="#dc2626">■ shallow runtime</text>
+<text x="324" y="551" font-family="sans-serif" font-size="11" fill="#f59e0b">■ shallow AST nodes</text>
+<polygon points="84.0,73.7 876.0,73.7 876.0,76.7 84.0,76.7" fill="#16a34a"/>
+<polygon points="84.0,439.3 876.0,439.3 876.0,442.3 84.0,442.3" fill="#111827"/>
+<text x="564" y="535" font-family="sans-serif" font-size="11" fill="#16a34a">■ untyped runtime</text>
+<text x="564" y="551" font-family="sans-serif" font-size="11" fill="#111827">■ untyped AST nodes</text>
+<rect x="84" y="46" width="792" height="1" fill="#111827"/>
+<rect x="84" y="469" width="792" height="1" fill="#111827"/>
+<rect x="84" y="46" width="1" height="424" fill="#111827"/>
+<rect x="875" y="46" width="1" height="424" fill="#111827"/>
+<text x="480.0" y="511" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>
+<text x="18" y="258.0" transform="rotate(-90 18 258.0)" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>
+<text x="942" y="258.0" transform="rotate(90 942 258.0)" text-anchor="middle" font-family="sans-serif" font-size="14">AST nodes (excluding imports)</text>
+</svg>
