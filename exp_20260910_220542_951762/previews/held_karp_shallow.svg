@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480.0" y="28" text-anchor="middle" font-family="sans-serif" font-size="20">held_karp — shallow preview</text>
+<text x="84.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">0%</text>
+<text x="253.60000000000002" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">20%</text>
+<text x="423.20000000000005" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">40%</text>
+<text x="592.8" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">60%</text>
+<text x="762.4000000000001" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">80%</text>
+<text x="932.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">100%</text>
+<text x="74" y="494.0" text-anchor="end" font-family="sans-serif" font-size="12">0.252</text>
+<text x="74" y="405.1999999999999" text-anchor="end" font-family="sans-serif" font-size="12">0.261</text>
+<text x="74" y="316.3999999999998" text-anchor="end" font-family="sans-serif" font-size="12">0.270</text>
+<text x="74" y="227.6000000000002" text-anchor="end" font-family="sans-serif" font-size="12">0.280</text>
+<text x="74" y="138.8000000000001" text-anchor="end" font-family="sans-serif" font-size="12">0.289</text>
+<text x="74" y="50.0" text-anchor="end" font-family="sans-serif" font-size="12">0.298</text>
+<polygon points="84.0,207.6 131.1,382.7 178.2,429.4 225.3,459.4 272.4,445.2 319.6,422.5 366.7,441.3 413.8,438.7 460.9,435.0 508.0,452.4 555.1,452.4 602.2,436.7 649.3,433.3 696.4,448.2 743.6,421.2 790.7,438.5 837.8,443.5 884.9,403.1 932.0,394.9 932.0,394.9 884.9,201.3 837.8,154.9 790.7,110.3 743.6,100.2 696.4,82.5 649.3,110.5 602.2,76.6 555.1,111.1 508.0,98.6 460.9,89.6 413.8,98.4 366.7,105.5 319.6,110.6 272.4,79.1 225.3,104.1 178.2,103.8 131.1,132.4 84.0,207.6" fill="#dc2626" fill-opacity="0.18"/>
+<polygon points="84.0,206.1 131.1,199.8 178.2,215.4 225.3,235.0 272.4,243.6 319.6,252.3 366.7,257.5 413.8,267.5 460.9,271.5 508.0,280.4 555.1,288.4 602.2,298.4 649.3,308.5 696.4,312.8 743.6,331.8 790.7,332.8 837.8,346.1 884.9,356.7 932.0,393.4 932.0,396.4 884.9,359.7 837.8,349.1 790.7,335.8 743.6,334.8 696.4,315.8 649.3,311.5 602.2,301.4 555.1,291.4 508.0,283.4 460.9,274.5 413.8,270.5 366.7,260.5 319.6,255.3 272.4,246.6 225.3,238.0 178.2,218.4 131.1,202.8 84.0,209.1" fill="#dc2626"/>
+<text x="84" y="548" font-family="sans-serif" font-size="13" fill="#dc2626">■ shallow mean + range</text>
+<rect x="84" y="46" width="848" height="1" fill="#111827"/>
+<rect x="84" y="489" width="848" height="1" fill="#111827"/>
+<rect x="84" y="46" width="1" height="444" fill="#111827"/>
+<rect x="931" y="46" width="1" height="444" fill="#111827"/>
+<text x="508.0" y="536" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>
+<text x="18" y="268.0" transform="rotate(-90 18 268.0)" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>
+</svg>

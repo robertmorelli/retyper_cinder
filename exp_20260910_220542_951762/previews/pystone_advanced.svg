@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480.0" y="28" text-anchor="middle" font-family="sans-serif" font-size="20">pystone — advanced preview</text>
+<text x="84.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">0%</text>
+<text x="253.60000000000002" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">20%</text>
+<text x="423.20000000000005" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">40%</text>
+<text x="592.8" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">60%</text>
+<text x="762.4000000000001" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">80%</text>
+<text x="932.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">100%</text>
+<text x="74" y="494.0" text-anchor="end" font-family="sans-serif" font-size="12">1.839</text>
+<text x="74" y="405.2" text-anchor="end" font-family="sans-serif" font-size="12">2.260</text>
+<text x="74" y="316.40000000000003" text-anchor="end" font-family="sans-serif" font-size="12">2.681</text>
+<text x="74" y="227.59999999999994" text-anchor="end" font-family="sans-serif" font-size="12">3.102</text>
+<text x="74" y="138.8" text-anchor="end" font-family="sans-serif" font-size="12">3.523</text>
+<text x="74" y="50.0" text-anchor="end" font-family="sans-serif" font-size="12">3.943</text>
+<polygon points="84.0,453.4 137.0,458.5 190.0,458.2 243.0,459.1 296.0,459.4 349.0,453.1 402.0,419.2 455.0,419.6 508.0,407.9 561.0,375.9 614.0,345.6 667.0,352.2 720.0,329.1 773.0,309.4 826.0,292.7 879.0,256.6 932.0,125.6 932.0,125.6 879.0,82.2 826.0,77.6 773.0,76.6 720.0,80.7 667.0,78.9 614.0,82.4 561.0,83.2 508.0,87.0 455.0,106.6 402.0,102.1 349.0,128.5 296.0,167.6 243.0,171.4 190.0,221.3 137.0,280.7 84.0,453.4" fill="#2563eb" fill-opacity="0.18"/>
+<polygon points="84.0,451.9 137.0,421.4 190.0,390.7 243.0,363.7 296.0,336.0 349.0,308.4 402.0,291.0 455.0,263.4 508.0,243.6 561.0,228.5 614.0,205.6 667.0,186.6 720.0,176.6 773.0,158.5 826.0,143.9 879.0,131.7 932.0,124.1 932.0,127.1 879.0,134.7 826.0,146.9 773.0,161.5 720.0,179.6 667.0,189.6 614.0,208.6 561.0,231.5 508.0,246.6 455.0,266.4 402.0,294.0 349.0,311.4 296.0,339.0 243.0,366.7 190.0,393.7 137.0,424.4 84.0,454.9" fill="#2563eb"/>
+<text x="84" y="548" font-family="sans-serif" font-size="13" fill="#2563eb">■ advanced mean + range</text>
+<rect x="84" y="46" width="848" height="1" fill="#111827"/>
+<rect x="84" y="489" width="848" height="1" fill="#111827"/>
+<rect x="84" y="46" width="1" height="444" fill="#111827"/>
+<rect x="931" y="46" width="1" height="444" fill="#111827"/>
+<text x="508.0" y="536" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>
+<text x="18" y="268.0" transform="rotate(-90 18 268.0)" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>
+</svg>

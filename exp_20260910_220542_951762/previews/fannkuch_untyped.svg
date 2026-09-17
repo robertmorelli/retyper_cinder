@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480.0" y="28" text-anchor="middle" font-family="sans-serif" font-size="20">fannkuch — untyped preview</text>
+<text x="84.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">0%</text>
+<text x="253.60000000000002" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">20%</text>
+<text x="423.20000000000005" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">40%</text>
+<text x="592.8" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">60%</text>
+<text x="762.4000000000001" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">80%</text>
+<text x="932.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">100%</text>
+<text x="74" y="494.0" text-anchor="end" font-family="sans-serif" font-size="12">1.417</text>
+<text x="74" y="405.20000000000016" text-anchor="end" font-family="sans-serif" font-size="12">1.438</text>
+<text x="74" y="316.4000000000004" text-anchor="end" font-family="sans-serif" font-size="12">1.459</text>
+<text x="74" y="227.59999999999962" text-anchor="end" font-family="sans-serif" font-size="12">1.480</text>
+<text x="74" y="138.7999999999998" text-anchor="end" font-family="sans-serif" font-size="12">1.501</text>
+<text x="74" y="50.0" text-anchor="end" font-family="sans-serif" font-size="12">1.522</text>
+<polygon points="84.0,426.1 932.0,426.1 932.0,109.9 84.0,109.9" fill="#16a34a" fill-opacity="0.18"/>
+<polygon points="84.0,259.3 932.0,259.3 932.0,262.3 84.0,262.3" fill="#16a34a"/>
+<text x="84" y="548" font-family="sans-serif" font-size="13" fill="#16a34a">■ untyped mean + range</text>
+<rect x="84" y="46" width="848" height="1" fill="#111827"/>
+<rect x="84" y="489" width="848" height="1" fill="#111827"/>
+<rect x="84" y="46" width="1" height="444" fill="#111827"/>
+<rect x="931" y="46" width="1" height="444" fill="#111827"/>
+<text x="508.0" y="536" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>
+<text x="18" y="268.0" transform="rotate(-90 18 268.0)" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>
+</svg>

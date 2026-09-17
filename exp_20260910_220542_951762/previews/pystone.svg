@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480.0" y="28" text-anchor="middle" font-family="sans-serif" font-size="20">pystone preview</text>
+<text x="84.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">0%</text>
+<text x="253.60000000000002" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">20%</text>
+<text x="423.20000000000005" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">40%</text>
+<text x="592.8" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">60%</text>
+<text x="762.4000000000001" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">80%</text>
+<text x="932.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">100%</text>
+<text x="74" y="494.0" text-anchor="end" font-family="sans-serif" font-size="12">0.916</text>
+<text x="74" y="405.2" text-anchor="end" font-family="sans-serif" font-size="12">1.535</text>
+<text x="74" y="316.3999999999999" text-anchor="end" font-family="sans-serif" font-size="12">2.154</text>
+<text x="74" y="227.6" text-anchor="end" font-family="sans-serif" font-size="12">2.773</text>
+<text x="74" y="138.7999999999999" text-anchor="end" font-family="sans-serif" font-size="12">3.393</text>
+<text x="74" y="50.0" text-anchor="end" font-family="sans-serif" font-size="12">4.012</text>
+<polygon points="84.0,332.7 137.0,336.2 190.0,336.0 243.0,336.6 296.0,336.8 349.0,332.5 402.0,309.5 455.0,309.7 508.0,301.8 561.0,280.0 614.0,259.4 667.0,263.9 720.0,248.2 773.0,234.9 826.0,223.5 879.0,199.0 932.0,109.9 932.0,109.9 879.0,80.4 826.0,77.3 773.0,76.6 720.0,79.4 667.0,78.2 614.0,80.6 561.0,81.1 508.0,83.7 455.0,97.0 402.0,94.0 349.0,111.9 296.0,138.5 243.0,141.0 190.0,174.9 137.0,215.3 84.0,332.7" fill="#2563eb" fill-opacity="0.18"/>
+<polygon points="84.0,331.2 137.0,310.5 190.0,289.6 243.0,271.3 296.0,252.5 349.0,233.7 402.0,221.8 455.0,203.1 508.0,189.6 561.0,179.4 614.0,163.8 667.0,150.9 720.0,144.1 773.0,131.8 826.0,121.8 879.0,113.6 932.0,108.4 932.0,111.4 879.0,116.6 826.0,124.8 773.0,134.8 720.0,147.1 667.0,153.9 614.0,166.8 561.0,182.4 508.0,192.6 455.0,206.1 402.0,224.8 349.0,236.7 296.0,255.5 243.0,274.3 190.0,292.6 137.0,313.5 84.0,334.2" fill="#2563eb"/>
+<text x="84" y="548" font-family="sans-serif" font-size="13" fill="#2563eb">■ advanced mean + range</text>
+<polygon points="84.0,339.6 137.0,342.0 190.0,343.9 243.0,342.9 296.0,335.9 349.0,325.4 402.0,323.2 455.0,308.9 508.0,295.6 561.0,295.7 614.0,279.5 667.0,270.3 720.0,255.8 773.0,250.4 826.0,244.5 879.0,232.4 932.0,202.8 932.0,202.8 879.0,186.8 826.0,183.7 773.0,179.6 720.0,181.1 667.0,182.6 614.0,182.8 561.0,200.6 508.0,187.9 455.0,194.0 402.0,202.4 349.0,211.1 296.0,214.4 243.0,231.9 190.0,253.9 137.0,295.4 84.0,339.6" fill="#dc2626" fill-opacity="0.18"/>
+<polygon points="84.0,338.1 137.0,323.3 190.0,309.0 243.0,295.4 296.0,282.2 349.0,271.2 402.0,260.9 455.0,252.3 508.0,244.6 561.0,236.2 614.0,227.9 667.0,221.5 720.0,216.2 773.0,211.3 826.0,207.1 879.0,204.3 932.0,201.3 932.0,204.3 879.0,207.3 826.0,210.1 773.0,214.3 720.0,219.2 667.0,224.5 614.0,230.9 561.0,239.2 508.0,247.6 455.0,255.3 402.0,263.9 349.0,274.2 296.0,285.2 243.0,298.4 190.0,312.0 137.0,326.3 84.0,341.1" fill="#dc2626"/>
+<text x="274" y="548" font-family="sans-serif" font-size="13" fill="#dc2626">■ shallow mean + range</text>
+<polygon points="84.0,459.4 932.0,459.4 932.0,455.3 84.0,455.3" fill="#16a34a" fill-opacity="0.18"/>
+<polygon points="84.0,455.6 932.0,455.6 932.0,458.6 84.0,458.6" fill="#16a34a"/>
+<text x="464" y="548" font-family="sans-serif" font-size="13" fill="#16a34a">■ untyped mean + range</text>
+<rect x="84" y="46" width="848" height="1" fill="#111827"/>
+<rect x="84" y="489" width="848" height="1" fill="#111827"/>
+<rect x="84" y="46" width="1" height="444" fill="#111827"/>
+<rect x="931" y="46" width="1" height="444" fill="#111827"/>
+<text x="508.0" y="536" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>
+<text x="18" y="268.0" transform="rotate(-90 18 268.0)" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>
+</svg>

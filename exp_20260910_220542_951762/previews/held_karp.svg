@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480.0" y="28" text-anchor="middle" font-family="sans-serif" font-size="20">held_karp preview</text>
+<text x="84.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">0%</text>
+<text x="253.60000000000002" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">20%</text>
+<text x="423.20000000000005" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">40%</text>
+<text x="592.8" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">60%</text>
+<text x="762.4000000000001" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">80%</text>
+<text x="932.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">100%</text>
+<text x="74" y="494.0" text-anchor="end" font-family="sans-serif" font-size="12">0.042</text>
+<text x="74" y="405.2" text-anchor="end" font-family="sans-serif" font-size="12">0.115</text>
+<text x="74" y="316.4" text-anchor="end" font-family="sans-serif" font-size="12">0.188</text>
+<text x="74" y="227.5999999999999" text-anchor="end" font-family="sans-serif" font-size="12">0.262</text>
+<text x="74" y="138.8" text-anchor="end" font-family="sans-serif" font-size="12">0.335</text>
+<text x="74" y="50.0" text-anchor="end" font-family="sans-serif" font-size="12">0.409</text>
+<polygon points="84.0,218.0 131.1,354.4 178.2,378.9 225.3,402.3 272.4,407.8 319.6,422.3 366.7,424.1 413.8,442.7 460.9,444.5 508.0,446.0 555.1,458.7 602.2,458.3 649.3,457.4 696.4,458.2 743.6,459.2 790.7,459.2 837.8,459.4 884.9,459.2 932.0,458.8 932.0,458.8 884.9,210.1 837.8,165.6 790.7,132.0 743.6,134.4 696.4,113.4 649.3,113.9 602.2,92.3 555.1,93.9 508.0,93.3 460.9,93.3 413.8,76.6 366.7,89.9 319.6,83.1 272.4,82.0 225.3,85.3 178.2,95.8 131.1,128.3 84.0,218.0" fill="#2563eb" fill-opacity="0.18"/>
+<polygon points="84.0,216.5 131.1,220.0 178.2,223.3 225.3,227.4 272.4,235.4 319.6,249.3 366.7,256.1 413.8,262.9 460.9,278.0 508.0,293.9 555.1,310.0 602.2,322.7 649.3,332.3 696.4,349.6 743.6,372.2 790.7,395.4 837.8,413.4 884.9,435.5 932.0,457.3 932.0,460.3 884.9,438.5 837.8,416.4 790.7,398.4 743.6,375.2 696.4,352.6 649.3,335.3 602.2,325.7 555.1,313.0 508.0,296.9 460.9,281.0 413.8,265.9 366.7,259.1 319.6,252.3 272.4,238.4 225.3,230.4 178.2,226.3 131.1,223.0 84.0,219.5" fill="#2563eb"/>
+<text x="84" y="548" font-family="sans-serif" font-size="13" fill="#2563eb">■ advanced mean + range</text>
+<polygon points="84.0,200.1 131.1,222.4 178.2,228.3 225.3,232.1 272.4,230.3 319.6,227.4 366.7,229.8 413.8,229.5 460.9,229.0 508.0,231.2 555.1,231.2 602.2,229.2 649.3,228.8 696.4,230.7 743.6,227.3 790.7,229.5 837.8,230.1 884.9,225.0 932.0,223.9 932.0,223.9 884.9,199.3 837.8,193.3 790.7,187.7 743.6,186.4 696.4,184.1 649.3,187.7 602.2,183.4 555.1,187.8 508.0,186.2 460.9,185.0 413.8,186.2 366.7,187.1 319.6,187.7 272.4,183.7 225.3,186.9 178.2,186.8 131.1,190.5 84.0,200.1" fill="#dc2626" fill-opacity="0.18"/>
+<polygon points="84.0,198.6 131.1,197.8 178.2,199.8 225.3,202.2 272.4,203.3 319.6,204.5 366.7,205.1 413.8,206.4 460.9,206.9 508.0,208.0 555.1,209.0 602.2,210.3 649.3,211.6 696.4,212.2 743.6,214.6 790.7,214.7 837.8,216.4 884.9,217.7 932.0,222.4 932.0,225.4 884.9,220.7 837.8,219.4 790.7,217.7 743.6,217.6 696.4,215.2 649.3,214.6 602.2,213.3 555.1,212.0 508.0,211.0 460.9,209.9 413.8,209.4 366.7,208.1 319.6,207.5 272.4,206.3 225.3,205.2 178.2,202.8 131.1,200.8 84.0,201.6" fill="#dc2626"/>
+<text x="274" y="548" font-family="sans-serif" font-size="13" fill="#dc2626">■ shallow mean + range</text>
+<polygon points="84.0,176.3 932.0,176.3 932.0,141.0 84.0,141.0" fill="#16a34a" fill-opacity="0.18"/>
+<polygon points="84.0,162.1 932.0,162.1 932.0,165.1 84.0,165.1" fill="#16a34a"/>
+<text x="464" y="548" font-family="sans-serif" font-size="13" fill="#16a34a">■ untyped mean + range</text>
+<rect x="84" y="46" width="848" height="1" fill="#111827"/>
+<rect x="84" y="489" width="848" height="1" fill="#111827"/>
+<rect x="84" y="46" width="1" height="444" fill="#111827"/>
+<rect x="931" y="46" width="1" height="444" fill="#111827"/>
+<text x="508.0" y="536" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>
+<text x="18" y="268.0" transform="rotate(-90 18 268.0)" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>
+</svg>

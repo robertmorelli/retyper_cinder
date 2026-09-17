@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480.0" y="28" text-anchor="middle" font-family="sans-serif" font-size="20">call_method_slots — advanced preview</text>
+<text x="84.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">0%</text>
+<text x="253.60000000000002" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">20%</text>
+<text x="423.20000000000005" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">40%</text>
+<text x="592.8" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">60%</text>
+<text x="762.4000000000001" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">80%</text>
+<text x="932.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">100%</text>
+<text x="74" y="494.0" text-anchor="end" font-family="sans-serif" font-size="12">0.209</text>
+<text x="74" y="405.20000000000005" text-anchor="end" font-family="sans-serif" font-size="12">0.225</text>
+<text x="74" y="316.4" text-anchor="end" font-family="sans-serif" font-size="12">0.241</text>
+<text x="74" y="227.60000000000002" text-anchor="end" font-family="sans-serif" font-size="12">0.256</text>
+<text x="74" y="138.80000000000015" text-anchor="end" font-family="sans-serif" font-size="12">0.272</text>
+<text x="74" y="50.0" text-anchor="end" font-family="sans-serif" font-size="12">0.288</text>
+<polygon points="84.0,447.5 122.5,454.4 161.1,456.8 199.6,458.4 238.2,458.9 276.7,457.1 315.3,455.8 353.8,456.0 392.4,459.4 430.9,455.9 469.5,454.2 508.0,455.4 546.5,453.9 585.1,453.7 623.6,454.2 662.2,453.8 700.7,453.0 739.3,452.2 777.8,452.2 816.4,452.8 854.9,451.8 893.5,448.1 932.0,444.7 932.0,444.7 893.5,196.6 854.9,129.7 816.4,121.0 777.8,123.1 739.3,105.5 700.7,121.5 662.2,116.4 623.6,115.7 585.1,119.7 546.5,121.0 508.0,119.1 469.5,117.3 430.9,122.8 392.4,119.5 353.8,76.6 315.3,92.1 276.7,120.7 238.2,121.0 199.6,125.7 161.1,128.2 122.5,203.8 84.0,447.5" fill="#2563eb" fill-opacity="0.18"/>
+<polygon points="84.0,446.0 122.5,413.5 161.1,388.2 199.6,365.7 238.2,358.3 276.7,347.9 315.3,350.5 353.8,330.2 392.4,330.1 430.9,331.2 469.5,325.3 508.0,321.5 546.5,327.8 585.1,324.2 623.6,336.1 662.2,333.7 700.7,335.6 739.3,349.5 777.8,348.7 816.4,361.0 854.9,384.1 893.5,405.6 932.0,443.2 932.0,446.2 893.5,408.6 854.9,387.1 816.4,364.0 777.8,351.7 739.3,352.5 700.7,338.6 662.2,336.7 623.6,339.1 585.1,327.2 546.5,330.8 508.0,324.5 469.5,328.3 430.9,334.2 392.4,333.1 353.8,333.2 315.3,353.5 276.7,350.9 238.2,361.3 199.6,368.7 161.1,391.2 122.5,416.5 84.0,449.0" fill="#2563eb"/>
+<text x="84" y="548" font-family="sans-serif" font-size="13" fill="#2563eb">■ advanced mean + range</text>
+<rect x="84" y="46" width="848" height="1" fill="#111827"/>
+<rect x="84" y="489" width="848" height="1" fill="#111827"/>
+<rect x="84" y="46" width="1" height="444" fill="#111827"/>
+<rect x="931" y="46" width="1" height="444" fill="#111827"/>
+<text x="508.0" y="536" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>
+<text x="18" y="268.0" transform="rotate(-90 18 268.0)" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>
+</svg>

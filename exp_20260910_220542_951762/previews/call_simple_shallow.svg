@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480.0" y="28" text-anchor="middle" font-family="sans-serif" font-size="20">call_simple — shallow preview</text>
+<text x="84.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">0%</text>
+<text x="253.60000000000002" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">20%</text>
+<text x="423.20000000000005" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">40%</text>
+<text x="592.8" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">60%</text>
+<text x="762.4000000000001" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">80%</text>
+<text x="932.0" y="518" text-anchor="middle" font-family="sans-serif" font-size="12">100%</text>
+<text x="74" y="494.0" text-anchor="end" font-family="sans-serif" font-size="12">0.099</text>
+<text x="74" y="405.20000000000005" text-anchor="end" font-family="sans-serif" font-size="12">0.101</text>
+<text x="74" y="316.4" text-anchor="end" font-family="sans-serif" font-size="12">0.103</text>
+<text x="74" y="227.60000000000002" text-anchor="end" font-family="sans-serif" font-size="12">0.105</text>
+<text x="74" y="138.8" text-anchor="end" font-family="sans-serif" font-size="12">0.108</text>
+<text x="74" y="50.0" text-anchor="end" font-family="sans-serif" font-size="12">0.110</text>
+<polygon points="84.0,437.3 126.4,439.3 168.8,441.7 211.2,444.5 253.6,443.9 296.0,444.5 338.4,442.2 380.8,442.5 423.2,441.6 465.6,440.5 508.0,440.2 550.4,439.7 592.8,438.6 635.2,441.8 677.6,439.3 720.0,437.2 762.4,392.2 804.8,429.7 847.2,383.4 889.6,374.0 932.0,373.9 932.0,373.9 889.6,223.4 847.2,206.3 804.8,216.8 762.4,212.6 720.0,232.7 677.6,235.2 635.2,228.6 592.8,238.2 550.4,205.7 508.0,97.0 465.6,91.5 423.2,213.8 380.8,186.3 338.4,198.2 296.0,241.5 253.6,193.3 211.2,235.4 168.8,243.3 126.4,310.6 84.0,437.3" fill="#dc2626" fill-opacity="0.18"/>
+<polygon points="84.0,435.8 126.4,416.3 168.8,400.8 211.2,389.3 253.6,379.3 296.0,367.8 338.4,360.1 380.8,351.3 423.2,345.1 465.6,346.0 508.0,339.0 550.4,339.6 592.8,345.5 635.2,341.6 677.6,345.6 720.0,347.6 762.4,348.8 804.8,352.7 847.2,353.8 889.6,348.0 932.0,372.4 932.0,375.4 889.6,351.0 847.2,356.8 804.8,355.7 762.4,351.8 720.0,350.6 677.6,348.6 635.2,344.6 592.8,348.5 550.4,342.6 508.0,342.0 465.6,349.0 423.2,348.1 380.8,354.3 338.4,363.1 296.0,370.8 253.6,382.3 211.2,392.3 168.8,403.8 126.4,419.3 84.0,438.8" fill="#dc2626"/>
+<text x="84" y="548" font-family="sans-serif" font-size="13" fill="#dc2626">■ shallow mean + range</text>
+<rect x="84" y="46" width="848" height="1" fill="#111827"/>
+<rect x="84" y="489" width="848" height="1" fill="#111827"/>
+<rect x="84" y="46" width="1" height="444" fill="#111827"/>
+<rect x="931" y="46" width="1" height="444" fill="#111827"/>
+<text x="508.0" y="536" text-anchor="middle" font-family="sans-serif" font-size="14">Typedness</text>
+<text x="18" y="268.0" transform="rotate(-90 18 268.0)" text-anchor="middle" font-family="sans-serif" font-size="14">Mean runtime (seconds)</text>
+</svg>
