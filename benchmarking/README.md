@@ -9,6 +9,8 @@ python benchmarking/normalize_untyped.py TIMESTAMP
 python benchmarking/sample_tc.py [TIMESTAMP]
 python benchmarking/run_exp.py BENCHMARK MAX_MASKS
 python benchmarking/run_exp.py --which START END [--timestamp TIMESTAMP]
+python benchmarking/plot_exp.py TIMESTAMP [--ast-overlay] [--combined-only]
+python benchmarking/plot_grid.py [TIMESTAMP] [--exclude NAME ...] [--columns N]
 python samples/write_samples_tool.py [--benchmark NAME] [--check] [--run]
 python utilities/run_compiled_tool.py FILE [--no-inliner]
 python utilities/run_plain_tool.py FILE [--no-inliner]
@@ -65,6 +67,20 @@ python benchmarking/run_exp.py --which 21 40 --timestamp exp_TIMESTAMP
 Run one benchmark process per machine, assigning different ranges to different
 machines. Share the grown experiment plan before running its new ranges so
 positions refer to the same masks everywhere.
+
+## Plots
+
+`plot_exp.py` writes one SVG preview per benchmark (and per variant) into the
+experiment's `previews/` directory. `plot_grid.py` then combines the
+per-benchmark previews into `previews/grid.svg`, three columns wide by default,
+with each preview's legend replaced by one shared key in the first empty cell.
+If ImageMagick is installed, it also renders `previews/grid.png`. Benchmarks
+whose advanced variant is not meaningfully more typed than shallow can be left
+out; the published grid was made with:
+
+```sh
+python benchmarking/plot_grid.py 20260910_220542_951762 --exclude chaos float
+```
 
 ## CloudLab
 

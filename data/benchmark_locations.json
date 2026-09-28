@@ -63,5 +63,10 @@
     "advanced": "static-python-perf/Benchmark/richards/advanced/main.py",
     "shallow": "static-python-perf/Benchmark/richards/shallow/main.py",
     "untyped": "static-python-perf/Benchmark/richards/untyped/main.py"
+  },
+  "scratch": {
+    "advanced": "scratch/scratch9.py",
+    "shallow": "scratch/scratch2.py",
+    "untyped": "scratch/scratch8.py"
   }
 }

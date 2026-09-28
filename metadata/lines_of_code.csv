@@ -1,0 +1,14 @@
+benchmark,loc_untyped,loc_shallow,loc_advanced,type_lines_shallow,type_lines_advanced
+call_method,131,132,133,7,7
+call_method_slots,134,135,136,7,7
+call_simple,131,132,133,6,6
+chaos,218,216,217,28,27
+deltablue,500,516,467,101,136
+fannkuch,56,58,82,13,15
+float,49,53,57,16,17
+held_karp,156,158,165,71,72
+nbody,131,134,164,18,52
+nqueens,67,68,111,10,23
+pidigits,47,50,50,7,9
+pystone,233,264,267,59,59
+richards,310,313,347,88,101
